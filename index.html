@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЛЕНТЯIN — Профессиональная сеть для бездельников и прокрастинаторов</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body data-page="home">
+  
+  <header id="site-header" class="site-header" data-active="home"></header>
+
+  <main id="main">
+    
+    <section class="relative isolate overflow-hidden bg-brand-900 text-white" aria-labelledby="hero-title">
+      
+      <img src="img/hero-bg.jpg" alt="Уютная рабочая обстановка" class="absolute inset-0 -z-20 h-full w-full object-cover opacity-30 brightness-75">
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-brand-900/80 via-brand-900/60 to-brand-900" aria-hidden="true"></div>
+      
+      
+      <div class="absolute -left-24 -top-24 -z-10 h-72 w-72 animate-pulse rounded-full bg-purple-500/40 blur-3xl" aria-hidden="true"></div>
+      <div class="absolute -bottom-24 -right-16 -z-10 h-80 w-80 animate-pulse rounded-full bg-pink-500/30 blur-3xl animation-delay-500" aria-hidden="true"></div>
+
+      <div class="wrap py-20 text-center sm:py-28 lg:py-36">
+        <div class="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm animate-fade-up motion-reduce:animate-none">
+          <span class="inline-block h-2 w-2 rounded-full bg-gold animate-ping"></span>
+          <span>Оффлайн круглосуточно · Статус: Отдыхаем</span>
+        </div>
+
+        
+        <h1 id="hero-title" class="h1 mx-auto mt-6 max-w-4xl animate-fade-up animation-delay-100 motion-reduce:animate-none">
+          LinkedIn
+          <span class="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">для бездельников</span>
+          и мастеров прокрастинации
+        </h1>
+
+        <p class="mx-auto mt-6 max-w-2xl animate-fade-up text-sm sm:text-lg text-brand-100/90 animation-delay-200 motion-reduce:animate-none leading-relaxed">
+          Публикуйте рекорды лени, переносите дедлайны на канбан-доске, копите лень-баллы и растите от Middle Slacker до легендарного Expert Fired.
+        </p>
+
+        
+        <div class="mt-8 flex animate-fade-up flex-col items-center justify-center gap-3.5 animation-delay-300 sm:flex-row motion-reduce:animate-none">
+          <a href="register.html" class="btn btn-primary btn-lg w-full sm:w-auto shadow-lg shadow-gold/20">
+            Создать ленивый профиль
+          </a>
+          <a href="#how" class="btn btn-outline btn-lg w-full border-white/40 text-white hover:bg-white/10 sm:w-auto">
+            Как это работает
+          </a>
+        </div>
+
+        
+        <div id="sloth-mascot" class="mt-12 inline-flex items-center gap-3.5 rounded-2xl bg-white/10 p-3.5 sm:p-4 backdrop-blur-md border border-white/20 text-left max-w-lg mx-auto shadow-2xl cursor-pointer select-none transition-all duration-300 hover:scale-105 hover:bg-white/15" title="Нажмите для новой мудрости">
+          <img src="img/sloth.svg" alt="Ленивец Сеня" class="h-10 w-10 sm:h-12 sm:w-12 object-contain shrink-0 drop-shadow">
+          <div class="min-w-0">
+            <p class="text-[10px] sm:text-xs font-bold text-gold uppercase tracking-wider">Ленивец Сеня советует (кликните):</p>
+            <p id="sloth-phrase" class="text-xs sm:text-sm text-white font-medium italic mt-0.5 transition-opacity duration-300 leading-snug">«Работа не волк — в лес не убежит. А вот сериал сам себя не посмотрит»</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Путь лентяя</p>
+          <h2 id="how-title" class="h2">Четыре шага от дивана до вершины рейтинга</h2>
+        </div>
+        <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <li class="card card-hover space-y-2">
+            <span class="badge badge-gold font-mono">1</span>
+            <h3 class="h3">Регистрация</h3>
+            <p class="body text-xs sm:text-sm">Выберите тариф и получите первые <b>10 лень-баллов</b> на счёт.</p>
+            <a href="register.html" class="text-xs sm:text-sm font-bold text-brand-500 hover:underline dark:text-gold block pt-1">Создать профиль →</a>
+          </li>
+          <li class="card card-hover space-y-2">
+            <span class="badge badge-gold font-mono">2</span>
+            <h3 class="h3">Лента и чат</h3>
+            <p class="body text-xs sm:text-sm">Публикуйте отговорки (+10), ставьте реакции, общайтесь в мессенджере.</p>
+            <a href="feed.html" class="text-xs sm:text-sm font-bold text-brand-500 hover:underline dark:text-gold block pt-1">Открыть ленту →</a>
+          </li>
+          <li class="card card-hover space-y-2">
+            <span class="badge badge-gold font-mono">3</span>
+            <h3 class="h3">Доска «Отложено»</h3>
+            <p class="body text-xs sm:text-sm">Переносите задачи по колонкам. Статус Done приносит <b>+15 баллов</b>.</p>
+            <a href="board.html" class="text-xs sm:text-sm font-bold text-brand-500 hover:underline dark:text-gold block pt-1">К задачам →</a>
+          </li>
+          <li class="card card-hover space-y-2">
+            <span class="badge badge-gold font-mono">4</span>
+            <h3 class="h3">Магазин и рейтинг</h3>
+            <p class="body text-xs sm:text-sm">Покупки дают баллы, баллы дают ранг. Тарифы Pro и Enterprise дают скидку до 20%.</p>
+            <a href="shop.html" class="text-xs sm:text-sm font-bold text-brand-500 hover:underline dark:text-gold block pt-1">В магазин →</a>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    
+    <section class="section pt-0" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Возможности платформы</p>
+          <h2 id="features-title" class="h2">Профессиональный профиль без лишней суеты</h2>
+        </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          <article class="card card-hover space-y-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-600 dark:bg-slate-700 dark:text-gold shadow-sm" aria-hidden="true">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+            </div>
+            <h3 class="h3">Лента ленивых подвигов</h3>
+            <p class="body text-xs sm:text-sm">Вместо скучного опыта работы — проведённые часы в любимых играх и сериалах. Коллеги подтверждают авторитет лайками.</p>
+          </article>
+          <article class="card card-hover space-y-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-600 dark:bg-slate-700 dark:text-gold shadow-sm" aria-hidden="true">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18"/></svg>
+            </div>
+            <h3 class="h3">Канбан-доска «Отложено»</h3>
+            <p class="body text-xs sm:text-sm">Перенос дедлайнов превращён в удобный визуальный канбан с тегами, приоритетами и щедрыми бонусами за забытые задачи.</p>
+          </article>
+          <article class="card card-hover space-y-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-600 dark:bg-slate-700 dark:text-gold shadow-sm" aria-hidden="true">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            </div>
+            <h3 class="h3">Ранг и аналитика прокрастинации</h3>
+            <p class="body text-xs sm:text-sm">Интерактивный график за 12 дней, прозрачная история баллов и четыре почётных ранга: от Middle Slacker до Expert Fired.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section pt-0" aria-labelledby="profiles-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Сообщество профессионалов</p>
+          <h2 id="profiles-title" class="h2">Топ лентяев недели</h2>
+          <p class="body text-xs sm:text-sm">Подписывайтесь на лучших мастеров отговорок и получайте +3 лень-балла.</p>
+        </div>
+        <div id="profiles" class="flex flex-wrap justify-center gap-6"></div>
+      </div>
+    </section>
+
+    
+    <section class="section pt-0" id="shop-preview" aria-labelledby="shop-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Фирменный мерч</p>
+          <h2 id="shop-title" class="h2">Хиты для диванного комфорта</h2>
+          <p class="body text-xs sm:text-sm">Все товары протестированы лично основателями платформы во время глубокого сна.</p>
+        </div>
+        
+        <div id="featured" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
+        <p class="mt-8 text-center">
+          <a href="shop.html" class="btn btn-outline">Перейти в полный каталог товаров →</a>
+        </p>
+      </div>
+    </section>
+
+    
+    <section class="section pt-0" aria-labelledby="reviews-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Реальные отзывы</p>
+          <h2 id="reviews-title" class="h2">Нас рекомендуют (когда не лень писать)</h2>
+        </div>
+        <div class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 scrollbar-thin" tabindex="0" role="region" aria-label="Отзывы пользователей">
+          <figure class="card min-w-[85%] shrink-0 snap-center sm:min-w-[48%] lg:min-w-[32%] space-y-3">
+            <blockquote class="body text-xs sm:text-sm italic">«Через неделю после регистрации меня уволили. Теперь это самая популярная строчка в профиле, набравшая 89 реакций. Жизнь удалась!»</blockquote>
+            <figcaption class="flex items-center gap-3 pt-2 border-t border-brand-100 dark:border-slate-700">
+              <img src="img/avatars/user-dmitry.jpg" alt="Дмитрий В." class="h-10 w-10 rounded-full object-cover shadow-sm">
+              <div>
+                <p class="text-xs sm:text-sm font-bold">Дмитрий В.</p>
+                <p class="muted text-[11px]">Master of Sofa · 89 лайков</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="card min-w-[85%] shrink-0 snap-center sm:min-w-[48%] lg:min-w-[32%] space-y-3">
+            <blockquote class="body text-xs sm:text-sm italic">«Научилась многозначительно кивать на созвонах так убедительно, что меня повысили до тимлида. Никто до сих пор не понял, что я просто спала».</blockquote>
+            <figcaption class="flex items-center gap-3 pt-2 border-t border-brand-100 dark:border-slate-700">
+              <img src="img/avatars/user-irina.jpg" alt="Ирина К." class="h-10 w-10 rounded-full object-cover shadow-sm">
+              <div>
+                <p class="text-xs sm:text-sm font-bold">Ирина К.</p>
+                <p class="muted text-[11px]">Chief Excuse Officer · 120 лайков</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="card min-w-[85%] shrink-0 snap-center sm:min-w-[48%] lg:min-w-[32%] space-y-3">
+            <blockquote class="body text-xs sm:text-sm italic">«Кнопка “Отвечу завтра” окупилась за один рабочий день. Начальник думает, что я занят стратегическим планированием. Напишу продолжение завтра».</blockquote>
+            <figcaption class="flex items-center gap-3 pt-2 border-t border-brand-100 dark:border-slate-700">
+              <img src="img/avatars/user-alexey.jpg" alt="Алексей М." class="h-10 w-10 rounded-full object-cover shadow-sm">
+              <div>
+                <p class="text-xs sm:text-sm font-bold">Алексей М.</p>
+                <p class="muted text-[11px]">Senior Prokrastinator · 42 лайка</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="card min-w-[85%] shrink-0 snap-center sm:min-w-[48%] lg:min-w-[32%] space-y-3">
+            <blockquote class="body text-xs sm:text-sm italic">«Лучшая социальная сеть на постсоветском пространстве: здесь никто не давит успешным успехом и не требует пятичасовых утренних пробежек».</blockquote>
+            <figcaption class="flex items-center gap-3 pt-2 border-t border-brand-100 dark:border-slate-700">
+              <img src="img/avatars/user-svetlana.jpg" alt="Светлана Н." class="h-10 w-10 rounded-full object-cover shadow-sm">
+              <div>
+                <p class="text-xs sm:text-sm font-bold">Светлана Н.</p>
+                <p class="muted text-[11px]">Super Lazy · 31 лайк</p>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section pt-0" id="pricing" aria-labelledby="pricing-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Тарифные планы</p>
+          <h2 id="pricing-title" class="h2">Инвестируйте в свой покой</h2>
+          <p class="body text-xs sm:text-sm">Тариф влияет на скидку в нашем магазине (до −20%). Ранг растёт исключительно за счёт ваших ленивых достижений.</p>
+        </div>
+
+        
+        <div class="grid gap-6 lg:grid-cols-3 lg:items-center">
+          
+          <article class="card flex flex-col space-y-5">
+            <div>
+              <h3 class="h3">Basic</h3>
+              <p class="muted text-xs mt-1">Для начинающих любителей дивана</p>
+            </div>
+            <p class="font-display text-3xl sm:text-4xl font-bold">0 <span class="muted text-sm font-normal">BYN / мес</span></p>
+            <ul class="divide-y divide-brand-100 dark:divide-slate-700 text-xs sm:text-sm">
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Профиль и лента отговорок</li>
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Мессенджер и доска «Отложено»</li>
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Лень-рейтинг и базовая аналитика</li>
+              <li class="feat opacity-40"><svg class="h-4 w-4 shrink-0 text-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Скидка в магазине товаров</li>
+              <li class="feat opacity-40"><svg class="h-4 w-4 shrink-0 text-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Персональный менеджер отговорок</li>
+            </ul>
+            <a href="register.html?plan=basic" class="btn btn-outline w-full mt-auto">Начать бесплатно</a>
+          </article>
+
+          
+          <article class="card relative flex flex-col space-y-5 shadow-2xl ring-2 ring-indigo-500 lg:scale-105 z-10 bg-white dark:bg-slate-800">
+            <span class="badge badge-gold absolute -top-3 left-1/2 -translate-x-1/2 shadow-md">Popular · Выбор лентяев</span>
+            <div>
+              <h3 class="h3">Pro</h3>
+              <p class="muted text-xs mt-1">Оптимальный баланс отдыха и выгоды</p>
+            </div>
+            <p class="font-display text-3xl sm:text-4xl font-bold text-brand-600 dark:text-gold">19 <span class="muted text-sm font-normal">BYN / мес</span></p>
+            <ul class="divide-y divide-brand-100 dark:divide-slate-700 text-xs sm:text-sm">
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Всё из тарифа Basic</li>
+              <li class="feat font-bold text-brand-600 dark:text-gold"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Скидка 10% на все товары в корзине</li>
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Приоритет в общей ленте постов</li>
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Тёмная тема без единого мигания</li>
+              <li class="feat opacity-40"><svg class="h-4 w-4 shrink-0 text-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Персональный менеджер отговорок</li>
+            </ul>
+            <a href="register.html?plan=pro" class="btn btn-primary w-full shadow-lg shadow-gold/25 mt-auto">Выбрать Pro (−10%)</a>
+          </article>
+
+          
+          <article class="card flex flex-col space-y-5">
+            <div>
+              <h3 class="h3">Enterprise</h3>
+              <p class="muted text-xs mt-1">Для корпоративных прокрастинаторов</p>
+            </div>
+            <p class="font-display text-3xl sm:text-4xl font-bold">99 <span class="muted text-sm font-normal">BYN / мес</span></p>
+            <ul class="divide-y divide-brand-100 dark:divide-slate-700 text-xs sm:text-sm">
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Всё из тарифа Pro</li>
+              <li class="feat font-bold text-success"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Максимальная скидка 20% в магазине</li>
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Командные канбан-доски для отделов</li>
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Персональный генератор оправданий 24/7</li>
+              <li class="feat"><svg class="h-4 w-4 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Юридическая поддержка при увольнении</li>
+            </ul>
+            <a href="register.html?plan=enterprise" class="btn btn-secondary w-full mt-auto">Выбрать Enterprise (−20%)</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section pt-0" id="faq" aria-labelledby="faq-title">
+      <div class="wrap max-w-3xl">
+        <div class="section-head">
+          <p class="eyebrow">База знаний</p>
+          <h2 id="faq-title" class="h2">Часто задаваемые отговорки</h2>
+        </div>
+        <div class="space-y-3">
+          <details class="group card p-0 open:shadow-md transition-shadow">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-4 sm:p-5 font-bold text-xs sm:text-sm [&::-webkit-details-marker]:hidden">
+              <span>Как работают лень-баллы и как их копить?</span>
+              <span class="transition-transform duration-300 group-open:rotate-180 text-brand-500 font-bold" aria-hidden="true">⌄</span>
+            </summary>
+            <p class="body px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm">
+              Баллы автоматически начисляются за регистрацию (+10), создание постов (+10), полезные комментарии (+3), подписки (+3), перемещение задач в колонку Done (+15) и каждую покупку в магазине. За накопленные баллы вы повышаете свой пожизненный ранг от Middle Slacker до Expert Fired.
+            </p>
+          </details>
+
+          <details class="group card p-0 open:shadow-md transition-shadow">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-4 sm:p-5 font-bold text-xs sm:text-sm [&::-webkit-details-marker]:hidden">
+              <span>Что делать, если руководство внезапно вызвало на срочный созвон?</span>
+              <span class="transition-transform duration-300 group-open:rotate-180 text-brand-500 font-bold" aria-hidden="true">⌄</span>
+            </summary>
+            <p class="body px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm">
+              Срочно включите фон «Офис», напишите в чат: «Коллеги, у меня микрофон фонит, я внимательно слушаю в наушниках», и ложитесь обратно на диван. Раз в 7–10 минут достаточно написать в чат «+».
+            </p>
+          </details>
+
+          <details class="group card p-0 open:shadow-md transition-shadow">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-4 sm:p-5 font-bold text-xs sm:text-sm [&::-webkit-details-marker]:hidden">
+              <span>Как элегантно объяснить просроченный на три дня дедлайн?</span>
+              <span class="transition-transform duration-300 group-open:rotate-180 text-brand-500 font-bold" aria-hidden="true">⌄</span>
+            </summary>
+            <p class="body px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm">
+              Золотое правило: «В процессе работы я обнаружил критическую уязвимость концепции, требующую более глубокой аналитической проработки». Звучит профессионально и откладывает сдачу ещё на неделю.
+            </p>
+          </details>
+
+          <details class="group card p-0 open:shadow-md transition-shadow">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-4 sm:p-5 font-bold text-xs sm:text-sm [&::-webkit-details-marker]:hidden">
+              <span>Применяются ли скидки тарифа автоматически?</span>
+              <span class="transition-transform duration-300 group-open:rotate-180 text-brand-500 font-bold" aria-hidden="true">⌄</span>
+            </summary>
+            <p class="body px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm">
+              Да! Если в вашем аккаунте выбран тариф Pro или Enterprise, в 4-шаговой форме оформления заказа скидка 10% или 20% пересчитывается мгновенно в реальном времени.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    
+    <div class="wrap py-4">
+      <div data-ad-slot="banner" data-label="Официальное рекламное место" data-sublabel="Спонсор комфортного сна и отложенных дедлайнов"></div>
+    </div>
+
+    
+    <section class="section pt-0">
+      <div class="wrap">
+        <div class="rounded-3xl bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 p-8 sm:p-12 text-center text-white shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-gold/10 blur-2xl pointer-events-none"></div>
+          <h2 class="h2 mx-auto max-w-2xl">Готовы официально зафиксировать право на заслуженный отдых?</h2>
+          <p class="muted mx-auto mt-3 max-w-xl text-brand-100/80 text-xs sm:text-sm">Регистрация займёт ровно 60 секунд. Первые 10 лень-баллов уже ждут вас в личном кабинете.</p>
+          <a href="register.html" class="btn btn-primary btn-lg mt-6 shadow-xl shadow-gold/20">
+            Создать профиль и отдохнуть
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/icons.js"></script>
+  <script src="js/ad-slot.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

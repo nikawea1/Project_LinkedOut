@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Доска «Отложено» — ЛЕНТЯIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body data-page="board" data-guard="1">
+  <input id="sb-toggle" type="checkbox" class="peer sr-only" aria-label="Открыть меню кабинета">
+  <aside id="app-sidebar" class="app-sidebar" data-active="board" aria-label="Боковая панель"></aside>
+  <label for="sb-toggle" class="app-overlay" aria-hidden="true"></label>
+
+  <div class="lg:pl-64">
+    <header id="app-topbar" class="app-topbar" data-title="Канбан-доска «Отложено»"></header>
+
+    <main id="main" class="wrap-wide py-6">
+      
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 class="h2 text-xl sm:text-2xl">Доска отложенных дел</h1>
+          <p class="body text-xs sm:text-sm mt-0.5">
+            Переносите задачи кнопками ← →. Перенос задачи в колонку <b>Done</b> даёт <span class="font-bold text-success">+15 лень-баллов</span>.
+          </p>
+        </div>
+        <button type="button" id="new-task" class="btn btn-primary shadow-sm">
+          <span>+</span> Новая задача
+        </button>
+      </div>
+
+      
+      
+      <div id="board" class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 scrollbar-thin lg:grid lg:grid-cols-3 lg:overflow-visible"></div>
+    </main>
+  </div>
+
+  
+  <dialog id="task-dialog" class="modal" aria-labelledby="task-title">
+    <form id="task-form" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-brand-100 dark:border-slate-700 pb-3">
+        <h2 id="task-title" class="h3 text-base">Отложить новую задачу</h2>
+        <button type="button" id="task-close-x" class="icon-btn h-7 w-7 text-ink-soft hover:text-ink dark:hover:text-white" onclick="this.closest('dialog').close()" aria-label="Закрыть">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="field">
+        <label class="label" for="t-title">Что отложим на потом?</label>
+        <input id="t-title" name="title" class="input" required maxlength="60" placeholder="Например, сдать годовой отчёт">
+      </div>
+
+      <div class="field">
+        <label class="label" for="t-d">Описание отговорки</label>
+        <textarea id="t-d" name="d" rows="2" class="input resize-none" maxlength="120" placeholder="Можно оставить пустым, если лень писать"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="label" for="t-p">Приоритет лени</label>
+        <select id="t-p" name="p" class="input">
+          <option value="low">Низкий (подождёт месяц)</option>
+          <option value="mid" selected>Средний (вспомним на неделе)</option>
+          <option value="high">Высокий (дедлайн вчера, срочно лечь)</option>
+        </select>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-brand-100 dark:border-slate-700">
+        <button type="button" id="task-cancel" class="btn btn-ghost">Отмена</button>
+        <button type="submit" class="btn btn-primary">Отложить (+0 усилие)</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

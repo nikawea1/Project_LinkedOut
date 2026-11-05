@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оформление заказа — ЛЕНТЯIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body data-page="checkout" data-guard="1">
+  <header id="site-header" class="site-header" data-active="shop"></header>
+
+  <main id="main" class="wrap py-8 sm:py-10">
+    <div class="mb-6 space-y-1">
+      <h1 class="h2 text-2xl sm:text-3xl">Оформление заказа</h1>
+      <p class="body text-xs sm:text-sm">Покупка даёт лень-баллы и приближает вас к званию Expert Fired.</p>
+    </div>
+
+    
+    <div class="grid gap-8 lg:grid-cols-3 items-start">
+      <section class="min-w-0 lg:col-span-2" aria-label="Форма заказа">
+        
+        <div id="progress-wrap" class="mb-6">
+          <ol id="stepper" class="mb-3 grid grid-cols-4 gap-2 text-center text-xs font-semibold select-none">
+            <li class="group" data-state="current">
+              <span class="step-dot">1</span>
+              <span class="hidden sm:inline">Данные</span>
+            </li>
+            <li class="group" data-state="todo">
+              <span class="step-dot">2</span>
+              <span class="hidden sm:inline">Адрес</span>
+            </li>
+            <li class="group" data-state="todo">
+              <span class="step-dot">3</span>
+              <span class="hidden sm:inline">Оплата</span>
+            </li>
+            <li class="group" data-state="todo">
+              <span class="step-dot">4</span>
+              <span class="hidden sm:inline">Итог</span>
+            </li>
+          </ol>
+          <div id="progress" role="progressbar" aria-label="Прогресс оформления" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" class="h-2 overflow-hidden rounded-full bg-brand-100 dark:bg-slate-700">
+            <div id="bar" class="h-full w-1/4 rounded-full bg-brand-500 transition-all duration-500 ease-out"></div>
+          </div>
+        </div>
+
+        
+        <form id="wizard" class="card space-y-6 shadow-md" novalidate>
+          
+          <fieldset data-step="1" class="space-y-4">
+            <legend class="h3 mb-2 text-base sm:text-lg">1. Контактная информация</legend>
+            <div class="field">
+              <label class="label" for="name">Ваше имя или псевдоним</label>
+              <input id="name" name="name" class="input" required autocomplete="name" placeholder="Иван Иванович">
+            </div>
+            <div class="field">
+              <label class="label" for="email">Email адрес</label>
+              <input id="email" name="email" type="email" class="input" required autocomplete="email" placeholder="ivan@example.by">
+            </div>
+            <div class="field">
+              <label class="label" for="phone">Номер телефона</label>
+              <input id="phone" name="phone" type="tel" class="input" required pattern="\+?[0-9 \(\)\-]{9,}" autocomplete="tel" placeholder="+375 29 123-45-67">
+            </div>
+          </fieldset>
+
+          
+          <fieldset data-step="2" class="space-y-4" hidden>
+            <legend class="h3 mb-2 text-base sm:text-lg">2. Куда доставить комфорт?</legend>
+            <div class="field">
+              <label class="label" for="city">Город</label>
+              <input id="city" name="city" class="input" required placeholder="Минск">
+            </div>
+            <div class="field">
+              <label class="label" for="address">Улица, дом, квартира</label>
+              <input id="address" name="address" class="input" required placeholder="ул. Диванная, 5, кв. 42">
+            </div>
+            
+            <label class="label pt-2">Способ доставки</label>
+            <div class="grid gap-3 sm:grid-cols-2">
+              <label class="option">
+                <input type="radio" name="delivery" value="5" class="checkbox" data-label="Курьер к дивану (5 BYN)" checked>
+                <span>
+                  <span class="block font-bold">Курьер к дивану</span>
+                  <span class="muted text-xs">5 BYN · донесёт прямо до комнаты</span>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="delivery" value="0" class="checkbox" data-label="Самовывоз (0 BYN)">
+                <span>
+                  <span class="block font-bold">Ленивый самовывоз</span>
+                  <span class="muted text-xs">0 BYN · когда проснётесь и дойдёте</span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          
+          <fieldset data-step="3" class="space-y-4" hidden>
+            <legend class="h3 mb-2 text-base sm:text-lg">3. Способ оплаты</legend>
+            <div class="grid gap-3 sm:grid-cols-3">
+              <label class="option font-bold">
+                <input type="radio" name="pay" value="card" class="checkbox" data-label="Банковская карта онлайн" checked>
+                <span>Карта онлайн</span>
+              </label>
+              <label class="option font-bold">
+                <input type="radio" name="pay" value="erip" class="checkbox" data-label="ЕРИП">
+                <span>ЕРИП</span>
+              </label>
+              <label class="option font-bold">
+                <input type="radio" name="pay" value="cash" class="checkbox" data-label="При получении курьеру">
+                <span>При получении</span>
+              </label>
+            </div>
+
+            
+            <div id="card-fields" class="p-4 rounded-xl bg-brand-50/60 dark:bg-slate-800/80 border border-brand-100 dark:border-slate-700 space-y-3">
+              <div class="field">
+                <label class="label" for="cardnum">Номер банковской карты</label>
+                <input id="cardnum" class="input font-mono" required inputmode="numeric" pattern="[0-9 ]{16,19}" placeholder="0000 0000 0000 0000" autocomplete="cc-number">
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="field">
+                  <label class="label" for="exp">Срок (ММ/ГГ)</label>
+                  <input id="exp" class="input font-mono" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}" placeholder="12/28" autocomplete="cc-exp">
+                </div>
+                <div class="field">
+                  <label class="label" for="cvc">CVC код</label>
+                  <input id="cvc" class="input font-mono" required inputmode="numeric" pattern="[0-9]{3}" placeholder="123" autocomplete="cc-csc">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          
+          <fieldset data-step="4" class="space-y-4" hidden>
+            <legend class="h3 mb-2 text-base sm:text-lg">4. Проверка и подтверждение</legend>
+            <dl id="summary" class="divide-y divide-brand-100 text-xs sm:text-sm dark:divide-slate-700 bg-brand-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-brand-100 dark:border-slate-700"></dl>
+            
+            <label class="flex cursor-pointer items-start gap-3 text-xs sm:text-sm pt-2 select-none">
+              <input id="consent" type="checkbox" class="checkbox mt-0.5" aria-describedby="consent-err">
+              <span>Подтверждаю заказ и согласен на начисление максимальных лень-баллов</span>
+            </label>
+            <p id="consent-err" class="alert alert-danger hidden" role="alert">Пожалуйста, подтвердите согласие, чтобы завершить оформление.</p>
+          </fieldset>
+
+          
+          <div class="flex justify-between items-center gap-3 border-t border-brand-100 pt-4 dark:border-slate-700">
+            <button type="button" id="back" class="btn btn-ghost" disabled>← Назад</button>
+            <button type="button" id="next" data-loading="false" class="btn btn-primary group shadow-sm">
+              <span class="spinner" aria-hidden="true"></span>
+              <span id="next-label">Далее к адресу →</span>
+            </button>
+          </div>
+        </form>
+
+        
+        <div id="order-ok" class="alert alert-success hidden shadow-md mt-6" role="status">
+          <div class="space-y-2">
+            <p class="font-bold text-base flex items-center gap-2">
+              <svg class="h-5 w-5 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span>Заказ <span id="order-num" class="font-mono"></span> успешно оформлен!</span>
+            </p>
+            <p class="text-xs sm:text-sm">Лень-баллы уже начислены в ваш профиль. Доставим, когда проснёмся.</p>
+            <div class="pt-2 flex gap-3">
+              <a href="dashboard.html" class="btn btn-secondary btn-sm">Перейти в Мой рейтинг →</a>
+              <a href="shop.html" class="btn btn-outline btn-sm">Вернуться в магазин</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+      <aside class="card h-fit space-y-4 shadow-md sticky top-24" aria-label="Ваш заказ">
+        <div class="flex items-center justify-between pb-2 border-b border-brand-100 dark:border-slate-700">
+          <h2 class="h3 text-base">Корзина заказа</h2>
+          <span class="badge badge-brand font-mono">BYN</span>
+        </div>
+        
+        <ul id="order-list" class="divide-y divide-brand-100/70 text-sm dark:divide-slate-700 max-h-72 overflow-y-auto scrollbar-thin"></ul>
+        
+        <dl class="space-y-1.5 border-t border-brand-100 pt-3 text-xs sm:text-sm dark:border-slate-700">
+          <div class="flex justify-between"><dt class="muted">Сумма товаров:</dt><dd id="t-sub" class="font-semibold tabular-nums">0 BYN</dd></div>
+          <div class="flex justify-between"><dt class="muted">Скидка по тарифу:</dt><dd id="t-disc" class="text-success font-semibold tabular-nums">−0 BYN</dd></div>
+          <div class="flex justify-between"><dt class="muted">Доставка:</dt><dd id="t-ship" class="font-semibold tabular-nums">0 BYN</dd></div>
+          <div class="flex justify-between pt-2 border-t border-brand-100 dark:border-slate-700 font-display text-base font-bold text-brand-900 dark:text-white">
+            <dt>Итого к оплате:</dt>
+            <dd id="t-total" class="tabular-nums">0 BYN</dd>
+          </div>
+        </dl>
+        
+        <div class="rounded-xl bg-brand-50 p-2.5 dark:bg-slate-800 text-[11px] leading-relaxed">
+          <p id="plan-note" class="muted"></p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>
