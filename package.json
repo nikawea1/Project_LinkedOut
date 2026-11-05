@@ -1,0 +1,13 @@
+{
+  "name": "linkedout",
+  "private": true,
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./dist/style.css --watch",
+    "build:css": "tailwindcss -i ./src/input.css -o ./dist/style.css --minify",
+    "build": "tailwindcss -i ./src/input.css -o ./dist/style.css --minify && node scripts/build_dist.js"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "tailwindcss": "^3.4.17"
+  }
+}

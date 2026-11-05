@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply overflow-x-hidden bg-brand-50 font-sans text-ink transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col;
+  }
+  h1, h2, h3 {
+    @apply font-display leading-tight tracking-tight;
+  }
+  :focus-visible {
+    @apply outline outline-[3px] outline-offset-2 outline-gold;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { @apply scroll-auto; }
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      transition-duration: .001ms !important;
+    }
+  }
+}
+
+@layer components {
+  
+  .wrap { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+  .wrap-wide { @apply mx-auto w-full max-w-[1600px] px-3 sm:px-6; }
+  .section { @apply py-12 sm:py-20 lg:py-24; }
+  .section-head { @apply mx-auto mb-8 sm:mb-12 max-w-2xl space-y-3 text-center px-2; }
+
+  
+  .h1 { @apply font-display text-2xl font-bold uppercase sm:text-4xl lg:text-5xl tracking-normal sm:tracking-tight; }
+  .h2 { @apply font-display text-xl font-bold sm:text-2xl lg:text-3xl; }
+  .h3 { @apply font-display text-base font-bold sm:text-lg; }
+  .body { @apply text-sm sm:text-base leading-relaxed text-ink-soft dark:text-slate-300; }
+  .muted { @apply text-ink-soft dark:text-slate-400; }
+  .eyebrow { @apply text-[11px] sm:text-xs font-bold uppercase tracking-widest text-gold-dark dark:text-gold; }
+  .logo { @apply font-display text-lg sm:text-xl font-bold tracking-tight text-brand-900 transition-transform duration-200 hover:scale-105 dark:text-white shrink-0; }
+
+  
+  .site-header { @apply sticky top-0 z-50 border-b border-brand-100 bg-brand-50/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 transition-colors; }
+  .site-footer { @apply border-t border-brand-100 bg-white mt-auto dark:border-slate-800 dark:bg-slate-900; }
+  
+  .nav-menu { 
+    @apply absolute inset-x-0 top-full hidden flex-col gap-1 border-b border-brand-200 bg-white p-4 shadow-xl 
+           peer-checked:flex lg:static lg:flex lg:flex-row lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none 
+           dark:border-slate-800 dark:bg-slate-900; 
+  }
+  .nav-link { 
+    @apply rounded-xl px-3 py-2 text-sm font-semibold text-ink-soft transition-all duration-200 
+           hover:bg-brand-100 hover:text-ink aria-[current=page]:bg-brand-100 aria-[current=page]:text-brand-600 
+           dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white dark:aria-[current=page]:bg-slate-800 dark:aria-[current=page]:text-gold; 
+  }
+  
+  .app-sidebar { 
+    @apply fixed inset-y-0 left-0 z-40 flex h-screen w-64 -translate-x-full flex-col overflow-y-auto 
+           border-r border-brand-100 bg-white p-4 shadow-2xl transition-transform duration-300 ease-out 
+           scrollbar-thin peer-checked:translate-x-0 lg:translate-x-0 lg:shadow-none dark:border-slate-800 dark:bg-slate-900; 
+  }
+  .app-overlay { 
+    @apply pointer-events-none fixed inset-0 z-30 bg-black/50 opacity-0 backdrop-blur-sm transition-opacity duration-300 
+           peer-checked:pointer-events-auto peer-checked:opacity-100 lg:hidden; 
+  }
+  .app-topbar { 
+    @apply sticky top-0 z-20 flex h-16 items-center gap-2 sm:gap-3 border-b border-brand-100 bg-brand-50/95 px-3 backdrop-blur-md 
+           sm:px-6 dark:border-slate-800 dark:bg-slate-900/95; 
+  }
+  .side-link { 
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-ink-soft transition-all duration-200 
+           hover:bg-brand-100 hover:text-ink aria-[current=page]:bg-brand-900 aria-[current=page]:text-white 
+           dark:text-slate-300 dark:hover:bg-slate-800 dark:aria-[current=page]:bg-brand-500; 
+  }
+
+  
+  .btn { 
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold 
+           transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-95 
+           disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer; 
+  }
+  .btn-sm { @apply px-3 py-1.5 text-xs; }
+  .btn-md { @apply px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm; }
+  .btn-lg { @apply px-6 py-3 sm:px-7 sm:py-3.5 text-sm sm:text-base; }
+  .btn-primary { @apply bg-gold text-brand-900 hover:shadow-lg hover:shadow-gold/25 hover:brightness-105 active:brightness-95; }
+  .btn-secondary { @apply bg-brand-900 text-white hover:bg-brand-700 hover:shadow-md dark:bg-brand-500 dark:hover:bg-brand-600; }
+  .btn-outline { @apply border-2 border-brand-200 text-ink hover:bg-brand-100 hover:border-brand-300 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-800; }
+  .btn-ghost { @apply text-ink hover:bg-brand-100 dark:text-slate-100 dark:hover:bg-slate-800; }
+  .btn-danger { @apply bg-danger text-white hover:brightness-110 hover:shadow-md hover:shadow-danger/25; }
+  .icon-btn { 
+    @apply inline-flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl border border-brand-100 
+           bg-white text-ink transition-all duration-200 hover:bg-brand-100 hover:border-brand-200 active:scale-95 
+           dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 cursor-pointer; 
+  }
+  .spinner { @apply hidden h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent group-data-[loading=true]:block; }
+
+  
+  .field { @apply space-y-1.5; }
+  .label { @apply block text-xs sm:text-sm font-semibold; }
+  .input { 
+    @apply w-full rounded-xl border border-brand-200 bg-white px-3.5 py-2.5 sm:px-4 sm:py-3 text-sm text-ink 
+           transition-all duration-200 placeholder:text-ink-soft/50 focus:border-brand-500 focus:outline-none 
+           focus:ring-2 focus:ring-brand-500/30 disabled:cursor-not-allowed disabled:opacity-50 
+           aria-[invalid=true]:border-danger dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100; 
+  }
+  .field-bar { 
+    @apply block border-t-2 border-brand-200 transition-colors duration-200 
+           peer-invalid:border-red-500 peer-placeholder-shown:!border-brand-200 peer-focus:!border-brand-500; 
+  }
+  .checkbox { @apply h-4 w-4 sm:h-5 sm:w-5 shrink-0 rounded-md accent-brand-500 cursor-pointer; }
+  .chip { 
+    @apply cursor-pointer rounded-full border border-brand-200 px-3 py-1 text-xs font-semibold 
+           transition-all duration-200 select-none hover:border-brand-400
+           has-[:checked]:border-brand-500 has-[:checked]:bg-brand-500 has-[:checked]:text-white 
+           has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-gold 
+           dark:border-slate-700 dark:hover:border-slate-500; 
+  }
+  .option { 
+    @apply flex cursor-pointer items-center gap-3 rounded-xl border-2 border-brand-100 p-3.5 sm:p-4 text-sm 
+           transition-all duration-200 select-none hover:border-brand-200
+           has-[:checked]:border-brand-500 has-[:checked]:bg-brand-100/40 
+           dark:border-slate-700 dark:hover:border-slate-600 dark:has-[:checked]:bg-slate-800/80; 
+  }
+  .toggle-track { 
+    @apply relative h-6 w-11 rounded-full bg-slate-300 transition-colors duration-200 
+           after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white 
+           after:shadow after:transition-transform after:duration-200 after:content-[''] 
+           peer-checked:bg-brand-500 peer-checked:after:translate-x-5 peer-focus-visible:outline 
+           peer-focus-visible:outline-2 peer-focus-visible:outline-gold dark:bg-slate-600 cursor-pointer; 
+  }
+
+  
+  .card { 
+    @apply rounded-2xl border border-brand-100 bg-white p-4 sm:p-6 shadow-sm 
+           transition-all duration-200 ease-out dark:border-slate-800 dark:bg-slate-800/80; 
+  }
+  .card-hover { 
+    @apply hover:-translate-y-1 hover:shadow-xl hover:border-brand-200 dark:hover:border-slate-700; 
+  }
+  .product-card { 
+    @apply card flex flex-col gap-3 p-3.5 sm:p-4 hover:-translate-y-1 hover:shadow-xl hover:border-brand-300 
+           dark:hover:border-slate-600 transition-all duration-200; 
+  }
+  .skeleton { @apply animate-pulse rounded-2xl bg-brand-100 dark:bg-slate-800; }
+  .avatar { @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-display text-sm font-bold text-white shadow select-none; }
+  .avatar-lg { @apply h-16 w-16 sm:h-20 sm:w-20 text-xl sm:text-2xl; }
+
+  .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs font-bold select-none; }
+  .badge-brand { @apply bg-brand-100 text-brand-700 dark:bg-brand-500/20 dark:text-brand-200; }
+  .badge-gold { @apply bg-gold text-brand-900 shadow-sm shadow-gold/30; }
+  .badge-success { @apply bg-success/15 text-success; }
+  .badge-warning { @apply bg-warning/15 text-warning; }
+  .badge-danger { @apply bg-danger/15 text-danger; }
+
+  .alert { @apply flex gap-3 rounded-xl border-l-4 p-4 text-xs sm:text-sm; }
+  .alert-success { @apply border-success bg-success/10 text-success dark:bg-success/20; }
+  .alert-warning { @apply border-warning bg-warning/10 text-warning dark:bg-warning/20; }
+  .alert-danger { @apply border-danger bg-danger/10 text-danger dark:bg-danger/20; }
+  .alert-info { @apply border-info bg-info/10 text-info dark:bg-info/20; }
+
+  .modal { 
+    @apply w-[calc(100%-2rem)] max-w-md rounded-2xl bg-white p-5 sm:p-6 text-ink shadow-2xl 
+           backdrop:bg-black/60 backdrop:backdrop-blur-sm dark:bg-slate-800 dark:text-slate-100 border border-brand-100 dark:border-slate-700; 
+  }
+  .toast { 
+    @apply pointer-events-none fixed bottom-4 left-1/2 z-[100] max-w-[calc(100%-2rem)] -translate-x-1/2 translate-y-4 
+           rounded-xl bg-brand-900 px-4 py-3 text-xs sm:text-sm font-semibold text-white opacity-0 shadow-2xl 
+           transition-all duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 border border-white/10; 
+  }
+  .feat { @apply flex items-center gap-2.5 py-2.5 sm:py-3 text-xs sm:text-sm; }
+  .step-dot { 
+    @apply mx-auto mb-1 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-brand-100 font-bold 
+           text-ink-soft text-xs sm:text-sm transition-colors duration-300 
+           group-data-[state=current]:bg-gold group-data-[state=current]:text-brand-900 
+           group-data-[state=done]:bg-success group-data-[state=done]:text-white dark:bg-slate-700; 
+  }
+}
