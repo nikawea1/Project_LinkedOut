@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мой лень-рейтинг — ЛЕНТЯIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body data-page="dashboard" data-guard="1">
+  
+  <input id="sb-toggle" type="checkbox" class="peer sr-only" aria-label="Открыть меню кабинета">
+  <aside id="app-sidebar" class="app-sidebar" data-active="dashboard" aria-label="Боковая панель"></aside>
+  <label for="sb-toggle" class="app-overlay" aria-hidden="true"></label>
+
+  <div class="lg:pl-64">
+    <header id="app-topbar" class="app-topbar" data-title="Мой лень-рейтинг"></header>
+
+    <main id="main" class="wrap-wide py-6">
+      <div class="grid grid-cols-12 gap-4 sm:gap-6">
+        
+        <div id="stats" class="col-span-12 grid min-w-0 grid-cols-12 gap-4 sm:gap-6"></div>
+
+        
+        <section class="card col-span-12 min-w-0 xl:col-span-8 space-y-3" aria-labelledby="chart-title">
+          <div class="flex items-center justify-between">
+            <h2 id="chart-title" class="h3 text-base sm:text-lg">Динамика лень-баллов за 12 дней</h2>
+            <span class="muted text-xs">Наведите на ячейку</span>
+          </div>
+          <div id="chart" class="grid grid-cols-12 gap-1 sm:gap-1.5 pt-2" role="img" aria-label="График баллов"></div>
+          <div id="chart-days" class="muted mt-2 grid grid-cols-12 text-center text-[10px] sm:text-xs font-mono" aria-hidden="true"></div>
+        </section>
+
+        
+        <section id="rank" class="card col-span-12 min-w-0 space-y-3.5 xl:col-span-4" aria-label="Ранг"></section>
+
+        
+        <section class="card col-span-12 min-w-0 p-0 overflow-hidden" aria-labelledby="tx-title">
+          <div class="flex flex-wrap items-end justify-between gap-3 p-4 sm:p-5 pb-3 border-b border-brand-100 dark:border-slate-800">
+            <div>
+              <h2 id="tx-title" class="h3 text-base sm:text-lg">История заказов и покупок</h2>
+              <p class="muted text-xs mt-0.5">Все транзакции с начислением лень-баллов</p>
+            </div>
+            
+            <div class="flex flex-wrap items-end gap-2.5">
+              <div class="field">
+                <label for="period" class="label text-xs">Период</label>
+                <select id="period" class="input py-1.5 px-2.5 text-xs">
+                  <option value="7">7 дней</option>
+                  <option value="30">30 дней</option>
+                  <option value="all" selected>Всё время</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="tx-status" class="label text-xs">Статус</label>
+                <select id="tx-status" class="input py-1.5 px-2.5 text-xs">
+                  <option value="all">Все</option>
+                  <option value="paid">Оплачено</option>
+                  <option value="wait">Ожидает</option>
+                  <option value="fail">Отказ</option>
+                </select>
+              </div>
+              <div class="field min-w-0">
+                <label for="tx-search" class="label text-xs">Поиск</label>
+                <input id="tx-search" type="search" class="input py-1.5 px-2.5 text-xs w-32 sm:w-44" placeholder="№ или товар">
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto scrollbar-thin">
+            <table class="w-full min-w-[640px] text-left text-sm">
+              <thead class="muted bg-brand-50 text-xs uppercase tracking-wider dark:bg-slate-800/80">
+                <tr>
+                  <th scope="col" class="px-4 py-3">№ Заказа</th>
+                  <th scope="col" class="px-4 py-3">Дата</th>
+                  <th scope="col" class="px-4 py-3">Товары</th>
+                  <th scope="col" class="px-4 py-3 text-right">Сумма</th>
+                  <th scope="col" class="px-4 py-3">Статус</th>
+                </tr>
+              </thead>
+              <tbody id="tx-body" class="divide-y divide-brand-100 dark:divide-slate-800"></tbody>
+            </table>
+          </div>
+          <p id="tx-empty" class="muted hidden p-8 text-center text-xs sm:text-sm"></p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

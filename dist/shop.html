@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Магазин для лентяев — ЛЕНТЯIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body data-page="shop">
+  
+  <header id="site-header" class="site-header" data-active="shop"></header>
+
+  <main id="main" class="wrap py-8 sm:py-10">
+    <div class="mb-6 space-y-1">
+      <h1 class="h2 text-2xl sm:text-3xl">Каталог товаров для комфорта</h1>
+      <p id="plan-note" class="muted text-xs sm:text-sm">Авторизуйтесь, чтобы копить лень-баллы и применять персональную скидку по тарифу.</p>
+    </div>
+
+    
+    <div class="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-8 items-start">
+      
+      <input id="filters-toggle" type="checkbox" class="peer sr-only" aria-label="Показать фильтры">
+      <label for="filters-toggle" class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 backdrop-blur-sm transition-opacity duration-300 peer-checked:pointer-events-auto peer-checked:opacity-100 lg:hidden" aria-hidden="true"></label>
+
+      
+      <aside id="filters" aria-label="Фильтры товаров"
+             class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] translate-y-full overflow-y-auto rounded-t-3xl bg-white p-6 shadow-2xl transition-transform duration-300 ease-out scrollbar-thin peer-checked:translate-y-0 lg:static lg:z-auto lg:max-h-none lg:translate-y-0 lg:rounded-2xl lg:border lg:border-brand-100 lg:shadow-sm dark:bg-slate-800 lg:dark:border-slate-700">
+        <div class="flex items-center justify-between pb-3 border-b border-brand-100 dark:border-slate-700 lg:hidden mb-4">
+          <h2 class="font-display text-sm font-bold">Фильтры каталога</h2>
+          <label for="filters-toggle" class="icon-btn h-8 w-8 cursor-pointer" aria-label="Закрыть фильтры">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </label>
+        </div>
+
+        <form id="filters-form" class="space-y-6">
+          
+          <fieldset class="space-y-2.5">
+            <legend class="font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-900 dark:text-slate-100">Категория</legend>
+            <div class="flex flex-wrap gap-1.5">
+              <label class="chip"><input type="radio" name="cat" value="all" class="sr-only" checked>Все</label>
+              <label class="chip"><input type="radio" name="cat" value="comfort" class="sr-only">Уют</label>
+              <label class="chip"><input type="radio" name="cat" value="tech" class="sr-only">Техника</label>
+              <label class="chip"><input type="radio" name="cat" value="food" class="sr-only">Еда</label>
+              <label class="chip"><input type="radio" name="cat" value="office" class="sr-only">Офис</label>
+            </div>
+          </fieldset>
+
+          
+          <div class="space-y-2">
+            <div class="flex justify-between items-center font-display text-xs sm:text-sm font-bold">
+              <span>Цена до:</span>
+              <output id="price-out" for="price" class="text-brand-600 dark:text-gold font-mono">150 BYN</output>
+            </div>
+            <input id="price" name="price" type="range" min="5" max="150" step="5" value="150" class="w-full accent-brand-500 cursor-pointer">
+            <div class="flex justify-between text-[10px] text-ink-soft dark:text-slate-400 font-mono">
+              <span>5 BYN</span>
+              <span>150 BYN</span>
+            </div>
+          </div>
+
+          
+          <fieldset class="space-y-2.5">
+            <legend class="font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-900 dark:text-slate-100">Особенности</legend>
+            <div class="flex flex-wrap gap-1.5">
+              <label class="chip"><input type="checkbox" name="tag" value="хит" class="sr-only">Хит продаж</label>
+              <label class="chip"><input type="checkbox" name="tag" value="новинка" class="sr-only">Новинка</label>
+              <label class="chip"><input type="checkbox" name="tag" value="скидка" class="sr-only">Со скидкой</label>
+            </div>
+          </fieldset>
+
+          <div class="flex gap-2 pt-2 border-t border-brand-100 dark:border-slate-700">
+            <button type="button" id="reset" class="btn btn-ghost btn-sm flex-1">Сбросить</button>
+            <label for="filters-toggle" class="btn btn-primary btn-sm flex-1 cursor-pointer text-center lg:hidden">Применить</label>
+          </div>
+        </form>
+
+        
+        <div class="mt-6 pt-4 border-t border-brand-100 dark:border-slate-700">
+          <div data-ad-slot="sidebar" data-label="Спецпредложение" data-sublabel="Скидка 20% на все подушки и пледы при заказе от 50 BYN"></div>
+        </div>
+      </aside>
+
+      
+      <section aria-label="Товары" class="min-w-0 mt-6 lg:mt-0">
+        
+        <div class="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-slate-800/80 p-3.5 rounded-2xl border border-brand-100 dark:border-slate-700 shadow-sm">
+          <p id="count" class="muted text-xs sm:text-sm font-semibold" aria-live="polite">Загрузка товаров…</p>
+          
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <label for="filters-toggle" class="btn btn-outline btn-sm cursor-pointer lg:hidden shrink-0 flex items-center gap-1.5">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+              <span>Фильтры</span>
+            </label>
+            
+            <div class="relative flex-1 sm:w-48">
+              <label for="q" class="sr-only">Поиск товаров</label>
+              <input id="q" type="search" class="input py-1.5 text-xs sm:text-sm" placeholder="Поиск по названию…">
+            </div>
+
+            <label for="sort" class="sr-only">Сортировка</label>
+            <select id="sort" class="input w-auto py-1.5 text-xs sm:text-sm shrink-0">
+              <option value="pop">По рейтингу</option>
+              <option value="asc">Сначала недорогие</option>
+              <option value="desc">Сначала премиум</option>
+            </select>
+          </div>
+        </div>
+
+        
+        <div class="@container">
+          <div id="grid" class="grid grid-cols-1 gap-5 @sm:grid-cols-2 @3xl:grid-cols-3" aria-busy="true"></div>
+        </div>
+
+        
+        <div id="empty" class="card hidden space-y-3 py-16 text-center shadow-sm">
+          <img src="img/sloth.svg" alt="Ленивец" class="h-16 w-16 mx-auto object-contain opacity-60">
+          <p class="font-bold text-base sm:text-lg">Ничего не найдено. Нам даже искать было лень.</p>
+          <p class="body text-xs sm:text-sm max-w-md mx-auto">Попробуйте ослабить фильтры цены или изменить поисковый запрос.</p>
+        </div>
+
+        
+        <nav id="pager" class="mt-8 flex flex-wrap justify-center gap-2" aria-label="Страницы каталога"></nav>
+
+        
+        <div data-ad-slot="banner" data-label="Партнёрская сеть комфорта" data-sublabel="Товары для ленивых вечеров и здорового сна с быстрой доставкой"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/icons.js"></script>
+  <script src="js/ad-slot.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мессенджер — ЛЕНТЯIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body data-page="messenger" data-guard="1">
+  <input id="sb-toggle" type="checkbox" class="peer sr-only" aria-label="Открыть меню кабинета">
+  <aside id="app-sidebar" class="app-sidebar" data-active="messenger" aria-label="Боковая панель"></aside>
+  <label for="sb-toggle" class="app-overlay" aria-hidden="true"></label>
+
+  <div class="lg:pl-64 flex flex-col h-screen overflow-hidden">
+    <header id="app-topbar" class="app-topbar shrink-0" data-title="Мессенджер"></header>
+
+    
+    <main id="main" class="flex flex-1 flex-col md:flex-row min-h-0 bg-white dark:bg-slate-900 border-t border-brand-100 dark:border-slate-800">
+      
+      <section aria-label="Диалоги" class="max-h-48 shrink-0 overflow-y-auto border-b border-brand-100 bg-white md:max-h-none md:w-80 md:border-b-0 md:border-r dark:border-slate-800 dark:bg-slate-900 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-brand-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-700">
+        <div class="p-3 border-b border-brand-100 dark:border-slate-800 hidden md:block">
+          <p class="text-xs font-bold uppercase tracking-wider text-ink-soft dark:text-slate-400">Чаты и каналы</p>
+        </div>
+        <ul id="dialogs" class="divide-y divide-brand-100/60 dark:divide-slate-800"></ul>
+      </section>
+
+      
+      <section aria-label="Переписка" class="flex min-h-0 flex-1 flex-col bg-brand-50/30 dark:bg-slate-950">
+        
+        <header class="flex items-center justify-between border-b border-brand-100 bg-white px-5 py-3 dark:border-slate-800 dark:bg-slate-900 shrink-0 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div id="chat-avatar-wrap" class="h-9 w-9 rounded-full overflow-hidden shadow-sm shrink-0 border border-brand-200 dark:border-slate-700">
+              <img id="chat-header-img" src="img/avatars/user-alexey.jpg" alt="Собеседник" class="h-full w-full object-cover">
+            </div>
+            <div>
+              <h2 id="chat-title" class="font-display text-sm font-bold leading-tight">Алексей М.</h2>
+              <p class="text-[11px] text-success font-medium flex items-center gap-1">
+                <span class="inline-block h-1.5 w-1.5 rounded-full bg-success"></span>
+                <span>В сети (лежит на диване)</span>
+              </p>
+            </div>
+          </div>
+          <span class="badge badge-brand text-[10px]">Шифрование: отложено</span>
+        </header>
+
+        
+        <div id="msgs" role="log" aria-live="polite" class="flex-1 space-y-3 overflow-y-auto p-4 sm:p-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-brand-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-700"></div>
+
+        
+        <form id="chat-form" class="sticky bottom-0 flex items-center gap-2 border-t border-brand-100 bg-white p-3 sm:p-4 dark:border-slate-800 dark:bg-slate-900 shrink-0 shadow-md">
+          <label for="chat-input" class="sr-only">Сообщение</label>
+          <input id="chat-input" class="input py-2.5" placeholder="Напишите отговорку или сообщение…" autocomplete="off">
+          <button type="submit" class="btn btn-primary shrink-0 px-4 py-2.5">
+            <span>Отправить</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>
