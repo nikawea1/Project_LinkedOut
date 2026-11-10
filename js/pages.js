@@ -645,11 +645,11 @@
               <span>${name}</span>
               <span class="badge badge-brand font-mono" aria-label="Задач: ${tasks.length}">${tasks.length}</span>
             </h2>
-            <ul class="space-y-3">
+            <ul data-col="${k}" class="space-y-3 min-h-[180px] rounded-xl p-1 transition-all duration-200">
               ${tasks.length ? tasks.map((x) => `
-                <li class="group rounded-xl border border-brand-100 bg-white p-3.5 sm:p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+                <li draggable="true" data-task-id="${x.id}" class="group cursor-grab active:cursor-grabbing rounded-xl border border-brand-100 bg-white p-3.5 sm:p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 select-none">
                   <div class="flex items-start gap-2">
-                    <span class="cursor-grab select-none opacity-40 transition-opacity group-hover:opacity-100" aria-hidden="true">${window.Icons ? Icons.grip('h-4 w-4') : '⋮⋮'}</span>
+                    <span class="cursor-grab active:cursor-grabbing select-none opacity-40 transition-opacity group-hover:opacity-100" aria-hidden="true" title="Потяните для переноса">${window.Icons ? Icons.grip('h-4 w-4') : '⋮⋮'}</span>
                     <h3 class="flex-1 text-xs sm:text-sm font-bold leading-snug">${esc(x.t)}</h3>
                     <span class="badge ${PR[x.p][0]} shrink-0 text-[10px]">${PR[x.p][1]}</span>
                   </div>
@@ -669,13 +669,13 @@
                       <button type="button" data-move="${x.id}:1" class="btn btn-ghost btn-sm px-2 py-1 text-xs" aria-label="Вперёд" ${n === COLS.length - 1 ? 'disabled' : ''}>${window.Icons ? Icons.arrowRight('h-3.5 w-3.5') : '→'}</button>
                     </span>
                   </div>
-                </li>`).join('') : '<li class="muted rounded-xl border-2 border-dashed border-brand-200/80 p-6 text-center text-xs dark:border-slate-700 space-y-1"><p class="font-bold text-ink-soft">Задач пока нет</p><p class="text-[11px]">Колонка свободна от дедлайнов</p></li>'}
+                </li>`).join('') : '<li class="muted rounded-xl border-2 border-dashed border-brand-200/80 p-6 text-center text-xs dark:border-slate-700 space-y-1"><p class="font-bold text-ink-soft">Задач пока нет</p><p class="text-[11px]">Перетащите карточку сюда или создайте новую</p></li>'}
             </ul>
           </section>`;
       }).join('');
     };
 
-    // Перемещение карточек
+    // Перемещение карточек кликом по стрелкам
     $('#board').addEventListener('click', (e) => {
       const b = e.target.closest('[data-move]');
       if (!b) return;
@@ -690,6 +690,65 @@
       }
       save();
       renderBoard();
+    });
+
+    // Настоящий Drag & Drop карточек между колонками
+    let draggedId = null;
+
+    $('#board').addEventListener('dragstart', (e) => {
+      const card = e.target.closest('[data-task-id]');
+      if (!card) return;
+      draggedId = +card.dataset.taskId;
+      e.dataTransfer.setData('text/plain', String(draggedId));
+      e.dataTransfer.effectAllowed = 'move';
+      setTimeout(() => card.classList.add('opacity-40', 'scale-95'), 0);
+    });
+
+    $('#board').addEventListener('dragend', (e) => {
+      const card = e.target.closest('[data-task-id]');
+      if (card) card.classList.remove('opacity-40', 'scale-95');
+      $$('[data-col]', $('#board')).forEach((col) => {
+        col.classList.remove('ring-2', 'ring-brand-500', 'bg-brand-200/50', 'dark:bg-slate-700/60');
+      });
+      draggedId = null;
+    });
+
+    $('#board').addEventListener('dragover', (e) => {
+      const col = e.target.closest('[data-col]');
+      if (!col) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      col.classList.add('ring-2', 'ring-brand-500', 'bg-brand-200/50', 'dark:bg-slate-700/60');
+    });
+
+    $('#board').addEventListener('dragleave', (e) => {
+      const col = e.target.closest('[data-col]');
+      if (!col) return;
+      if (!col.contains(e.relatedTarget)) {
+        col.classList.remove('ring-2', 'ring-brand-500', 'bg-brand-200/50', 'dark:bg-slate-700/60');
+      }
+    });
+
+    $('#board').addEventListener('drop', (e) => {
+      const col = e.target.closest('[data-col]');
+      if (!col) return;
+      e.preventDefault();
+      col.classList.remove('ring-2', 'ring-brand-500', 'bg-brand-200/50', 'dark:bg-slate-700/60');
+      const targetCol = col.dataset.col;
+      const taskId = draggedId || +e.dataTransfer.getData('text/plain');
+      if (!taskId) return;
+      const t = T.find((x) => x.id === taskId);
+      if (!t || t.col === targetCol) return;
+
+      t.col = targetCol;
+      if (t.col === 'done' && !t.paid) {
+        t.paid = true;
+        Store.reward(15, 'Задача перетащена в «Done» (забыта)');
+      }
+      save();
+      renderBoard();
+      const colObj = COLS.find((c) => c[0] === targetCol);
+      window.toast?.(`Задача перемещена в «${colObj ? colObj[1].split(' ')[0] : targetCol}»`);
     });
 
     // Модальное окно новой задачи
