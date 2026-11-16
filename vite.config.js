@@ -21,6 +21,7 @@ export default defineConfig({
         checkout: './checkout.html',
         register: './register.html',
         login: './login.html',
+        dataHub: './data-hub.html',
         designSystem: './design-system.html',
       },
     },

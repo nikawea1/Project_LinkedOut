@@ -3,45 +3,79 @@ const plugin = require('tailwindcss/plugin');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./*.html', './js/**/*.js'],
+  content: ['./*.html', './js/**/*.js', './src/**/*.{vue,js,ts,jsx,tsx}', './components/**/*.vue'],
   safelist: [{ pattern: /^(btn|badge|alert)-/ }],
   theme: {
     extend: {
       colors: {
         brand: {
-          50: '#F4F0F8', 100: '#E5DEF0', 200: '#CFC3E4',
-          300: '#B4A2D4', 400: '#866DCB',
-          500: '#5C43C4', 600: '#4A34A8', 700: '#3A278A', 800: '#2A1C68', 900: '#1E182A',
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#818CF8',
+          500: '#4338CA',
+          600: '#3730A3',
+          700: '#312E81',
+          800: '#1E1B4B',
+          900: '#0B0F19',
+          950: '#070A12',
         },
-        gold: { DEFAULT: '#FFCA43', dark: '#D49B1C', pale: '#FFF3D6' },
-        ink: { DEFAULT: '#201B2C', soft: '#5E5873' },
-        success: '#2E8B57',
-        warning: '#D97724',
-        danger: '#C2415A',
-        info: '#25858B',
+        gold: {
+          DEFAULT: '#E5A91B',
+          dark: '#B48216',
+          pale: '#FEF3C7',
+          glow: 'rgba(229, 169, 27, 0.15)',
+        },
+        ink: {
+          DEFAULT: '#0F172A',
+          soft: '#475569',
+          muted: '#64748B',
+        },
+        success: {
+          DEFAULT: '#10B981',
+          dark: '#059669',
+        },
+        warning: {
+          DEFAULT: '#F59E0B',
+          dark: '#D97706',
+        },
+        danger: {
+          DEFAULT: '#EF4444',
+          dark: '#DC2626',
+        },
+        info: {
+          DEFAULT: '#0EA5E9',
+          dark: '#0284C7',
+        },
       },
       fontFamily: {
-        display: ['Unbounded', 'sans-serif'],
-        sans: ['"Golos Text"', 'sans-serif'],
+        display: ['Unbounded', 'system-ui', 'sans-serif'],
+        sans: ['"Golos Text"', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         'fade-up': {
-          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'none' },
         },
       },
-      animation: { 'fade-up': 'fade-up .7s ease-out both' },
+      animation: { 'fade-up': 'fade-up .5s cubic-bezier(0.16, 1, 0.3, 1) both' },
     },
   },
   plugins: [
     require('@tailwindcss/container-queries'),
     plugin(({ addUtilities, matchUtilities, theme }) => {
       addUtilities({
-        '.scrollbar-thin': { 'scrollbar-width': 'thin', 'scrollbar-color': '#CFC3E4 transparent' },
+        '.scrollbar-thin': { 'scrollbar-width': 'thin', 'scrollbar-color': '#CBD5E1 transparent' },
         '.glass': {
-          'background-color': 'rgb(255 255 255 / 0.08)',
-          'backdrop-filter': 'blur(12px)',
-          border: '1px solid rgb(255 255 255 / 0.18)',
+          'background-color': 'rgba(15, 23, 42, 0.65)',
+          'backdrop-filter': 'blur(16px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+        },
+        '.glass-light': {
+          'background-color': 'rgba(255, 255, 255, 0.85)',
+          'backdrop-filter': 'blur(16px)',
+          border: '1px solid rgba(226, 232, 240, 0.8)',
         },
       });
       matchUtilities(

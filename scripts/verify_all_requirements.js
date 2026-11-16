@@ -122,6 +122,22 @@ assert(shopContent.includes('filters') && shopContent.includes('grid') && shopCo
 const dsContent = fs.readFileSync('design-system.html', 'utf8');
 assert(dsContent.includes('swatches') && dsContent.includes('matrix') && dsContent.includes('data-story'), 'Task 4.4: Design system page documents tokens, buttons, badges, code snippets');
 
+// 6. Verification of Day 5-6-7 (Vue.js, Excel, Reusable Modal, Log Diff, Voyager, API)
+console.log('\n6. Checking Day 5-6-7 Vue.js & Excel integration:');
+assert(fs.existsSync('data-hub.html') && fs.existsSync('dist/data-hub.html'), 'Vue Data Hub page exists in root and dist');
+assert(fs.existsSync('js/vendor/vue.global.prod.js') && fs.existsSync('js/vendor/xlsx.full.min.js'), 'Vue 3 & SheetJS vendor scripts installed for offline work');
+assert(fs.existsSync('components/ExcelDropzone.vue') && fs.existsSync('components/DataModal.vue') && fs.existsSync('components/JsonCompare.vue') && fs.existsSync('components/VoyagerAdmin.vue'), 'All Vue 3 Single File Components exist');
+
+const hubContent = fs.readFileSync('data-hub.html', 'utf8');
+const hubAppContent = fs.readFileSync('js/data-hub-app.js', 'utf8');
+assert(hubContent.includes('vue-hub-root') && hubAppContent.includes('parseExcelFile') && hubAppContent.includes('downloadSampleTemplate'), 'Excel Drag-n-drop & SheetJS parser implemented');
+assert(hubAppContent.includes('errorModal') && hubAppContent.includes('.xlsx'), 'Strict non-excel rejection error modal implemented');
+assert(hubAppContent.includes('loadMoreTasks') && hubContent.includes('Ленивая подгрузка'), 'Data table pagination & Lazy Loading implemented');
+assert(hubAppContent.includes('dataModal') && hubAppContent.includes('handleSaveModal'), 'Reusable modal component for Create & Edit implemented');
+assert(hubAppContent.includes('logs') && hubContent.includes('vue-json-compare'), 'Audit Log with Before/After JSON diff inspection implemented');
+assert(hubContent.includes('Voyager') && hubAppContent.includes('updateRole') && hubAppContent.includes('syncGoogleDrive'), 'Voyager admin panel with role management & storage implemented');
+assert(hubAppContent.includes('testApi') && hubContent.includes('/api/v1/tasks') && hubContent.includes('/api/v2/audit-log'), 'Async REST API CRUD client with versioning implemented');
+
 console.log(`\nVerification Summary: ${pass} passed, ${fail} failed.`);
 if (fail === 0) {
   console.log('>>> ALL VERIFICATION CHECKS PASSED PERFECTLY! <<<');

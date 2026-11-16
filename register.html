@@ -25,13 +25,16 @@
           <p class="body text-xs sm:text-sm">Авторизуйтесь, чтобы копить лень-баллы, публиковать отговорки и получать скидку в магазине.</p>
         </div>
 
-        <!-- Переключатель вкладок: Вход / Регистрация -->
-        <div class="flex rounded-xl bg-brand-50 p-1 dark:bg-slate-800/80 border border-brand-100 dark:border-slate-700" role="tablist" aria-label="Авторизация">
-          <button type="button" id="tab-login" role="tab" aria-selected="false" class="flex-1 rounded-lg py-2 text-xs sm:text-sm font-bold transition-all text-ink-soft dark:text-slate-400 hover:text-ink dark:hover:text-white">
+        <!-- Переключатель вкладок: Вход / Регистрация / Восстановление -->
+        <div class="flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700" role="tablist" aria-label="Авторизация">
+          <button type="button" id="tab-login" role="tab" aria-selected="false" class="flex-1 rounded-lg py-2 text-xs sm:text-sm font-semibold transition-all text-slate-500 dark:text-slate-400 hover:text-ink dark:hover:text-white">
             Войти
           </button>
-          <button type="button" id="tab-register" role="tab" aria-selected="true" class="flex-1 rounded-lg py-2 text-xs sm:text-sm font-bold transition-all bg-white text-brand-900 shadow-sm dark:bg-slate-700 dark:text-white">
+          <button type="button" id="tab-register" role="tab" aria-selected="true" class="flex-1 rounded-lg py-2 text-xs sm:text-sm font-semibold transition-all bg-white text-brand-900 shadow-sm dark:bg-slate-700 dark:text-white font-bold">
             Регистрация
+          </button>
+          <button type="button" id="tab-recovery" role="tab" aria-selected="false" class="flex-1 rounded-lg py-2 text-xs sm:text-sm font-semibold transition-all text-slate-500 dark:text-slate-400 hover:text-ink dark:hover:text-white">
+            Сброс пароля
           </button>
         </div>
 
@@ -84,6 +87,22 @@
             <span class="spinner h-5 w-5" aria-hidden="true"></span>
             <span class="group-data-[loading=true]:hidden">Войти в кабинет</span>
             <span class="hidden group-data-[loading=true]:inline">Проверяем…</span>
+          </button>
+        </form>
+
+        <!-- ФОРМА 3: ВОССТАНОВЛЕНИЕ ПАРОЛЯ (ДЕНЬ 5-6-7) -->
+        <form id="recovery-form" class="space-y-4 hidden" novalidate>
+          <div class="field">
+            <label for="recovery-email" class="label">Email адрес учётной записи</label>
+            <input id="recovery-email" name="email" type="email" required autocomplete="email" placeholder="alexey@lentyain.by" class="input">
+          </div>
+          <p class="muted text-xs leading-relaxed">
+            Мы вышлем моментальную ссылку авторизации или сатирическую инструкцию «Как легитимно забыть пароль и не работать до понедельника».
+          </p>
+          <button id="recovery-submit" type="submit" data-loading="false" class="btn btn-secondary btn-lg group w-full">
+            <span class="spinner h-5 w-5" aria-hidden="true"></span>
+            <span class="group-data-[loading=true]:hidden">Восстановить доступ</span>
+            <span class="hidden group-data-[loading=true]:inline">Отправляем ссылку…</span>
           </button>
         </form>
 

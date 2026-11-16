@@ -56,6 +56,7 @@
   const NAV = [
     ['home', 'index.html', 'Главная'],
     ['about', 'index.html#features', 'О платформе'],
+    ['hub', 'data-hub.html', 'Реестр лени (Vue)'],
     ['plans', 'index.html#pricing', 'Тарифы'],
     ['shop', 'shop.html', 'Магазин'],
     ['contacts', '#contacts', 'Контакты'],
@@ -114,7 +115,7 @@
           </a>
           <p class="muted text-sm leading-relaxed">Профессиональная социальная сеть и магазин для истинных мастеров прокрастинации. Все права отложены на неопределённый срок.</p>
         </div>
-        ${col('Кабинет', [['feed.html', 'Лента отговорок'], ['messenger.html', 'Мессенджер'], ['board.html', 'Доска «Отложено»'], ['dashboard.html', 'Мой лень-рейтинг']])}
+        ${col('Кабинет', [['feed.html', 'Лента отговорок'], ['messenger.html', 'Мессенджер'], ['board.html', 'Доска «Отложено»'], ['dashboard.html', 'Мой лень-рейтинг'], ['data-hub.html', 'Реестр лени (Vue 3)']])}
         ${col('Магазин', [['shop.html', 'Каталог товаров'], ['checkout.html', 'Оформление заказа'], ['index.html#pricing', 'Тарифные планы']])}
         <div id="contacts" class="space-y-2 text-sm">
           <h2 class="mb-3 font-display text-sm font-bold">Контакты</h2>
@@ -131,6 +132,7 @@
   const APP_NAV = [
     ['feed', 'feed.html', 'newspaper', 'Лента'],
     ['dashboard', 'dashboard.html', 'chart', 'Мой рейтинг'],
+    ['hub', 'data-hub.html', 'chart', 'Реестр (Vue)'],
     ['messenger', 'messenger.html', 'messenger', 'Мессенджер'],
     ['board', 'board.html', 'board', 'Доска «Отложено»'],
     ['shop', 'shop.html', 'shop', 'Магазин'],

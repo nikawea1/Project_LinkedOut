@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Реестр лени & Voyager Hub (Vue 3) — ЛЕНТЯIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body data-page="hub">
+  <!-- ШАПКА -->
+  <header id="site-header" class="site-header" data-active="hub"></header>
+
+  <main id="main" class="flex-1 py-8 sm:py-12">
+    <div class="wrap" id="vue-hub-root" v-cloak>
+      
+      <!-- Заголовок страницы и навигация табов -->
+      <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-6 dark:border-slate-800">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="badge badge-gold">Vue 3 Single Page Module</span>
+            <span class="badge badge-brand">SheetJS XLSX Core</span>
+            <span class="badge bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">День 5-6-7</span>
+          </div>
+          <h1 class="h2 text-ink dark:text-white">Реестр лени & Voyager Control Hub</h1>
+          <p class="muted text-xs sm:text-sm mt-1">
+            Единый центр импорта корпоративных табелей, управления задачами прокрастинации, аудита изменений и ролей.
+          </p>
+        </div>
+
+        <!-- Переключатель вкладок -->
+        <nav class="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60" aria-label="Вкладки Data Hub">
+          <button
+            type="button"
+            @click="activeTab = 'table'"
+            :class="activeTab === 'table' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
+          >
+            Таблица данных
+          </button>
+          <button
+            type="button"
+            @click="activeTab = 'import'"
+            :class="activeTab === 'import' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
+          >
+            Импорт Excel (.xlsx)
+          </button>
+          <button
+            type="button"
+            @click="activeTab = 'log'"
+            :class="activeTab === 'log' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
+          >
+            <span>Журнал Log</span>
+            <span class="badge badge-brand text-[10px] px-1.5 py-0">{{ logs.length }}</span>
+          </button>
+          <button
+            type="button"
+            @click="activeTab = 'voyager'"
+            :class="activeTab === 'voyager' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
+          >
+            Voyager Admin
+          </button>
+          <button
+            type="button"
+            @click="activeTab = 'api'"
+            :class="activeTab === 'api' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
+          >
+            REST API v1/v2
+          </button>
+        </nav>
+      </div>
+
+      <!-- ================= ВКЛАДКА 1: ТАБЛИЦА ДАННЫХ ================= -->
+      <section v-if="activeTab === 'table'" class="space-y-6" aria-labelledby="table-title">
+        <!-- KPI панель -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div class="card p-4 space-y-1">
+            <span class="text-xs text-ink-muted">Всего записей</span>
+            <div class="font-display text-xl sm:text-2xl font-bold text-ink dark:text-white">{{ stats.totalTasks }}</div>
+            <div class="text-[11px] text-emerald-600 font-semibold">+100% честности</div>
+          </div>
+          <div class="card p-4 space-y-1">
+            <span class="text-xs text-ink-muted">Сохранено часов</span>
+            <div class="font-display text-xl sm:text-2xl font-bold text-brand-500 dark:text-gold">{{ stats.savedHours }} ч</div>
+            <div class="text-[11px] text-ink-muted">Вне совещаний</div>
+          </div>
+          <div class="card p-4 space-y-1">
+            <span class="text-xs text-ink-muted">Суммарные баллы лени</span>
+            <div class="font-display text-xl sm:text-2xl font-bold text-ink dark:text-white">{{ stats.totalPoints }}</div>
+            <div class="text-[11px] text-gold font-semibold">Ранг повышен</div>
+          </div>
+          <div class="card p-4 space-y-1">
+            <span class="text-xs text-ink-muted">Действий в аудите</span>
+            <div class="font-display text-xl sm:text-2xl font-bold text-ink dark:text-white">{{ stats.logCount }}</div>
+            <div class="text-[11px] text-brand-500 font-semibold">Diff-трекинг активен</div>
+          </div>
+        </div>
+
+        <!-- Поиск, фильтры и кнопка добавления -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+          <div class="flex flex-wrap items-center gap-2 flex-1">
+            <!-- Поиск -->
+            <div class="relative flex-1 min-w-[200px]">
+              <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Поиск по задачам или исполнителям..."
+                class="input text-xs py-2 pl-9"
+              />
+              <svg class="h-4 w-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+              </svg>
+            </div>
+
+            <!-- Фильтр по категории -->
+            <select v-model="selectedCategory" class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-ink dark:text-white cursor-pointer">
+              <option value="">Все категории</option>
+              <option value="Совещание">Совещание</option>
+              <option value="Кодинг">Кодинг</option>
+              <option value="Сон">Сон на диване</option>
+              <option value="Сериал">Сериал</option>
+              <option value="Обед">Обед</option>
+              <option value="Другое">Другое</option>
+            </select>
+
+            <!-- Фильтр по статусу -->
+            <select v-model="selectedStatus" class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-ink dark:text-white cursor-pointer">
+              <option value="">Все статусы</option>
+              <option value="Отложено">Отложено</option>
+              <option value="В процессе">В процессе</option>
+              <option value="Забыто">Забыто</option>
+              <option value="Сделано">Сделано</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              @click="openCreateModal"
+              class="btn btn-primary btn-sm flex items-center gap-1.5"
+            >
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              <span>+ Новая запись</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Таблица записей -->
+        <div class="card p-0 overflow-hidden shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="table-clean text-xs">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Задача / Активность</th>
+                  <th>Категория</th>
+                  <th>Часы лени</th>
+                  <th>Баллы</th>
+                  <th>Статус</th>
+                  <th>Исполнитель</th>
+                  <th>Дата</th>
+                  <th class="text-right">Действия</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-if="paginatedTasks.length === 0">
+                  <td colspan="9" class="p-8 text-center text-slate-400 italic">
+                    Записей не найдено. Измените параметры фильтра или импортируйте Excel-файл.
+                  </td>
+                </tr>
+                <tr
+                  v-for="task in paginatedTasks"
+                  :key="task.id"
+                  class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40"
+                >
+                  <td class="font-mono text-slate-400">#{{ task.id.toString().slice(-4) }}</td>
+                  <td class="font-semibold text-ink dark:text-white max-w-xs">
+                    <div>{{ task.title }}</div>
+                    <div v-if="task.notes" class="text-[11px] text-slate-400 font-normal truncate mt-0.5">
+                      {{ task.notes }}
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-brand">{{ task.category }}</span>
+                  </td>
+                  <td class="font-mono font-bold text-ink dark:text-white">{{ task.hours }} ч</td>
+                  <td class="font-mono font-bold text-gold-dark dark:text-gold">+{{ task.points }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      :class="{
+                        'badge-warning': task.status === 'В процессе',
+                        'badge-success': task.status === 'Сделано',
+                        'badge-gold': task.status === 'Отложено',
+                        'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400': task.status === 'Забыто'
+                      }"
+                    >
+                      {{ task.status }}
+                    </span>
+                  </td>
+                  <td class="text-slate-600 dark:text-slate-300">{{ task.assignee }}</td>
+                  <td class="font-mono text-slate-400 text-[11px]">{{ task.date }}</td>
+                  <td class="text-right">
+                    <div class="inline-flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        @click="openEditModal(task)"
+                        class="icon-btn h-7 w-7 text-xs"
+                        title="Редактировать запись"
+                      >
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        @click="deleteTask(task.id)"
+                        class="icon-btn h-7 w-7 text-danger hover:bg-danger/10 text-xs"
+                        title="Удалить запись"
+                      >
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Нижняя панель: Пагинация + Кнопка Ленивой Подгрузки -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 text-xs">
+            <div class="text-slate-500">
+              Показано <b>{{ paginatedTasks.length }}</b> из <b>{{ filteredTasks.length }}</b> записей
+            </div>
+
+            <div class="flex items-center gap-3">
+              <!-- КНОПКА ЛЕНИВОЙ ПОДГРУЗКИ (Требование ТЗ) -->
+              <button
+                v-if="filteredTasks.length > paginatedTasks.length"
+                type="button"
+                @click="loadMoreTasks"
+                class="btn btn-outline btn-sm text-xs font-semibold"
+              >
+                Ленивая подгрузка (+10 строк)
+              </button>
+
+              <!-- Постраничная пагинация (> 10 строк) -->
+              <div v-if="totalPages > 1 && lazyLimit <= pageSize" class="flex items-center gap-1">
+                <button
+                  type="button"
+                  :disabled="currentPage === 1"
+                  @click="currentPage--"
+                  class="icon-btn h-7 w-7 disabled:opacity-30"
+                  aria-label="Предыдущая страница"
+                >
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="px-2 font-mono font-semibold">{{ currentPage }} / {{ totalPages }}</span>
+                <button
+                  type="button"
+                  :disabled="currentPage === totalPages"
+                  @click="currentPage++"
+                  class="icon-btn h-7 w-7 disabled:opacity-30"
+                  aria-label="Следующая страница"
+                >
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ВКЛАДКА 2: ИМПОРТ EXCEL ================= -->
+      <section v-if="activeTab === 'import'" class="max-w-3xl mx-auto space-y-6" aria-labelledby="import-title">
+        <div class="text-center space-y-2 mb-6">
+          <p class="eyebrow">Интеграция с корпоративным миром</p>
+          <h2 id="import-title" class="h2">Импорт Excel-табеля задач</h2>
+          <p class="body text-xs sm:text-sm max-w-lg mx-auto">
+            Загрузите реестр задач из вашей корпоративной Jira, Asana или Google Sheets. Платформа парсит файл, начисляет баллы за отложенные дела и сохраняет файл в локальное хранилище.
+          </p>
+        </div>
+
+        <!-- Дропзона Drag-and-Drop с валидацией только Excel -->
+        <div
+          class="dropzone cursor-pointer"
+          :class="{ 'dropzone-active': isDragging }"
+          @dragover.prevent="isDragging = true"
+          @dragleave.prevent="isDragging = false"
+          @drop.prevent="onDropFile"
+          @click="$refs.fileInput.click()"
+          role="button"
+          tabindex="0"
+          aria-label="Загрузить Excel файл"
+        >
+          <input
+            ref="fileInput"
+            type="file"
+            accept=".xlsx, .xls, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            class="hidden"
+            @change="onFileInputChange"
+          />
+          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-500 dark:bg-slate-800 dark:text-gold mb-3 border border-slate-200 dark:border-slate-700">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+          </div>
+
+          <p class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">
+            Перетащите сюда Excel-файл (.xlsx, .xls)
+          </p>
+          <p class="muted mt-1 max-w-sm text-xs sm:text-sm">
+            или нажмите для выбора файла на диске. Все не-Excel файлы будут мгновенно отклонены валидатором.
+          </p>
+
+          <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <span class="badge badge-brand">.XLSX</span>
+            <span class="badge badge-brand">.XLS</span>
+            <span class="badge badge-gold">Автопарсинг SheetJS</span>
+          </div>
+        </div>
+
+        <!-- Кнопка скачивания образца -->
+        <div class="flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+          <div class="text-xs sm:text-sm">
+            <span class="font-semibold text-ink dark:text-white block">Демонстрационный образец табеля</span>
+            <span class="muted text-[11px] sm:text-xs">Скачайте готовый `.xlsx` файл для моментальной проверки парсинга.</span>
+          </div>
+          <button
+            type="button"
+            @click="downloadSampleTemplate"
+            class="btn btn-outline btn-sm text-xs"
+          >
+            Скачать образец .xlsx
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= ВКЛАДКА 3: ЖУРНАЛ LOG (ЗАДАНИЕ 2) ================= -->
+      <section v-if="activeTab === 'log'" class="space-y-6" aria-labelledby="log-title">
+        <div class="flex items-center justify-between border-b border-slate-200/80 pb-4 dark:border-slate-800">
+          <div>
+            <h2 id="log-title" class="h2 text-ink dark:text-white">Таблица Log: Журнал аудита действий</h2>
+            <p class="muted text-xs sm:text-sm">История всех операций с возможностью сравнения состояния объекта До/После (vue-json-compare)</p>
+          </div>
+          <span class="badge badge-brand font-mono">{{ logs.length }} событий</span>
+        </div>
+
+        <div class="card p-0 overflow-hidden shadow-sm">
+          <table class="table-clean text-xs">
+            <thead>
+              <tr>
+                <th>Событие</th>
+                <th>Действие</th>
+                <th>Описание</th>
+                <th>Автор</th>
+                <th>Время</th>
+                <th class="text-right">Инспектор Diff</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="l in logs" :key="l.id" class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40">
+                <td class="font-mono text-slate-400">#{{ l.id.toString().slice(-4) }}</td>
+                <td>
+                  <span
+                    class="badge font-mono"
+                    :class="{
+                      'badge-success': l.action === 'CREATE' || l.action === 'EXCEL_IMPORT',
+                      'badge-brand': l.action === 'UPDATE' || l.action === 'ROLE_CHANGE',
+                      'badge-danger': l.action === 'DELETE' || l.action === 'FILE_DELETE'
+                    }"
+                  >
+                    {{ l.action }}
+                  </span>
+                </td>
+                <td class="font-semibold text-ink dark:text-white">{{ l.title }}</td>
+                <td class="text-slate-600 dark:text-slate-300">{{ l.author }}</td>
+                <td class="font-mono text-slate-400 text-[11px]">{{ l.timestamp }}</td>
+                <td class="text-right">
+                  <button
+                    type="button"
+                    @click="viewDiff(l)"
+                    class="btn btn-outline btn-sm text-[11px] py-1 px-2.5"
+                  >
+                    Сравнить До/После
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= ВКЛАДКА 4: VOYAGER ADMIN (ЗАДАНИЕ 4) ================= -->
+      <section v-if="activeTab === 'voyager'" class="space-y-6" aria-labelledby="voyager-title">
+        <!-- Top Voyager Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-brand-900 text-white shadow-lg">
+          <div class="flex items-center gap-3">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gold text-brand-950 font-display font-bold text-lg">
+              V
+            </div>
+            <div>
+              <h2 id="voyager-title" class="font-display text-base sm:text-lg font-bold text-white">Voyager Administration Control Panel</h2>
+              <p class="text-xs text-brand-200">Центр управления доступом, ролями и файловыми дампами платформы</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="badge bg-white/10 text-gold text-xs font-mono">v3.4.0-voyager</span>
+            <button
+              type="button"
+              @click="syncGoogleDrive"
+              class="btn btn-primary btn-sm text-xs"
+            >
+              Синхронизировать Google Drive
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Role Management Table -->
+          <div class="card space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div>
+                <h3 class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">Управление ролями пользователей</h3>
+                <p class="muted text-xs">Назначение привилегий и уровней саботажа</p>
+              </div>
+              <span class="badge badge-brand">{{ users.length }} профилей</span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="table-clean text-xs">
+                <thead>
+                  <tr>
+                    <th>Пользователь</th>
+                    <th>Текущая роль</th>
+                    <th>Изменить</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="u in users" :key="u.email">
+                    <td class="font-semibold text-ink dark:text-white">
+                      <div>{{ u.name }}</div>
+                      <div class="text-[10px] text-slate-400 font-mono">{{ u.email }}</div>
+                    </td>
+                    <td>
+                      <span
+                        class="badge"
+                        :class="u.role === 'Архимагистр лени' ? 'badge-gold' : u.role === 'Старший саботажник' ? 'badge-brand' : 'badge-success'"
+                      >
+                        {{ u.role }}
+                      </span>
+                    </td>
+                    <td>
+                      <select
+                        :value="u.role"
+                        @change="updateRole({ email: u.email, role: $event.target.value })"
+                        class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-1 text-xs text-ink dark:text-white cursor-pointer"
+                      >
+                        <option value="Архимагистр лени">Архимагистр лени</option>
+                        <option value="Старший саботажник">Старший саботажник</option>
+                        <option value="Инженер дивана">Инженер дивана</option>
+                        <option value="Стажёр">Стажёр</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- File Storage Management (Local + Google Drive) -->
+          <div class="card space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div>
+                <h3 class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">Хранилище файлов и дампов</h3>
+                <p class="muted text-xs">Локальное хранилище браузера и облако Google Drive</p>
+              </div>
+              <button
+                type="button"
+                @click="downloadDump"
+                class="text-xs text-brand-500 dark:text-gold hover:underline font-semibold"
+              >
+                Экспорт JSON-дампа
+              </button>
+            </div>
+
+            <div v-if="files.length === 0" class="p-6 text-center text-xs text-slate-400 italic">
+              Файлы пока не загружены. Перетащите Excel-файл во вкладке импорта.
+            </div>
+            <div v-else class="space-y-2">
+              <div
+                v-for="file in files"
+                :key="file.id"
+                class="flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 text-xs"
+              >
+                <div class="min-w-0 pr-2">
+                  <div class="flex items-center gap-1.5 font-semibold text-ink dark:text-white truncate">
+                    <svg class="h-4 w-4 text-brand-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <span class="truncate">{{ file.name }}</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 flex items-center gap-2 mt-0.5">
+                    <span>{{ file.size }}</span>
+                    <span>•</span>
+                    <span>{{ file.date }}</span>
+                    <span>•</span>
+                    <span class="text-brand-500 dark:text-gold">{{ file.storage === 'gdrive' ? 'Google Drive' : 'Local Storage' }}</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    @click="downloadFile(file)"
+                    class="icon-btn h-7 w-7 text-xs"
+                    title="Скачать файл"
+                  >
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    @click="deleteFile(file.id)"
+                    class="icon-btn h-7 w-7 text-danger hover:bg-danger/10 text-xs"
+                    title="Удалить из хранилища"
+                  >
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ВКЛАДКА 5: REST API V1/V2 (ЗАДАНИЕ 3) ================= -->
+      <section v-if="activeTab === 'api'" class="space-y-6" aria-labelledby="api-title">
+        <div class="border-b border-slate-200/80 pb-4 dark:border-slate-800">
+          <h2 id="api-title" class="h2 text-ink dark:text-white">Интерактивный API Explorer (Задание 3)</h2>
+          <p class="muted text-xs sm:text-sm">
+            Асинхронные методы CRUD: GET, POST, PUT, DELETE с версионированием `/api/v1` и `/api/v2`.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Панель вызова методов -->
+          <div class="card space-y-3">
+            <h3 class="font-display text-sm font-bold text-ink dark:text-white">Тестирование эндпоинтов</h3>
+            <div class="space-y-2">
+              <button
+                type="button"
+                @click="testApi('GET', '/api/v1/tasks?limit=3')"
+                class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
+              >
+                <div>
+                  <span class="badge badge-success font-mono font-bold mr-1.5">GET</span>
+                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Список задач</span>
+              </button>
+
+              <button
+                type="button"
+                @click="testApi('POST', '/api/v1/tasks')"
+                class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
+              >
+                <div>
+                  <span class="badge badge-brand font-mono font-bold mr-1.5">POST</span>
+                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Создать задачу</span>
+              </button>
+
+              <button
+                type="button"
+                @click="testApi('PUT', '/api/v1/tasks/1')"
+                class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
+              >
+                <div>
+                  <span class="badge badge-warning font-mono font-bold mr-1.5">PUT</span>
+                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks/:id</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Обновить</span>
+              </button>
+
+              <button
+                type="button"
+                @click="testApi('DELETE', '/api/v1/tasks/1')"
+                class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
+              >
+                <div>
+                  <span class="badge badge-danger font-mono font-bold mr-1.5">DELETE</span>
+                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks/:id</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Удалить</span>
+              </button>
+
+              <button
+                type="button"
+                @click="testApi('GET', '/api/v2/audit-log')"
+                class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
+              >
+                <div>
+                  <span class="badge badge-gold font-mono font-bold mr-1.5">GET</span>
+                  <span class="font-mono text-ink dark:text-white">/api/v2/audit-log</span>
+                </div>
+                <span class="text-[10px] text-slate-400">Аудит v2</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Консоль ответа -->
+          <div class="card lg:col-span-2 space-y-3 bg-slate-900 text-white font-mono text-xs border border-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="badge font-mono" :class="apiConsole.status < 300 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'">
+                  HTTP {{ apiConsole.status }} OK
+                </span>
+                <span class="text-slate-400">{{ apiConsole.method }} {{ apiConsole.endpoint }}</span>
+              </div>
+              <span class="text-slate-500 text-[11px]">{{ apiConsole.latency }} ms</span>
+            </div>
+            <pre class="p-2 overflow-x-auto text-[11px] text-slate-300 leading-relaxed max-h-[320px]">{{ apiConsole.response }}</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ПЕРЕИСПОЛЬЗУЕМЫЙ МОДАЛЬНЫЙ КОМПОНЕНТ (ДЕНЬ 5-6-7) ================= -->
+      <div
+        v-if="dataModal.isOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div class="card w-full max-w-lg space-y-4 border border-slate-200 dark:border-slate-800 shadow-2xl animate-fade-up">
+          <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div>
+              <h3 class="font-display text-base sm:text-lg font-bold text-ink dark:text-white">
+                {{ dataModal.mode === 'create' ? 'Новая запись в реестр' : 'Редактирование записи' }}
+              </h3>
+              <p class="muted text-xs">
+                {{ dataModal.mode === 'create' ? 'Добавление отложенной активности для сохранения часов' : 'Обновление параметров существующей задачи' }}
+              </p>
+            </div>
+            <button type="button" class="icon-btn h-8 w-8" @click="dataModal.isOpen = false">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <form @submit.prevent="handleSaveModal(dataModal.initialData)" class="space-y-3.5 text-xs sm:text-sm">
+            <div class="field">
+              <label class="label">Название задачи / активности *</label>
+              <input v-model="dataModal.initialData.title" type="text" required class="input text-xs sm:text-sm" placeholder="Например: Проигнорировать созвон в 9:00">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="field">
+                <label class="label">Категория</label>
+                <select v-model="dataModal.initialData.category" class="input text-xs sm:text-sm cursor-pointer">
+                  <option value="Совещание">Совещание</option>
+                  <option value="Кодинг">Кодинг</option>
+                  <option value="Сон">Сон на диване</option>
+                  <option value="Сериал">Сериал</option>
+                  <option value="Обед">Обед</option>
+                  <option value="Другое">Другое</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label class="label">Статус</label>
+                <select v-model="dataModal.initialData.status" class="input text-xs sm:text-sm cursor-pointer">
+                  <option value="Отложено">Отложено</option>
+                  <option value="В процессе">В процессе лени</option>
+                  <option value="Забыто">Благополучно забыто</option>
+                  <option value="Сделано">Сделано в спешке</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="field">
+                <label class="label">Часов лени</label>
+                <input v-model.number="dataModal.initialData.hours" type="number" min="0.5" step="0.5" max="100" required class="input text-xs sm:text-sm font-mono">
+              </div>
+
+              <div class="field">
+                <label class="label">Баллы</label>
+                <input v-model.number="dataModal.initialData.points" type="number" min="0" step="5" required class="input text-xs sm:text-sm font-mono">
+              </div>
+
+              <div class="field">
+                <label class="label">Ответственный</label>
+                <input v-model="dataModal.initialData.assignee" type="text" class="input text-xs sm:text-sm" placeholder="Имя">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Заметка / Отговорка для руководства</label>
+              <textarea v-model="dataModal.initialData.notes" rows="2" class="input text-xs sm:text-sm" placeholder="«Непредвиденный сбой связи...»"></textarea>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+              <button type="button" class="btn btn-outline btn-sm" @click="dataModal.isOpen = false">Отмена</button>
+              <button type="submit" class="btn btn-primary btn-sm">
+                {{ dataModal.mode === 'create' ? 'Добавить в реестр' : 'Сохранить изменения' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= МОДАЛКА ОШИБКИ ФОРМАТА (НЕ-EXCEL) ================= -->
+      <div
+        v-if="errorModal.isOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div class="card max-w-md w-full space-y-4 border border-danger/30 shadow-2xl animate-fade-up">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-danger/10 text-danger">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-base font-bold text-ink dark:text-white">Ошибка формата файла</h3>
+              <p class="muted text-xs">Платформа принимает исключительно таблицы Excel.</p>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs space-y-1.5 font-mono">
+            <div class="flex justify-between">
+              <span class="text-slate-500 font-sans">Файл:</span>
+              <span class="font-bold text-danger truncate max-w-[200px]">{{ errorModal.fileName }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-500 font-sans">Тип:</span>
+              <span class="text-slate-700 dark:text-slate-300">{{ errorModal.fileType }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-500 font-sans">Допустимо:</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400">.XLSX, .XLS</span>
+            </div>
+          </div>
+
+          <p class="text-xs text-ink-soft dark:text-slate-400 leading-relaxed">
+            {{ errorModal.reason }}
+          </p>
+
+          <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <button type="button" class="btn btn-secondary btn-sm" @click="errorModal.isOpen = false">
+              Понятно, выберу Excel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= МОДАЛКА DIFF СРАВНЕНИЯ (VUE-JSON-COMPARE) ================= -->
+      <div
+        v-if="diffModal.isOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div class="card max-w-2xl w-full space-y-4 border border-slate-200 dark:border-slate-800 shadow-2xl animate-fade-up">
+          <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div>
+              <h3 class="font-display text-base font-bold text-ink dark:text-white">Инспектор изменений объекта (vue-json-compare)</h3>
+              <p class="muted text-xs font-mono">{{ diffModal.item?.title }} • {{ diffModal.item?.timestamp }}</p>
+            </div>
+            <button type="button" class="icon-btn h-8 w-8" @click="diffModal.isOpen = false">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
+            <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-3 overflow-x-auto">
+              <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-1 mb-2 font-sans">
+                До изменения (BEFORE)
+              </div>
+              <div v-if="!diffModal.item?.before" class="text-slate-400 italic font-sans text-xs">
+                (Объект только что создан)
+              </div>
+              <pre v-else class="text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">{{ JSON.stringify(diffModal.item.before, null, 2) }}</pre>
+            </div>
+
+            <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-3 overflow-x-auto">
+              <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-1 mb-2 font-sans">
+                После изменения (AFTER)
+              </div>
+              <div v-if="!diffModal.item?.after" class="text-slate-400 italic font-sans text-xs">
+                (Объект удалён)
+              </div>
+              <pre v-else class="text-[11px] leading-relaxed text-emerald-700 dark:text-emerald-400 font-semibold">{{ JSON.stringify(diffModal.item.after, null, 2) }}</pre>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-2 border-t border-slate-100 dark:border-slate-800">
+            <button type="button" class="btn btn-outline btn-sm" @click="diffModal.isOpen = false">
+              Закрыть инспектор
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/vendor/vue.global.prod.js"></script>
+  <script src="js/vendor/xlsx.full.min.js"></script>
+  <script src="js/data-hub-app.js"></script>
+</body>
+</html>

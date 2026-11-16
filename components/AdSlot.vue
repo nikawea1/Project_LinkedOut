@@ -17,7 +17,7 @@
       {{ badgeText }}
     </span>
 
-    <!-- Кнопка скрытия рекламы -->
+    <!-- Кнопка скрытия рекламы (опционально) -->
     <button
       v-if="closable"
       type="button"
@@ -56,17 +56,41 @@
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-  width: { type: String, default: '' },
-  height: { type: String, default: '' },
+  // Точные размеры, если задаются вручную (например: '300px', '250px', '100%')
+  width: {
+    type: String,
+    default: ''
+  },
+  height: {
+    type: String,
+    default: ''
+  },
+  // Предустановленный тип блока: 'sidebar' (300x250), 'banner' (горизонтальный), 'feed' (в ленте)
   preset: {
     type: String,
     default: 'sidebar',
     validator: (v) => ['sidebar', 'banner', 'feed', 'custom'].includes(v)
   },
-  label: { type: String, default: 'Рекламное место' },
-  sublabel: { type: String, default: 'Здесь могла быть ваша реклама товаров для отдыха' },
-  badgeText: { type: String, default: 'Реклама' },
-  closable: { type: Boolean, default: true }
+  // Основной заголовок блока
+  label: {
+    type: String,
+    default: 'Рекламное место'
+  },
+  // Поясняющий текст / формат
+  sublabel: {
+    type: String,
+    default: 'Здесь могла быть ваша реклама товаров для отдыха'
+  },
+  // Текст бейджа
+  badgeText: {
+    type: String,
+    default: 'Реклама'
+  },
+  // Возможность закрыть блок пользователем
+  closable: {
+    type: Boolean,
+    default: true
+  }
 });
 
 const dismissed = ref(false);

@@ -102,34 +102,57 @@
       return;
     }
 
-    // Табы Вход / Регистрация
+    // Табы Вход / Регистрация / Восстановление
     const tabLogin = $('#tab-login');
     const tabReg = $('#tab-register');
+    const tabRec = $('#tab-recovery');
     const loginForm = $('#login-form');
     const regForm = $('#reg-form');
+    const recForm = $('#recovery-form');
     const authAlert = $('#auth-alert');
 
     const setTab = (t) => {
-      const isLogin = t === 'login';
-      tabLogin.setAttribute('aria-selected', isLogin);
-      tabReg.setAttribute('aria-selected', !isLogin);
+      tabLogin.setAttribute('aria-selected', t === 'login');
+      tabReg.setAttribute('aria-selected', t === 'register');
+      if (tabRec) tabRec.setAttribute('aria-selected', t === 'recovery');
 
-      if (isLogin) {
-        tabLogin.className = 'flex-1 rounded-lg py-2 text-xs sm:text-sm font-bold transition-all bg-white text-brand-900 shadow-sm dark:bg-slate-700 dark:text-white';
-        tabReg.className = 'flex-1 rounded-lg py-2 text-xs sm:text-sm font-bold transition-all text-ink-soft dark:text-slate-400 hover:text-ink dark:hover:text-white';
-        loginForm.classList.remove('hidden');
-        regForm.classList.add('hidden');
-      } else {
-        tabReg.className = 'flex-1 rounded-lg py-2 text-xs sm:text-sm font-bold transition-all bg-white text-brand-900 shadow-sm dark:bg-slate-700 dark:text-white';
-        tabLogin.className = 'flex-1 rounded-lg py-2 text-xs sm:text-sm font-bold transition-all text-ink-soft dark:text-slate-400 hover:text-ink dark:hover:text-white';
-        regForm.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-      }
+      const activeCls = 'flex-1 rounded-lg py-2 text-xs sm:text-sm font-bold transition-all bg-white text-brand-900 shadow-sm dark:bg-slate-700 dark:text-white';
+      const inactiveCls = 'flex-1 rounded-lg py-2 text-xs sm:text-sm font-semibold transition-all text-slate-500 dark:text-slate-400 hover:text-ink dark:hover:text-white';
+
+      tabLogin.className = t === 'login' ? activeCls : inactiveCls;
+      tabReg.className = t === 'register' ? activeCls : inactiveCls;
+      if (tabRec) tabRec.className = t === 'recovery' ? activeCls : inactiveCls;
+
+      loginForm.classList.toggle('hidden', t !== 'login');
+      regForm.classList.toggle('hidden', t !== 'register');
+      if (recForm) recForm.classList.toggle('hidden', t !== 'recovery');
     };
 
     tabLogin.addEventListener('click', () => setTab('login'));
     tabReg.addEventListener('click', () => setTab('register'));
+    if (tabRec) tabRec.addEventListener('click', () => setTab('recovery'));
     setTab(defaultTab);
+
+    if (recForm) {
+      recForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const em = $('#recovery-email').value.trim();
+        if (!em) {
+          window.toast?.('Введите email адрес');
+          return;
+        }
+        const btn = $('#recovery-submit');
+        btn.dataset.loading = 'true';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.dataset.loading = 'false';
+          btn.disabled = false;
+          authAlert.textContent = `Ссылка для входа отправлена на ${em}! Пароль временно отложен.`;
+          authAlert.classList.remove('hidden');
+          window.toast?.('Ссылка для восстановления отправлена!');
+        }, 800);
+      });
+    }
 
     // Быстрый демо-вход для преподавателя / проверки в 1 клик
     $$('[data-demo]').forEach((btn) => {
