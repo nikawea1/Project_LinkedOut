@@ -125,7 +125,7 @@
           <a href="design-system.html" class="inline-block font-semibold text-brand-500 hover:underline dark:text-gold pt-1">Дизайн-система проекта →</a>
         </div>
       </div>
-      <p class="muted border-t border-brand-100 py-4 text-center text-xs dark:border-slate-800">© ЛЕНТЯIN, 2026. Учебный проект по практике (День 9–10).</p>`;
+      <p class="muted border-t border-slate-200/80 py-4 text-center text-xs dark:border-slate-800">© 2026 ЛЕНТЯIN. Официальная профессиональная сеть и клуб ценителей спокойствия. Все права отложены.</p>`;
   }
 
   /* ---------- Сайдбар и топбар кабинета (Задание 2.3) ---------- */

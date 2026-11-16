@@ -366,39 +366,42 @@ const productCard = (p) => {
       <span class="absolute bottom-2.5 right-2.5 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur-sm flex items-center gap-0.5">${starIcon}<span>${p.rating}</span></span>
     </div>
     <div class="mt-3 flex-1 flex flex-col">
-      <h3 class="line-clamp-2 min-h-[2.5rem] text-sm font-bold text-ink dark:text-slate-100 transition-colors group-hover:text-brand-500 dark:group-hover:text-gold">${esc(p.name)}</h3>
+      <h3 class="line-clamp-2 min-h-[2.5rem] text-sm font-bold text-ink dark:text-slate-100 transition-colors group-hover:text-brand-600 dark:group-hover:text-gold">${esc(p.name)}</h3>
       <p class="muted mt-1 text-xs line-clamp-1">${esc(p.desc || '')}</p>
-      <div class="mt-3 flex items-center justify-between pt-2 border-t border-brand-100/60 dark:border-slate-800">
-        <p class="font-display text-base sm:text-lg font-bold text-brand-900 dark:text-white tabular-nums">${p.price} BYN</p>
-        <button type="button" class="btn btn-secondary btn-sm" data-add="${p.id}">В корзину</button>
+      <div class="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800">
+        <p class="font-display text-base font-bold text-ink dark:text-white tabular-nums">${p.price} BYN</p>
+        <button type="button" class="btn btn-secondary btn-sm inline-flex items-center gap-1 group/btn" data-add="${p.id}">
+          <span>В корзину</span>
+          <span class="group-hover/btn:translate-x-0.5 transition-transform">+</span>
+        </button>
       </div>
     </div>
   </article>`;
 };
 
 // Задание 1.1: Карточка профиля
-// Аватар (круглый, 80x80px), Имя и должность, Короткое описание (bio), Кнопки "Follow" и "Message"
-// Адаптивность: на мобильных на всю ширину, на десктопе — 320px
-// Требования: rounded-full, shadow, flex, space-y-*, gap-*
 const profileCard = (p, on = false) => {
   const followContent = on
     ? `${window.Icons ? Icons.check('h-3.5 w-3.5 inline mr-1') : ''}Подписан`
     : 'Подписаться';
   return `
-  <article class="card w-full md:w-80 flex flex-col items-center text-center space-y-4 shadow-sm hover:shadow-md transition-shadow">
+  <article class="card w-full md:w-80 flex flex-col items-center text-center space-y-4 shadow-sm hover:shadow-md hover:border-brand-300 transition-all">
     <div class="h-20 w-20 rounded-full shadow-md overflow-hidden border-2 border-brand-200 dark:border-slate-700 shrink-0">
       <img src="${p.img || 'img/avatars/user-alexey.jpg'}" alt="${esc(p.n)}" class="h-full w-full object-cover" onerror="this.src='img/avatars/user-alexey.jpg'">
     </div>
     <div class="space-y-1">
       <h3 class="h3">${esc(p.n)}</h3>
-      <p class="text-xs sm:text-sm font-semibold text-brand-500 dark:text-gold">${esc(p.role)}</p>
+      <p class="text-xs sm:text-sm font-semibold text-brand-600 dark:text-gold">${esc(p.role)}</p>
     </div>
     <p class="body text-xs sm:text-sm leading-relaxed">${esc(p.bio)}</p>
     <div class="flex gap-2 w-full pt-1">
-      <button type="button" data-follow="${esc(p.n)}" aria-pressed="${on}" class="btn btn-secondary flex-1 aria-pressed:bg-gold aria-pressed:text-brand-900 transition-colors">
+      <button type="button" data-follow="${esc(p.n)}" aria-pressed="${on}" class="btn btn-secondary flex-1 aria-pressed:bg-gold aria-pressed:text-brand-950 transition-colors">
         ${followContent}
       </button>
-      <a href="messenger.html?to=${encodeURIComponent(p.n)}" class="btn btn-outline flex-1">Написать</a>
+      <a href="messenger.html?to=${encodeURIComponent(p.n)}" class="btn btn-outline flex-1 inline-flex items-center justify-center gap-1 group">
+        <span>Написать</span>
+        <span class="group-hover:translate-x-1 transition-transform">→</span>
+      </a>
     </div>
   </article>`;
 };

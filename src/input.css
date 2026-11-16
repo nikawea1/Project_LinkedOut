@@ -10,8 +10,8 @@
   body {
     @apply overflow-x-hidden bg-brand-50 font-sans text-ink transition-colors duration-200 dark:bg-brand-900 dark:text-slate-100 min-h-screen flex flex-col;
   }
-  h1, h2, h3 {
-    @apply font-display leading-tight tracking-tight text-ink dark:text-white;
+  h1, h2, h3, h4 {
+    @apply font-display leading-tight tracking-tight;
   }
   :focus-visible {
     @apply outline outline-2 outline-offset-2 outline-gold dark:outline-gold;
@@ -33,16 +33,16 @@
   .section-head { @apply mx-auto mb-10 sm:mb-14 max-w-2xl space-y-2.5 text-center px-2; }
 
   /* ---------- Минималистичная Типографика ---------- */
-  .h1 { @apply font-display text-2xl font-bold tracking-tight sm:text-4xl lg:text-5xl; }
-  .h2 { @apply font-display text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl; }
-  .h3 { @apply font-display text-base font-semibold tracking-tight sm:text-lg; }
+  .h1 { @apply font-display text-2xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-ink dark:text-white; }
+  .h2 { @apply font-display text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl text-ink dark:text-white; }
+  .h3 { @apply font-display text-base font-semibold tracking-tight sm:text-lg text-ink dark:text-white; }
   .body { @apply text-sm sm:text-base leading-relaxed text-ink-soft dark:text-slate-300; }
   .muted { @apply text-xs sm:text-sm text-ink-muted dark:text-slate-400; }
-  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-widest text-brand-500 dark:text-gold; }
+  .eyebrow { @apply text-[11px] font-bold uppercase tracking-widest text-brand-600 dark:text-gold; }
   .logo { @apply font-display text-lg sm:text-xl font-bold tracking-tight text-brand-900 transition-transform duration-200 hover:scale-[1.02] dark:text-white shrink-0 flex items-center gap-2; }
 
   /* ---------- Навигация ---------- */
-  .site-header { @apply sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-md dark:border-slate-800/80 dark:bg-brand-900/90 transition-colors; }
+  .site-header { @apply sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800/80 dark:bg-brand-900/95 transition-colors; }
   .site-footer { @apply border-t border-slate-200/80 bg-white mt-auto dark:border-slate-800/80 dark:bg-brand-900/95; }
   
   .nav-menu { 
@@ -51,8 +51,8 @@
            dark:border-slate-800 dark:bg-brand-900; 
   }
   .nav-link { 
-    @apply rounded-xl px-3.5 py-2 text-sm font-medium text-ink-soft transition-all duration-150 
-           hover:bg-slate-100 hover:text-ink aria-[current=page]:bg-slate-100 aria-[current=page]:text-brand-900 aria-[current=page]:font-semibold 
+    @apply rounded-xl px-3.5 py-2 text-sm font-semibold text-ink-soft transition-all duration-150 
+           hover:bg-slate-100 hover:text-ink aria-[current=page]:bg-slate-100 aria-[current=page]:text-brand-600 
            dark:text-slate-300 dark:hover:bg-slate-800/60 dark:hover:text-white dark:aria-[current=page]:bg-slate-800/80 dark:aria-[current=page]:text-gold; 
   }
   
@@ -66,8 +66,8 @@
            peer-checked:pointer-events-auto peer-checked:opacity-100 lg:hidden; 
   }
   .app-topbar { 
-    @apply sticky top-0 z-20 flex h-16 items-center gap-2 sm:gap-3 border-b border-slate-200/70 bg-white/90 px-3 backdrop-blur-md 
-           sm:px-6 dark:border-slate-800/80 dark:bg-brand-900/90; 
+    @apply sticky top-0 z-20 flex h-16 items-center gap-2 sm:gap-3 border-b border-slate-200/80 bg-white/95 px-3 backdrop-blur-md 
+           sm:px-6 dark:border-slate-800/80 dark:bg-brand-900/95; 
   }
   .side-link { 
     @apply flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-ink-soft transition-all duration-150 
@@ -75,7 +75,7 @@
            dark:text-slate-300 dark:hover:bg-slate-800/60 dark:aria-[current=page]:bg-brand-500; 
   }
 
-  /* ---------- Строгие Кнопки ---------- */
+  /* ---------- Строгие Кнопки Со Стрелками ---------- */
   .btn { 
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold 
            transition-all duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] 
@@ -92,7 +92,7 @@
     @apply bg-brand-900 text-white hover:bg-brand-800 hover:shadow-md dark:bg-brand-500 dark:hover:bg-brand-600; 
   }
   .btn-outline { 
-    @apply border border-slate-300/80 text-ink hover:bg-slate-100 hover:border-slate-400 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/80; 
+    @apply border border-slate-300/90 text-ink bg-white hover:bg-slate-50 hover:border-slate-400 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:bg-slate-800; 
   }
   .btn-ghost { 
     @apply text-ink hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800; 
@@ -106,6 +106,15 @@
            dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 cursor-pointer; 
   }
   .spinner { @apply hidden h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent group-data-[loading=true]:block; }
+
+  /* ---------- Интерактивный Like ---------- */
+  .btn-like {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150
+           border border-slate-200/80 bg-white text-ink-soft hover:border-rose-300 hover:text-rose-600 hover:bg-rose-50/50
+           dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-rose-700 dark:hover:text-rose-400 dark:hover:bg-rose-950/20
+           aria-pressed:border-rose-400 aria-pressed:bg-rose-50 aria-pressed:text-rose-600
+           dark:aria-pressed:border-rose-700 dark:aria-pressed:bg-rose-950/40 dark:aria-pressed:text-rose-300;
+  }
 
   /* ---------- Формы ---------- */
   .field { @apply space-y-1.5; }
@@ -148,10 +157,10 @@
            transition-all duration-150 ease-out dark:border-slate-800/80 dark:bg-slate-900/90; 
   }
   .card-hover { 
-    @apply hover:-translate-y-0.5 hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700; 
+    @apply hover:-translate-y-1 hover:shadow-md hover:border-brand-400 dark:hover:border-slate-700 cursor-pointer; 
   }
   .product-card { 
-    @apply card flex flex-col gap-3 p-3.5 sm:p-4 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-300 
+    @apply card flex flex-col gap-3 p-3.5 sm:p-4 hover:-translate-y-1 hover:shadow-md hover:border-brand-400 
            dark:hover:border-slate-700 transition-all duration-150; 
   }
   .skeleton { @apply animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800; }
@@ -188,7 +197,7 @@
            group-data-[state=done]:bg-success group-data-[state=done]:text-white dark:bg-slate-800; 
   }
 
-  /* ---------- Vue & Data Hub Utilities ---------- */
+  /* ---------- Dropzone & Table Utilities ---------- */
   .dropzone {
     @apply relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 
            bg-slate-50/60 p-8 sm:p-12 text-center transition-all duration-200 hover:border-brand-500 hover:bg-slate-50 
@@ -205,11 +214,5 @@
   }
   .table-clean td {
     @apply px-4 py-3.5 transition-colors;
-  }
-  .diff-added {
-    @apply bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 px-1 rounded;
-  }
-  .diff-removed {
-    @apply bg-rose-500/10 text-rose-700 dark:text-rose-400 line-through px-1 rounded;
   }
 }

@@ -87,6 +87,75 @@
       slothBox.addEventListener('click', nextPhrase);
       setInterval(nextPhrase, 8000);
     }
+
+    // Интерактивный слайдер отзывов с плавной прокруткой и индикаторами
+    const track = $('#reviews-track');
+    const prevBtn = $('#review-prev');
+    const nextBtn = $('#review-next');
+    const dotsBox = $('#reviews-dots');
+    if (track && prevBtn && nextBtn) {
+      const cards = $$('figure', track);
+      let cur = 0;
+      const getCardsPerView = () => window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+      const getMaxIndex = () => Math.max(0, cards.length - getCardsPerView());
+
+      const updateSlider = () => {
+        const perView = getCardsPerView();
+        const maxIdx = getMaxIndex();
+        if (cur > maxIdx) cur = maxIdx;
+        const cardWidthPercent = 100 / perView;
+        const gapPx = 24;
+        track.style.transform = `translateX(calc(-${cur * cardWidthPercent}% - ${cur * (gapPx / perView)}px))`;
+
+        if (dotsBox) {
+          dotsBox.innerHTML = Array.from({ length: maxIdx + 1 }, (_, i) => `
+            <button type="button" class="h-2 rounded-full transition-all duration-300 ${i === cur ? 'w-6 bg-gold' : 'w-2 bg-slate-300 dark:bg-slate-700'}" data-slide="${i}" aria-label="Слайд ${i + 1}"></button>
+          `).join('');
+        }
+      };
+
+      prevBtn.addEventListener('click', () => {
+        const maxIdx = getMaxIndex();
+        cur = cur <= 0 ? maxIdx : cur - 1;
+        updateSlider();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        const maxIdx = getMaxIndex();
+        cur = cur >= maxIdx ? 0 : cur + 1;
+        updateSlider();
+      });
+
+      if (dotsBox) {
+        dotsBox.addEventListener('click', (e) => {
+          const dot = e.target.closest('[data-slide]');
+          if (dot) {
+            cur = +dot.dataset.slide;
+            updateSlider();
+          }
+        });
+      }
+
+      window.addEventListener('resize', updateSlider);
+      updateSlider();
+
+      // Автоматическая смена отзывов раз в 5 секунд с паузой при наведении
+      let autoTimer = setInterval(() => {
+        const maxIdx = getMaxIndex();
+        cur = cur >= maxIdx ? 0 : cur + 1;
+        updateSlider();
+      }, 5000);
+
+      track.addEventListener('mouseenter', () => clearInterval(autoTimer));
+      track.addEventListener('mouseleave', () => {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(() => {
+          const maxIdx = getMaxIndex();
+          cur = cur >= maxIdx ? 0 : cur + 1;
+          updateSlider();
+        }, 5000);
+      });
+    }
   };
 
   /* ---------- register & login (Задание 2.4 + Полноценная авторизация) ---------- */
@@ -176,6 +245,12 @@
       });
     });
 
+    // Переход по ссылке "Забыли пароль?"
+    const forgotPw = $('#forgot-pw-link');
+    if (forgotPw) {
+      forgotPw.addEventListener('click', () => setTab('recovery'));
+    }
+
     // --- Обработка формы Входа ---
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -190,19 +265,45 @@
       btn.disabled = true;
 
       setTimeout(() => {
-        const namePart = email.split('@')[0] || 'Лентяй';
-        const formattedName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        let name = 'Алексей Медведев';
+        let plan = 'pro';
+        let avatar = 'img/avatars/user-alexey.jpg';
+
+        const em = email.toLowerCase();
+        if (em.includes('irina')) {
+          name = 'Ирина Ковалёва';
+          plan = 'enterprise';
+          avatar = 'img/avatars/user-irina.jpg';
+        } else if (em.includes('dmitry') || em.includes('volkov')) {
+          name = 'Дмитрий Волков';
+          plan = 'pro';
+          avatar = 'img/avatars/user-dmitry.jpg';
+        } else if (em.includes('svetlana') || em.includes('romanova')) {
+          name = 'Светлана Романова';
+          plan = 'basic';
+          avatar = 'img/avatars/user-svetlana.jpg';
+        } else if (em.includes('alex')) {
+          name = 'Алексей Медведев';
+          plan = 'pro';
+          avatar = 'img/avatars/user-alexey.jpg';
+        } else {
+          const namePart = email.split('@')[0] || 'Пользователь';
+          name = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+          plan = 'basic';
+          avatar = 'img/avatars/user-me.jpg';
+        }
+
         Store.login({
-          name: formattedName,
+          name,
           email,
-          plan: 'pro',
-          avatar: 'img/avatars/user-me.jpg'
+          plan,
+          avatar
         });
         btn.dataset.loading = 'false';
-        authAlert.textContent = `Рады видеть вас снова, ${formattedName}! Переходим в кабинет…`;
+        authAlert.textContent = `Добро пожаловать, ${name}! Переходим в кабинет…`;
         authAlert.classList.remove('hidden');
-        setTimeout(() => { location.href = next; }, 800);
-      }, 900);
+        setTimeout(() => { location.href = next; }, 600);
+      }, 700);
     });
 
     // --- Обработка формы Регистрации (Задание 2.4) ---
@@ -347,8 +448,8 @@
           
           <p class="text-xs sm:text-sm leading-relaxed">${esc(p.t)}</p>
           
-          <div class="flex items-center gap-2 pt-1 border-t border-brand-100/60 dark:border-slate-800">
-            <button type="button" data-like aria-pressed="${liked}" class="btn btn-ghost btn-sm aria-pressed:bg-gold aria-pressed:text-brand-900 transition-colors flex items-center gap-1.5">
+          <div class="flex items-center gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+            <button type="button" data-like aria-pressed="${liked}" class="btn-like">
               ${heartIcon} <span data-lcount class="font-mono">${p.likes}</span>
             </button>
           </div>
@@ -423,7 +524,9 @@
       Store.set('liked', liked);
       Store.set('posts', all);
       b.setAttribute('aria-pressed', on);
-      b.querySelector('[data-lcount]').textContent = all.find((p) => p.id === id).likes;
+      const count = all.find((p) => p.id === id).likes;
+      const heart = window.Icons ? Icons.heart('h-4 w-4', on) : '';
+      b.innerHTML = `${heart} <span data-lcount class="font-mono">${count}</span>`;
     });
 
     $('#posts').addEventListener('submit', (e) => {
