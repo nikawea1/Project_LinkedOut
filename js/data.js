@@ -354,16 +354,29 @@ const TASKS = [
 
 // Задание 1.3: Сетка карточек товаров
 // aspect-square, реальное фото, название, цена, кнопка "В корзину", hover эффекты
+const getProductTagHtml = (tag) => {
+  if (!tag) return '';
+  const t = String(tag).toLowerCase().trim();
+  let colorCls = 'bg-gold text-brand-950 border border-amber-600/40';
+  if (t === 'новинка') {
+    colorCls = 'bg-emerald-500 text-white border border-emerald-600/40';
+  } else if (t === 'скидка') {
+    colorCls = 'bg-danger text-white border border-rose-600/40';
+  }
+  return `<span class="badge absolute left-2.5 top-2.5 ${colorCls} px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wider shadow-md select-none z-10">${esc(tag)}</span>`;
+};
+
 const productCard = (p) => {
   const starIcon = window.Icons
     ? Icons.star('h-3 w-3 text-gold inline mr-0.5')
     : '<svg class="h-3 w-3 text-gold inline mr-0.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  const tagHtml = p.tags && p.tags[0] ? getProductTagHtml(p.tags[0]) : '';
   return `
   <article class="product-card group flex flex-col justify-between">
     <div class="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
       <img src="${p.img}" alt="${esc(p.name)}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" onerror="this.src='img/products/prod-1.jpg'">
-      ${p.tags && p.tags[0] ? `<span class="badge badge-gold absolute left-2.5 top-2.5 shadow-sm">${p.tags[0]}</span>` : ''}
-      <span class="absolute bottom-2.5 right-2.5 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur-sm flex items-center gap-0.5">${starIcon}<span>${p.rating}</span></span>
+      ${tagHtml}
+      <span class="absolute bottom-2.5 right-2.5 rounded-md bg-black/75 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur-sm flex items-center gap-0.5 shadow-sm z-10">${starIcon}<span>${p.rating}</span></span>
     </div>
     <div class="mt-3 flex-1 flex flex-col">
       <h3 class="line-clamp-2 min-h-[2.5rem] text-sm font-bold text-ink dark:text-slate-100 transition-colors group-hover:text-brand-600 dark:group-hover:text-gold">${esc(p.name)}</h3>

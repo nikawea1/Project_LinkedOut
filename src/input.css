@@ -173,6 +173,9 @@
   .badge-success { @apply bg-success/10 text-success-dark dark:text-success; }
   .badge-warning { @apply bg-warning/10 text-warning-dark dark:text-warning; }
   .badge-danger { @apply bg-danger/10 text-danger-dark dark:text-danger; }
+  .badge-solid-gold { @apply bg-gold text-brand-950 font-extrabold shadow-md border border-amber-600/30; }
+  .badge-solid-emerald { @apply bg-emerald-500 text-white font-extrabold shadow-md border border-emerald-600/30; }
+  .badge-solid-danger { @apply bg-danger text-white font-extrabold shadow-md border border-rose-600/30; }
 
   .alert { @apply flex gap-3 rounded-xl border p-4 text-xs sm:text-sm; }
   .alert-success { @apply border-success/30 bg-success/5 text-success-dark dark:text-success; }
