@@ -23,8 +23,8 @@
       <div class="wrap py-16 text-center sm:py-24 lg:py-32">
         <!-- Статус-индикатор покоя -->
         <div class="inline-flex items-center gap-2 rounded-full border border-slate-200/90 bg-white/90 dark:border-slate-800 dark:bg-slate-900/90 px-4 py-1.5 text-xs font-semibold tracking-wider text-slate-700 dark:text-slate-300 shadow-sm backdrop-blur-md animate-fade-up">
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-          <span>Оффлайн 24/7 · Режим энергосбережения включён</span>
+          <span class="h-2 w-2 rounded-full bg-slate-400"></span>
+          <span>Оффлайн 24/7. Отдыхаем.</span>
         </div>
 
         <!-- Заголовок с изысканным градиентом -->
@@ -202,52 +202,52 @@
           </div>
         </div>
 
-        <div class="relative overflow-hidden rounded-2xl">
+        <div id="reviews-viewport" class="relative overflow-hidden rounded-2xl w-full">
           <div id="reviews-track" class="flex transition-transform duration-500 ease-out gap-6">
             <!-- Отзыв 1 -->
-            <figure class="card min-w-full md:min-w-[calc(50%-12px)] lg:min-w-[calc(33.333%-16px)] shrink-0 space-y-4">
+            <figure class="card flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] space-y-4 select-none">
               <blockquote class="body text-xs sm:text-sm italic">«Через неделю после регистрации меня уволили. Теперь это самая популярная строчка в профиле, набравшая 89 реакций. Жизнь удалась!»</blockquote>
               <figcaption class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <img src="img/avatars/user-dmitry.jpg" alt="Дмитрий В." class="h-10 w-10 rounded-full object-cover shadow-sm">
                 <div>
                   <p class="text-xs sm:text-sm font-bold">Дмитрий Волков</p>
-                  <p class="muted text-[11px]">Master of Sofa · 89 лайков</p>
+                  <p class="muted text-[11px]">Master of Sofa / 89 лайков</p>
                 </div>
               </figcaption>
             </figure>
 
             <!-- Отзыв 2 -->
-            <figure class="card min-w-full md:min-w-[calc(50%-12px)] lg:min-w-[calc(33.333%-16px)] shrink-0 space-y-4">
+            <figure class="card flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] space-y-4 select-none">
               <blockquote class="body text-xs sm:text-sm italic">«Научилась многозначительно кивать на созвонах так убедительно, что меня повысили до тимлида. Никто до сих пор не понял, что я просто спала».</blockquote>
               <figcaption class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <img src="img/avatars/user-irina.jpg" alt="Ирина К." class="h-10 w-10 rounded-full object-cover shadow-sm">
                 <div>
                   <p class="text-xs sm:text-sm font-bold">Ирина Ковалёва</p>
-                  <p class="muted text-[11px]">Chief Excuse Officer · 120 лайков</p>
+                  <p class="muted text-[11px]">Chief Excuse Officer / 120 лайков</p>
                 </div>
               </figcaption>
             </figure>
 
             <!-- Отзыв 3 -->
-            <figure class="card min-w-full md:min-w-[calc(50%-12px)] lg:min-w-[calc(33.333%-16px)] shrink-0 space-y-4">
+            <figure class="card flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] space-y-4 select-none">
               <blockquote class="body text-xs sm:text-sm italic">«Кнопка “Отвечу завтра” окупилась за один рабочий день. Начальник думает, что я занят стратегическим планированием. Напишу продолжение завтра».</blockquote>
               <figcaption class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <img src="img/avatars/user-alexey.jpg" alt="Алексей М." class="h-10 w-10 rounded-full object-cover shadow-sm">
                 <div>
                   <p class="text-xs sm:text-sm font-bold">Алексей Медведев</p>
-                  <p class="muted text-[11px]">Senior Procrastinator · 42 лайка</p>
+                  <p class="muted text-[11px]">Senior Procrastinator / 42 лайка</p>
                 </div>
               </figcaption>
             </figure>
 
             <!-- Отзыв 4 -->
-            <figure class="card min-w-full md:min-w-[calc(50%-12px)] lg:min-w-[calc(33.333%-16px)] shrink-0 space-y-4">
+            <figure class="card flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] space-y-4 select-none">
               <blockquote class="body text-xs sm:text-sm italic">«Лучшая социальная сеть: здесь никто не давит успешным успехом и не требует пятичасовых утренних пробежек. Только спокойствие и чилл».</blockquote>
               <figcaption class="flex items-center gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <img src="img/avatars/user-svetlana.jpg" alt="Светлана Р." class="h-10 w-10 rounded-full object-cover shadow-sm">
                 <div>
                   <p class="text-xs sm:text-sm font-bold">Светлана Романова</p>
-                  <p class="muted text-[11px]">Zen Slacker · 31 лайк</p>
+                  <p class="muted text-[11px]">Zen Slacker / 31 лайк</p>
                 </div>
               </figcaption>
             </figure>
@@ -290,9 +290,9 @@
           </article>
 
           <!-- PRO (выделен с аккуратным бейджем) -->
-          <article class="card relative flex flex-col space-y-5 shadow-xl border-2 border-brand-500 dark:border-brand-400 lg:scale-105 ring-2 ring-brand-500 z-10 bg-white dark:bg-slate-900">
-            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
-              <span class="inline-flex items-center gap-1 rounded-full bg-gold px-3.5 py-1 text-xs font-bold text-brand-950 shadow-md border-2 border-white dark:border-slate-900">Popular · Выбор мастеров</span>
+          <article data-badge="Popular" class="card relative flex flex-col space-y-5 shadow-xl border-2 border-brand-500 dark:border-brand-400 lg:scale-105 ring-2 ring-brand-500 z-10 bg-white dark:bg-slate-900">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30">
+              <span class="inline-flex items-center rounded-full bg-gold px-4 py-1 text-xs font-bold text-brand-950 shadow-md border-2 border-white dark:border-slate-900 select-none">Популярный выбор</span>
             </div>
             <div>
               <h3 class="h3">Pro</h3>
@@ -396,7 +396,7 @@
       <div class="wrap">
         <div class="rounded-3xl bg-brand-900 text-white p-8 sm:p-14 text-center shadow-xl relative overflow-hidden border border-slate-800">
           <div class="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-gold/10 blur-2xl pointer-events-none"></div>
-          <h2 class="h2 mx-auto max-w-2xl !text-white font-bold">Готовы официально зафиксировать право на заслуженный отдых?</h2>
+          <h2 class="h2 mx-auto max-w-2xl font-bold" style="color: #ffffff !important;">Готовы официально зафиксировать право на заслуженный отдых?</h2>
           <p class="mx-auto mt-3 max-w-xl text-slate-300 text-xs sm:text-sm leading-relaxed">
             Регистрация займёт ровно 60 секунд. Первые 10 лень-баллов уже ждут вас в личном кабинете.
           </p>

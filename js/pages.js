@@ -100,12 +100,14 @@
       const getMaxIndex = () => Math.max(0, cards.length - getCardsPerView());
 
       const updateSlider = () => {
-        const perView = getCardsPerView();
         const maxIdx = getMaxIndex();
         if (cur > maxIdx) cur = maxIdx;
-        const cardWidthPercent = 100 / perView;
+        if (cur < 0) cur = 0;
+        const card = cards[0];
+        const cardWidth = card ? card.getBoundingClientRect().width : 0;
         const gapPx = 24;
-        track.style.transform = `translateX(calc(-${cur * cardWidthPercent}% - ${cur * (gapPx / perView)}px))`;
+        const offset = cur * (cardWidth + gapPx);
+        track.style.transform = `translateX(-${offset}px)`;
 
         if (dotsBox) {
           dotsBox.innerHTML = Array.from({ length: maxIdx + 1 }, (_, i) => `
@@ -136,15 +138,35 @@
         });
       }
 
+      // Поддержка свайпа для мобильных устройств
+      let touchStartX = 0;
+      let touchEndX = 0;
+      track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          const maxIdx = getMaxIndex();
+          if (diff > 0) {
+            cur = cur >= maxIdx ? 0 : cur + 1;
+          } else {
+            cur = cur <= 0 ? maxIdx : cur - 1;
+          }
+          updateSlider();
+        }
+      }, { passive: true });
+
       window.addEventListener('resize', updateSlider);
       updateSlider();
 
-      // Автоматическая смена отзывов раз в 5 секунд с паузой при наведении
+      // Автоматическая смена отзывов раз в 6 секунд с паузой при наведении
       let autoTimer = setInterval(() => {
         const maxIdx = getMaxIndex();
         cur = cur >= maxIdx ? 0 : cur + 1;
         updateSlider();
-      }, 5000);
+      }, 6000);
 
       track.addEventListener('mouseenter', () => clearInterval(autoTimer));
       track.addEventListener('mouseleave', () => {
@@ -153,7 +175,7 @@
           const maxIdx = getMaxIndex();
           cur = cur >= maxIdx ? 0 : cur + 1;
           updateSlider();
-        }, 5000);
+        }, 6000);
       });
     }
   };
@@ -408,7 +430,7 @@
           <h2 class="h3">${esc(me.name)}</h2>
           <p class="text-xs sm:text-sm font-semibold text-brand-500 dark:text-gold flex items-center justify-center">${rankIcon}<span>${lv.name}</span></p>
         </div>
-        <p class="muted text-center text-xs flex items-center justify-center">${zapIcon}<span>${pts} лень-баллов · тариф ${planName}</span></p>
+        <p class="muted text-center text-xs flex items-center justify-center">${zapIcon}<span>${pts} лень-баллов / тариф ${planName}</span></p>
         <a href="dashboard.html" class="btn btn-outline btn-sm w-full">Мой рейтинг и аналитика →</a>`;
     }
 
@@ -442,7 +464,7 @@
             </div>
             <div class="min-w-0 flex-1">
               <p class="truncate text-xs sm:text-sm font-bold">${esc(p.a)}</p>
-              <p class="muted truncate text-[11px]">${esc(p.role)} · <span class="text-brand-500 dark:text-gold font-semibold">${TYPES[p.type] || 'Запись'}</span></p>
+              <p class="muted truncate text-[11px]">${esc(p.role)} / <span class="text-brand-500 dark:text-gold font-semibold">${TYPES[p.type] || 'Запись'}</span></p>
             </div>
           </header>
           
@@ -606,7 +628,7 @@
         </div>
         <div>
           <h2 class="h3">${lv.name}</h2>
-          <p class="muted text-xs sm:text-sm">${pts} лень-баллов${lv.next ? ` · до ${lv.next.name}: ${lv.next.min - pts}` : ' · максимальный ранг'}</p>
+          <p class="muted text-xs sm:text-sm">${pts} лень-баллов${lv.next ? ` / до ${lv.next.name}: ${lv.next.min - pts}` : ' / максимальный ранг'}</p>
         </div>
       </div>
       <div role="progressbar" aria-label="Прогресс ранга" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${prog}" class="h-2.5 overflow-hidden rounded-full bg-brand-100 dark:bg-slate-700">
@@ -686,14 +708,25 @@
 
     const save = () => Store.set('dialogs', D);
 
-    const bubble = ([w, t]) => `
-      <div class="flex ${w === 'out' ? 'justify-end' : 'justify-start'} animate-fade-up">
+    const bubble = ([w, t], isNew = false) => `
+      <div class="flex ${w === 'out' ? 'justify-end' : 'justify-start'} ${isNew ? 'transition-all duration-300 transform opacity-100' : ''}">
         <p class="max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-2.5 text-xs sm:text-sm shadow-sm leading-relaxed ${
           w === 'out'
             ? 'rounded-br-sm bg-brand-500 text-white'
             : 'rounded-bl-sm bg-white text-ink dark:bg-slate-800 dark:text-slate-100 border border-brand-100/60 dark:border-slate-700'
         }">${esc(t)}</p>
       </div>`;
+
+    const scrollToBottom = (smooth = true) => {
+      requestAnimationFrame(() => {
+        if (box) {
+          box.scrollTo({
+            top: box.scrollHeight,
+            behavior: smooth ? 'smooth' : 'auto'
+          });
+        }
+      });
+    };
 
     const renderList = () => {
       list.innerHTML = D.map((d, i) => `
@@ -714,8 +747,13 @@
     const renderChat = () => {
       chatTitle.textContent = D[cur].n;
       if (chatImg) chatImg.src = D[cur].img || 'img/avatars/user-alexey.jpg';
-      box.innerHTML = D[cur].m.map(bubble).join('');
-      box.scrollTop = box.scrollHeight;
+      box.innerHTML = D[cur].m.map((m) => bubble(m, false)).join('');
+      scrollToBottom(false);
+    };
+
+    const appendMessage = (msg) => {
+      box.insertAdjacentHTML('beforeend', bubble(msg, true));
+      scrollToBottom(true);
     };
 
     const openChat = (i) => {
@@ -735,20 +773,23 @@
       e.preventDefault();
       const t = inp.value.trim();
       if (!t) return;
-      D[cur].m.push(['out', t]);
+      const outMsg = ['out', t];
+      D[cur].m.push(outMsg);
       inp.value = '';
+      inp.focus();
       save();
-      renderChat();
+      appendMessage(outMsg);
       renderList();
 
       const at = cur;
       setTimeout(() => {
-        D[at].m.push(['in', replies[Math.floor(Math.random() * replies.length)]]);
+        const inMsg = ['in', replies[Math.floor(Math.random() * replies.length)]];
+        D[at].m.push(inMsg);
         if (at !== cur) D[at].u++;
         save();
-        if (at === cur) renderChat();
+        if (at === cur) appendMessage(inMsg);
         renderList();
-      }, 1000);
+      }, 900);
     });
 
     openChat(cur);

@@ -84,7 +84,7 @@ const Store = {
     const l = this.get('log', []);
     l.unshift({ t: Date.now(), pts, why });
     this.set('log', l);
-    window.toast?.(`+${pts} лень-баллов · ${why}`);
+    window.toast?.(`+${pts} лень-баллов — ${why}`);
   },
 
   points() {

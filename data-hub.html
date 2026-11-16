@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Реестр лени & Voyager Hub (Vue 3) — ЛЕНТЯIN</title>
+  <title>Реестр задач — ЛЕНТЯIN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
@@ -352,7 +352,7 @@
         <div class="flex items-center justify-between border-b border-slate-200/80 pb-4 dark:border-slate-800">
           <div>
             <h2 id="log-title" class="h2 text-ink dark:text-white">Таблица Log: Журнал аудита действий</h2>
-            <p class="muted text-xs sm:text-sm">История всех операций с возможностью сравнения состояния объекта До/После (vue-json-compare)</p>
+            <p class="muted text-xs sm:text-sm">История всех операций с возможностью сравнения состояния объекта До и После</p>
           </div>
           <span class="badge badge-brand font-mono">{{ logs.length }} событий</span>
         </div>
@@ -513,9 +513,9 @@
                   </div>
                   <div class="text-[10px] text-slate-400 flex items-center gap-2 mt-0.5">
                     <span>{{ file.size }}</span>
-                    <span>•</span>
+                    <span>/</span>
                     <span>{{ file.date }}</span>
-                    <span>•</span>
+                    <span>/</span>
                     <span class="text-brand-500 dark:text-gold">{{ file.storage === 'gdrive' ? 'Google Drive' : 'Local Storage' }}</span>
                   </div>
                 </div>
@@ -771,9 +771,10 @@
         </div>
       </div>
 
-      <!-- ================= МОДАЛКА DIFF СРАВНЕНИЯ (VUE-JSON-COMPARE) ================= -->
+      <!-- ================= МОДАЛКА DIFF СРАВНЕНИЯ ОБЪЕКТОВ ================= -->
       <div
         v-if="diffModal.isOpen"
+        data-component="vue-json-compare"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
@@ -781,8 +782,8 @@
         <div class="card max-w-2xl w-full space-y-4 border border-slate-200 dark:border-slate-800 shadow-2xl animate-fade-up">
           <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <div>
-              <h3 class="font-display text-base font-bold text-ink dark:text-white">Инспектор изменений объекта (vue-json-compare)</h3>
-              <p class="muted text-xs font-mono">{{ diffModal.item?.title }} • {{ diffModal.item?.timestamp }}</p>
+              <h3 class="font-display text-base font-bold text-ink dark:text-white">Инспектор изменений объекта</h3>
+              <p class="muted text-xs font-mono">{{ diffModal.item?.title }} / {{ diffModal.item?.timestamp }}</p>
             </div>
             <button type="button" class="icon-btn h-8 w-8" @click="diffModal.isOpen = false">
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
