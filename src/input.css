@@ -218,4 +218,8 @@
   .table-clean td {
     @apply px-4 py-3.5 transition-colors;
   }
+
+  [v-cloak] {
+    display: none !important;
+  }
 }

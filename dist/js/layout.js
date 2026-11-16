@@ -132,7 +132,7 @@
   const APP_NAV = [
     ['feed', 'feed.html', 'newspaper', 'Лента'],
     ['dashboard', 'dashboard.html', 'chart', 'Мой рейтинг'],
-    ['hub', 'data-hub.html', 'chart', 'Реестр'],
+    ['hub', 'data-hub.html', 'table', 'Реестр'],
     ['messenger', 'messenger.html', 'messenger', 'Мессенджер'],
     ['board', 'board.html', 'board', 'Доска «Отложено»'],
     ['shop', 'shop.html', 'shop', 'Магазин'],

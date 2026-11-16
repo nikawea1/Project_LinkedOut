@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dist/style.css">
+  <style>
+    [v-cloak] { display: none !important; }
+  </style>
   <script src="js/theme.js"></script>
 </head>
 <body data-page="hub">
@@ -643,6 +646,9 @@
       <!-- ================= ПЕРЕИСПОЛЬЗУЕМЫЙ МОДАЛЬНЫЙ КОМПОНЕНТ (ДЕНЬ 5-6-7) ================= -->
       <div
         v-if="dataModal.isOpen"
+        v-cloak
+        style="display: none;"
+        :style="{ display: dataModal.isOpen ? 'flex' : 'none' }"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
@@ -727,6 +733,9 @@
       <!-- ================= МОДАЛКА ОШИБКИ ФОРМАТА (НЕ-EXCEL) ================= -->
       <div
         v-if="errorModal.isOpen"
+        v-cloak
+        style="display: none;"
+        :style="{ display: errorModal.isOpen ? 'flex' : 'none' }"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
@@ -774,6 +783,9 @@
       <!-- ================= МОДАЛКА DIFF СРАВНЕНИЯ ОБЪЕКТОВ ================= -->
       <div
         v-if="diffModal.isOpen"
+        v-cloak
+        style="display: none;"
+        :style="{ display: diffModal.isOpen ? 'flex' : 'none' }"
         data-component="vue-json-compare"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
         role="dialog"
@@ -832,7 +844,7 @@
   <script src="js/data.js"></script>
   <script src="js/layout.js"></script>
   <script src="js/vendor/vue.global.prod.js"></script>
-  <script src="js/vendor/xlsx.full.min.js"></script>
+  <script src="js/vendor/xlsx.full.min.js" defer></script>
   <script src="js/data-hub-app.js"></script>
 </body>
 </html>
