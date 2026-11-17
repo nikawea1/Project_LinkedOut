@@ -8,13 +8,18 @@ if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir, { recursive: true });
 }
 
-// Копируем HTML файлы в dist
+// Копируем HTML файлы в dist и корректируем путь к стилям для корня dist
 const htmlFiles = fs.readdirSync(rootDir).filter(f => f.endsWith('.html'));
 htmlFiles.forEach(file => {
   const src = path.join(rootDir, file);
   const dest = path.join(distDir, file);
-  fs.copyFileSync(src, dest);
+  let content = fs.readFileSync(src, 'utf8');
+  content = content.replace(/href="dist\/style\.css"/g, 'href="style.css"');
+  fs.writeFileSync(dest, content, 'utf8');
 });
+
+// Добавляем .nojekyll для корректной работы на GitHub Pages
+fs.writeFileSync(path.join(distDir, '.nojekyll'), '');
 
 // Рекурсивное копирование папок
 function copyDir(src, dest) {
