@@ -26,23 +26,23 @@
           <div class="flex items-center gap-2 mb-2">
             <span class="badge badge-gold">Корпоративный шлюз</span>
             <span class="badge badge-brand">Импорт табелей</span>
-            <span class="badge bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">Аудит прокрастинации</span>
+            <span class="badge bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">История активности</span>
           </div>
-          <h1 class="h2 text-ink dark:text-white">Реестр задач & Центр управления Voyager</h1>
+          <h1 class="h2 text-ink dark:text-white">Реестр задач & Совет Гильдии</h1>
           <p class="muted text-xs sm:text-sm mt-1">
-            Единый центр импорта корпоративных табелей, управления задачами прокрастинации, аудита изменений и ролей.
+            Единый центр импорта табелей, учёта сохранённых часов отдыха, управления статусами участников и хроники событий.
           </p>
         </div>
 
         <!-- Переключатель вкладок -->
-        <nav class="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60" aria-label="Вкладки Data Hub">
+        <nav class="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60" aria-label="Вкладки">
           <button
             type="button"
             @click="activeTab = 'table'"
             :class="activeTab === 'table' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
             class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
           >
-            Таблица данных
+            Реестр задач
           </button>
           <button
             type="button"
@@ -50,7 +50,7 @@
             :class="activeTab === 'import' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
             class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
           >
-            Импорт Excel (.xlsx)
+            Импорт табеля
           </button>
           <button
             type="button"
@@ -58,7 +58,7 @@
             :class="activeTab === 'log' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
             class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
           >
-            <span>Журнал Log</span>
+            <span>История изменений</span>
             <span class="badge badge-brand text-[10px] px-1.5 py-0">{{ logs.length }}</span>
           </button>
           <button
@@ -67,7 +67,7 @@
             :class="activeTab === 'voyager' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
             class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
           >
-            Voyager Admin
+            Совет Гильдии
           </button>
           <button
             type="button"
@@ -75,7 +75,7 @@
             :class="activeTab === 'api' ? 'bg-white shadow-sm text-brand-900 dark:bg-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-ink'"
             class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
           >
-            REST API v1/v2
+            Синхронизация
           </button>
         </nav>
       </div>
@@ -100,9 +100,9 @@
             <div class="text-[11px] text-gold font-semibold">Ранг повышен</div>
           </div>
           <div class="card p-4 space-y-1">
-            <span class="text-xs text-ink-muted">Действий в аудите</span>
+            <span class="text-xs text-ink-muted">Зафиксировано событий</span>
             <div class="font-display text-xl sm:text-2xl font-bold text-ink dark:text-white">{{ stats.logCount }}</div>
-            <div class="text-[11px] text-brand-500 font-semibold">Diff-трекинг активен</div>
+            <div class="text-[11px] text-brand-500 font-semibold">История сохраняется</div>
           </div>
         </div>
 
@@ -248,14 +248,14 @@
             </div>
 
             <div class="flex items-center gap-3">
-              <!-- КНОПКА ЛЕНИВОЙ ПОДГРУЗКИ  -->
+              <!-- КНОПКА ПОДГРУЗКИ СТРОК  -->
               <button
                 v-if="filteredTasks.length > paginatedTasks.length"
                 type="button"
                 @click="loadMoreTasks"
                 class="btn btn-outline btn-sm text-xs font-semibold"
               >
-                Ленивая подгрузка (+10 строк)
+                Показать ещё 10 записей
               </button>
 
               <!-- Постраничная пагинация (> 10 строк) -->
@@ -289,9 +289,9 @@
       <section v-if="activeTab === 'import'" class="max-w-3xl mx-auto space-y-6" aria-labelledby="import-title">
         <div class="text-center space-y-2 mb-6">
           <p class="eyebrow">Интеграция с корпоративным миром</p>
-          <h2 id="import-title" class="h2">Импорт Excel-табеля задач</h2>
+          <h2 id="import-title" class="h2">Импорт табеля задач</h2>
           <p class="body text-xs sm:text-sm max-w-lg mx-auto">
-            Загрузите реестр задач из вашей корпоративной Jira, Asana или Google Sheets. Платформа парсит файл, начисляет баллы за отложенные дела и сохраняет файл в локальное хранилище.
+            Загрузите рабочий график или список задач. Платформа распознает записи, подсчитает сохранённые часы и сохранит табель в ваш личный архив.
           </p>
         </div>
 
@@ -305,7 +305,7 @@
           @click="$refs.fileInput.click()"
           role="button"
           tabindex="0"
-          aria-label="Загрузить Excel файл"
+          aria-label="Загрузить файл табеля"
         >
           <input
             ref="fileInput"
@@ -321,16 +321,16 @@
           </div>
 
           <p class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">
-            Перетащите сюда Excel-файл (.xlsx, .xls)
+            Перетащите сюда файл табеля (.xlsx, .xls)
           </p>
           <p class="muted mt-1 max-w-sm text-xs sm:text-sm">
-            или нажмите для выбора файла на диске. Все не-Excel файлы будут мгновенно отклонены валидатором.
+            или нажмите для выбора файла на устройстве. Поддерживаются форматы электронных таблиц.
           </p>
 
           <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
             <span class="badge badge-brand">.XLSX</span>
             <span class="badge badge-brand">.XLS</span>
-            <span class="badge badge-gold">Автопарсинг SheetJS</span>
+            <span class="badge badge-gold">Мгновенная обработка</span>
           </div>
         </div>
 
@@ -338,7 +338,7 @@
         <div class="flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <div class="text-xs sm:text-sm">
             <span class="font-semibold text-ink dark:text-white block">Демонстрационный образец табеля</span>
-            <span class="muted text-[11px] sm:text-xs">Скачайте готовый `.xlsx` файл для моментальной проверки парсинга.</span>
+            <span class="muted text-[11px] sm:text-xs">Скачайте готовый образец для быстрой проверки загрузки.</span>
           </div>
           <button
             type="button"
@@ -354,8 +354,8 @@
       <section v-if="activeTab === 'log'" class="space-y-6" aria-labelledby="log-title">
         <div class="flex items-center justify-between border-b border-slate-200/80 pb-4 dark:border-slate-800">
           <div>
-            <h2 id="log-title" class="h2 text-ink dark:text-white">Таблица Log: Журнал аудита действий</h2>
-            <p class="muted text-xs sm:text-sm">История всех операций с возможностью сравнения состояния объекта До и После</p>
+            <h2 id="log-title" class="h2 text-ink dark:text-white">История изменений и событий</h2>
+            <p class="muted text-xs sm:text-sm">Хроника всех действий с возможностью посмотреть детали каждого изменения</p>
           </div>
           <span class="badge badge-brand font-mono">{{ logs.length }} событий</span>
         </div>
@@ -365,11 +365,11 @@
             <thead>
               <tr>
                 <th>Событие</th>
-                <th>Действие</th>
+                <th>Тип</th>
                 <th>Описание</th>
-                <th>Автор</th>
+                <th>Участник</th>
                 <th>Время</th>
-                <th class="text-right">Инспектор Diff</th>
+                <th class="text-right">Детали</th>
               </tr>
             </thead>
             <tbody>
@@ -377,14 +377,14 @@
                 <td class="font-mono text-slate-400">#{{ l.id.toString().slice(-4) }}</td>
                 <td>
                   <span
-                    class="badge font-mono"
+                    class="badge"
                     :class="{
                       'badge-success': l.action === 'CREATE' || l.action === 'EXCEL_IMPORT',
                       'badge-brand': l.action === 'UPDATE' || l.action === 'ROLE_CHANGE',
                       'badge-danger': l.action === 'DELETE' || l.action === 'FILE_DELETE'
                     }"
                   >
-                    {{ l.action }}
+                    {{ l.action === 'CREATE' ? 'Создание' : l.action === 'EXCEL_IMPORT' ? 'Импорт табеля' : l.action === 'UPDATE' ? 'Изменение' : l.action === 'ROLE_CHANGE' ? 'Смена статуса' : l.action === 'DELETE' ? 'Удаление' : l.action === 'FILE_DELETE' ? 'Удаление файла' : l.action }}
                   </span>
                 </td>
                 <td class="font-semibold text-ink dark:text-white">{{ l.title }}</td>
@@ -396,7 +396,7 @@
                     @click="viewDiff(l)"
                     class="btn btn-outline btn-sm text-[11px] py-1 px-2.5"
                   >
-                    Сравнить До/После
+                    Посмотреть изменения
                   </button>
                 </td>
               </tr>
@@ -405,101 +405,93 @@
         </div>
       </section>
 
-      <!-- ================= ВКЛАДКА 4: VOYAGER ADMIN ================= -->
+      <!-- ================= ВКЛАДКА 4: СОВЕТ ГИЛЬДИИ ================= -->
       <section v-if="activeTab === 'voyager'" class="space-y-6" aria-labelledby="voyager-title">
-        <!-- Top Voyager Header -->
+        <!-- Top Guild Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-brand-900 text-white shadow-lg">
           <div class="flex items-center gap-3">
             <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gold text-brand-950 font-display font-bold text-lg">
-              V
+              Л
             </div>
             <div>
-              <h2 id="voyager-title" class="font-display text-base sm:text-lg font-bold text-white">Voyager Administration Control Panel</h2>
-              <p class="text-xs text-brand-200">Центр управления доступом, ролями и файловыми дампами платформы</p>
+              <h2 id="voyager-title" class="font-display text-base sm:text-lg font-bold text-white">Совет Гильдии Лентяев</h2>
+              <p class="text-xs text-brand-200">Управление статусами участников сообщества и архивом документов</p>
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="badge bg-white/10 text-gold text-xs font-mono">v3.4.0-voyager</span>
+            <span class="badge bg-white/10 text-gold text-xs font-medium">Высший совет</span>
             <button
               type="button"
               @click="syncGoogleDrive"
               class="btn btn-primary btn-sm text-xs"
             >
-              Синхронизировать Google Drive
+              Синхронизировать с облаком
             </button>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Role Management Table -->
+          <!-- Role Management List (NO horizontal scroll, perfectly responsive) -->
           <div class="card space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <div>
-                <h3 class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">Управление ролями пользователей</h3>
-                <p class="muted text-xs">Назначение привилегий и уровней саботажа</p>
+                <h3 class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">Статусы участников сообщества</h3>
+                <p class="muted text-xs">Назначение званий и распределение привилегий</p>
               </div>
               <span class="badge badge-brand">{{ users.length }} профилей</span>
             </div>
 
-            <div class="overflow-x-auto">
-              <table class="table-clean text-xs">
-                <thead>
-                  <tr>
-                    <th>Пользователь</th>
-                    <th>Текущая роль</th>
-                    <th>Изменить</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="u in users" :key="u.email">
-                    <td class="font-semibold text-ink dark:text-white">
-                      <div>{{ u.name }}</div>
-                      <div class="text-[10px] text-slate-400 font-mono">{{ u.email }}</div>
-                    </td>
-                    <td>
-                      <span
-                        class="badge"
-                        :class="u.role === 'Архимагистр лени' ? 'badge-gold' : u.role === 'Старший саботажник' ? 'badge-brand' : 'badge-success'"
-                      >
-                        {{ u.role }}
-                      </span>
-                    </td>
-                    <td>
-                      <select
-                        :value="u.role"
-                        @change="updateRole({ email: u.email, role: $event.target.value })"
-                        class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-1 text-xs text-ink dark:text-white cursor-pointer"
-                      >
-                        <option value="Архимагистр лени">Архимагистр лени</option>
-                        <option value="Старший саботажник">Старший саботажник</option>
-                        <option value="Инженер дивана">Инженер дивана</option>
-                        <option value="Стажёр">Стажёр</option>
-                      </select>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="space-y-2.5">
+              <div
+                v-for="u in users"
+                :key="u.email"
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40"
+              >
+                <div class="min-w-0 pr-2">
+                  <div class="font-semibold text-xs text-ink dark:text-white truncate">{{ u.name }}</div>
+                  <div class="text-[11px] text-slate-400 font-mono truncate">{{ u.email }}</div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span
+                    class="badge text-xs"
+                    :class="u.role === 'Архимагистр лени' ? 'badge-gold' : u.role === 'Старший саботажник' ? 'badge-brand' : 'badge-success'"
+                  >
+                    {{ u.role }}
+                  </span>
+                  <select
+                    :value="u.role"
+                    @change="updateRole({ email: u.email, role: $event.target.value })"
+                    class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs text-ink dark:text-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-brand-500"
+                    aria-label="Изменить звание"
+                  >
+                    <option value="Архимагистр лени">Архимагистр лени</option>
+                    <option value="Старший саботажник">Старший саботажник</option>
+                    <option value="Инженер дивана">Инженер дивана</option>
+                    <option value="Стажёр">Стажёр</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- File Storage Management (Local + Google Drive) -->
+          <!-- File Storage Management (Local + Cloud) -->
           <div class="card space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <div>
-                <h3 class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">Хранилище файлов и дампов</h3>
-                <p class="muted text-xs">Локальное хранилище браузера и облако Google Drive</p>
+                <h3 class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">Архив табелей и документов</h3>
+                <p class="muted text-xs">Память устройства и защищённое облачное хранилище</p>
               </div>
               <button
                 type="button"
                 @click="downloadDump"
                 class="text-xs text-brand-500 dark:text-gold hover:underline font-semibold"
               >
-                Экспорт JSON-дампа
+                Скачать резервную копию
               </button>
             </div>
 
             <div v-if="files.length === 0" class="p-6 text-center text-xs text-slate-400 italic">
-              Файлы пока не загружены. Перетащите Excel-файл во вкладке импорта.
+              Архив пока пуст. Загрузите табель во вкладке импорта.
             </div>
             <div v-else class="space-y-2">
               <div
@@ -519,7 +511,7 @@
                     <span>/</span>
                     <span>{{ file.date }}</span>
                     <span>/</span>
-                    <span class="text-brand-500 dark:text-gold">{{ file.storage === 'gdrive' ? 'Google Drive' : 'Local Storage' }}</span>
+                    <span class="text-brand-500 dark:text-gold">{{ file.storage === 'gdrive' ? 'Облачный диск' : 'Память устройства' }}</span>
                   </div>
                 </div>
 
@@ -538,7 +530,7 @@
                     type="button"
                     @click="deleteFile(file.id)"
                     class="icon-btn h-7 w-7 text-danger hover:bg-danger/10 text-xs"
-                    title="Удалить из хранилища"
+                    title="Удалить из архива"
                   >
                     <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -551,19 +543,19 @@
         </div>
       </section>
 
-      <!-- ================= ВКЛАДКА 5: REST API V1/V2 ================= -->
+      <!-- ================= ВКЛАДКА 5: СИНХРОНИЗАЦИЯ ================= -->
       <section v-if="activeTab === 'api'" class="space-y-6" aria-labelledby="api-title">
         <div class="border-b border-slate-200/80 pb-4 dark:border-slate-800">
-          <h2 id="api-title" class="h2 text-ink dark:text-white">Интерактивная консоль REST API</h2>
+          <h2 id="api-title" class="h2 text-ink dark:text-white">Шлюз интеграций и синхронизации</h2>
           <p class="muted text-xs sm:text-sm">
-            Асинхронные методы CRUD: GET, POST, PUT, DELETE с поддержкой версий эндпоинтов /api/v1 и /api/v2.
+            Подключение внешних сервисов: умных будильников, рабочих календарей и трекеров отдыха.
           </p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Панель вызова методов -->
           <div class="card space-y-3">
-            <h3 class="font-display text-sm font-bold text-ink dark:text-white">Тестирование эндпоинтов</h3>
+            <h3 class="font-display text-sm font-bold text-ink dark:text-white">Каналы синхронизации</h3>
             <div class="space-y-2">
               <button
                 type="button"
@@ -571,10 +563,10 @@
                 class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
               >
                 <div>
-                  <span class="badge badge-success font-mono font-bold mr-1.5">GET</span>
-                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks</span>
+                  <span class="badge badge-success font-semibold mr-1.5">Календарь</span>
+                  <span class="text-ink dark:text-white font-medium">Запросить задачи</span>
                 </div>
-                <span class="text-[10px] text-slate-400">Список задач</span>
+                <span class="text-[10px] text-slate-400">Обновить</span>
               </button>
 
               <button
@@ -583,10 +575,10 @@
                 class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
               >
                 <div>
-                  <span class="badge badge-brand font-mono font-bold mr-1.5">POST</span>
-                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks</span>
+                  <span class="badge badge-brand font-semibold mr-1.5">Умный дом</span>
+                  <span class="text-ink dark:text-white font-medium">Запланировать отдых</span>
                 </div>
-                <span class="text-[10px] text-slate-400">Создать задачу</span>
+                <span class="text-[10px] text-slate-400">Создать</span>
               </button>
 
               <button
@@ -595,10 +587,10 @@
                 class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
               >
                 <div>
-                  <span class="badge badge-warning font-mono font-bold mr-1.5">PUT</span>
-                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks/:id</span>
+                  <span class="badge badge-warning font-semibold mr-1.5">Трекер</span>
+                  <span class="text-ink dark:text-white font-medium">Продлить время лени</span>
                 </div>
-                <span class="text-[10px] text-slate-400">Обновить</span>
+                <span class="text-[10px] text-slate-400">Изменить</span>
               </button>
 
               <button
@@ -607,8 +599,8 @@
                 class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
               >
                 <div>
-                  <span class="badge badge-danger font-mono font-bold mr-1.5">DELETE</span>
-                  <span class="font-mono text-ink dark:text-white">/api/v1/tasks/:id</span>
+                  <span class="badge badge-danger font-semibold mr-1.5">Почта</span>
+                  <span class="text-ink dark:text-white font-medium">Отменить созвон</span>
                 </div>
                 <span class="text-[10px] text-slate-400">Удалить</span>
               </button>
@@ -619,26 +611,26 @@
                 class="w-full text-left p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 transition-colors flex items-center justify-between text-xs"
               >
                 <div>
-                  <span class="badge badge-gold font-mono font-bold mr-1.5">GET</span>
-                  <span class="font-mono text-ink dark:text-white">/api/v2/audit-log</span>
+                  <span class="badge badge-gold font-semibold mr-1.5">Аналитика</span>
+                  <span class="text-ink dark:text-white font-medium">История активности</span>
                 </div>
-                <span class="text-[10px] text-slate-400">Аудит v2</span>
+                <span class="text-[10px] text-slate-400">Сводка</span>
               </button>
             </div>
           </div>
 
           <!-- Консоль ответа -->
-          <div class="card lg:col-span-2 space-y-3 bg-slate-900 text-white font-mono text-xs border border-slate-800">
+          <div class="card lg:col-span-2 space-y-3 bg-slate-900 text-white text-xs border border-slate-800">
             <div class="flex items-center justify-between border-b border-slate-800 pb-2">
               <div class="flex items-center gap-2">
-                <span class="badge font-mono" :class="apiConsole.status < 300 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'">
-                  HTTP {{ apiConsole.status }} OK
+                <span class="badge" :class="apiConsole.status < 300 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'">
+                  Статус: Успешно
                 </span>
-                <span class="text-slate-400">{{ apiConsole.method }} {{ apiConsole.endpoint }}</span>
+                <span class="text-slate-300 font-medium">Канал связи синхронизирован</span>
               </div>
-              <span class="text-slate-500 text-[11px]">{{ apiConsole.latency }} ms</span>
+              <span class="text-slate-400 text-[11px] font-mono">{{ apiConsole.latency }} мс</span>
             </div>
-            <pre class="p-2 overflow-x-auto text-[11px] text-slate-300 leading-relaxed max-h-[320px]">{{ apiConsole.response }}</pre>
+            <pre class="p-2 overflow-x-auto text-[11px] text-slate-300 leading-relaxed max-h-[320px] font-mono">{{ apiConsole.response }}</pre>
           </div>
         </div>
       </section>
@@ -749,7 +741,7 @@
             </div>
             <div>
               <h3 class="font-display text-base font-bold text-ink dark:text-white">Ошибка формата файла</h3>
-              <p class="muted text-xs">Платформа принимает исключительно таблицы Excel.</p>
+              <p class="muted text-xs">Пожалуйста, выберите файл в формате электронной таблицы (.xlsx или .xls).</p>
             </div>
           </div>
 
@@ -774,13 +766,13 @@
 
           <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
             <button type="button" class="btn btn-secondary btn-sm" @click="errorModal.isOpen = false">
-              Понятно, выберу Excel
+              Понятно, выбрать другой файл
             </button>
           </div>
         </div>
       </div>
 
-      <!-- ================= МОДАЛКА DIFF СРАВНЕНИЯ ОБЪЕКТОВ ================= -->
+      <!-- ================= МОДАЛКА СРАВНЕНИЯ ПАРАМЕТРОВ ================= -->
       <div
         v-if="diffModal.isOpen"
         v-cloak
@@ -794,7 +786,7 @@
         <div class="card max-w-2xl w-full space-y-4 border border-slate-200 dark:border-slate-800 shadow-2xl animate-fade-up">
           <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <div>
-              <h3 class="font-display text-base font-bold text-ink dark:text-white">Инспектор изменений объекта</h3>
+              <h3 class="font-display text-base font-bold text-ink dark:text-white">Детали изменений записи</h3>
               <p class="muted text-xs font-mono">{{ diffModal.item?.title }} / {{ diffModal.item?.timestamp }}</p>
             </div>
             <button type="button" class="icon-btn h-8 w-8" @click="diffModal.isOpen = false">
@@ -805,20 +797,20 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
             <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-3 overflow-x-auto">
               <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-1 mb-2 font-sans">
-                До изменения (BEFORE)
+                Предыдущая версия
               </div>
               <div v-if="!diffModal.item?.before" class="text-slate-400 italic font-sans text-xs">
-                (Объект только что создан)
+                (Новая запись, предыдущие данные отсутствуют)
               </div>
               <pre v-else class="text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">{{ JSON.stringify(diffModal.item.before, null, 2) }}</pre>
             </div>
 
             <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-3 overflow-x-auto">
               <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-1 mb-2 font-sans">
-                После изменения (AFTER)
+                Текущая версия
               </div>
               <div v-if="!diffModal.item?.after" class="text-slate-400 italic font-sans text-xs">
-                (Объект удалён)
+                (Запись удалена из реестра)
               </div>
               <pre v-else class="text-[11px] leading-relaxed text-emerald-700 dark:text-emerald-400 font-semibold">{{ JSON.stringify(diffModal.item.after, null, 2) }}</pre>
             </div>
@@ -826,7 +818,7 @@
 
           <div class="flex justify-end pt-2 border-t border-slate-100 dark:border-slate-800">
             <button type="button" class="btn btn-outline btn-sm" @click="diffModal.isOpen = false">
-              Закрыть инспектор
+              Закрыть окно
             </button>
           </div>
         </div>

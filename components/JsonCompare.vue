@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-3 font-mono text-xs">
     <div class="flex items-center justify-between text-xs">
-      <span class="font-semibold font-sans text-ink dark:text-white">Сравнение снимка объекта (Diff Inspector)</span>
+      <span class="font-semibold font-sans text-ink dark:text-white">Сравнение параметров записи</span>
       <div class="flex items-center gap-3">
         <span class="flex items-center gap-1 text-[11px] text-danger font-sans">
           <span class="h-2 w-2 rounded-full bg-danger"></span> До изменения
@@ -16,10 +16,10 @@
       <!-- Before Box -->
       <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-3 overflow-x-auto">
         <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-1.5 mb-2 font-sans">
-          Состояние BEFORE
+          Предыдущая версия
         </div>
         <div v-if="!before" class="text-slate-400 italic font-sans text-xs">
-          (Объект только что создан, предыдущее состояние отсутствует)
+          (Новая запись, предыдущие данные отсутствуют)
         </div>
         <div v-else class="space-y-1">
           <div
@@ -37,10 +37,10 @@
       <!-- After Box -->
       <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-3 overflow-x-auto">
         <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-1.5 mb-2 font-sans">
-          Состояние AFTER
+          Текущая версия
         </div>
         <div v-if="!after" class="text-slate-400 italic font-sans text-xs">
-          (Объект удалён из реестра)
+          (Запись удалена из реестра)
         </div>
         <div v-else class="space-y-1">
           <div

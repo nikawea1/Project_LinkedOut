@@ -29,16 +29,16 @@
       </div>
 
       <p class="font-display text-sm sm:text-base font-bold text-ink dark:text-white">
-        Перетащите сюда Excel-файл (.xlsx, .xls)
+        Перетащите сюда файл табеля (.xlsx, .xls)
       </p>
       <p class="muted mt-1 max-w-sm text-xs sm:text-sm">
-        или нажмите для выбора файла на устройстве. Система автоматически спарсит задачи и рассчитает сохранённые часы.
+        или нажмите для выбора файла на устройстве. Система автоматически считает задачи и сохранит часы отдыха в реестр.
       </p>
 
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
         <span class="badge badge-brand">.xlsx</span>
         <span class="badge badge-brand">.xls</span>
-        <span class="badge badge-gold">Табель лени v3.0</span>
+        <span class="badge badge-gold">Автоматический расчёт</span>
       </div>
     </div>
 
@@ -75,7 +75,7 @@
             </div>
             <div>
               <h3 class="font-display text-base font-bold text-ink dark:text-white">Ошибка формата файла</h3>
-              <p class="muted text-xs">Платформа принимает исключительно таблицы Excel.</p>
+              <p class="muted text-xs">Пожалуйста, выберите файл в формате электронной таблицы (.xlsx или .xls).</p>
             </div>
           </div>
 
@@ -95,7 +95,7 @@
           </div>
 
           <p class="text-xs text-ink-soft dark:text-slate-400 leading-relaxed">
-            Пожалуйста, экспортируйте ваш табель или задачи из Jira / Google Sheets в формате <b>Microsoft Excel (.xlsx)</b> и повторите попытку.
+            Пожалуйста, сохраните файл в формате <b>электронной таблицы (.xlsx или .xls)</b> и повторите попытку.
           </p>
 
           <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">

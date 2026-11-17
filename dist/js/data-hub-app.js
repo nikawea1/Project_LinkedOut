@@ -156,7 +156,7 @@
           errorModal.isOpen = true;
           errorModal.fileName = fileName;
           errorModal.fileType = file.type || fileExt || 'неизвестный';
-          errorModal.reason = 'Платформа принимает исключительно таблицы Microsoft Excel (.xlsx, .xls). Загрузка других форматов заблокирована.';
+          errorModal.reason = 'Пожалуйста, выберите файл в формате электронной таблицы (.xlsx или .xls).';
           return false;
         }
         return true;
@@ -267,10 +267,10 @@
         }
       };
 
-      // Lazy Loading action
+      // Loading more records action
       const loadMoreTasks = () => {
         lazyLimit.value += 10;
-        showToast(`Ленивая подгрузка: показано ${Math.min(lazyLimit.value, filteredTasks.value.length)} строк`);
+        showToast(`Показано ${Math.min(lazyLimit.value, filteredTasks.value.length)} записей`);
       };
 
       // CRUD Modal Actions
@@ -378,7 +378,7 @@
             action: 'ROLE_CHANGE',
             title: `Смена роли для ${u.name}`,
             timestamp: new Date().toLocaleString('ru-RU'),
-            author: 'Администратор Voyager',
+            author: 'Совет Гильдии',
             before: { user: u.name, role: oldRole },
             after: { user: u.name, role: role },
           });
@@ -397,7 +397,7 @@
           action: 'FILE_DELETE',
           title: `Удалён файл «${f.name}»`,
           timestamp: new Date().toLocaleString('ru-RU'),
-          author: 'Администратор Voyager',
+          author: 'Совет Гильдии',
           before: f,
           after: null,
         });
@@ -425,7 +425,7 @@
           storage: 'gdrive',
           rows: tasks.value.length,
         });
-        showToast('Резервный дамп успешно синхронизирован с Google Drive!');
+        showToast('Резервная копия успешно синхронизирована с облаком!');
       };
 
       const downloadDump = () => {
@@ -437,7 +437,7 @@
         a.download = `lentyain_database_dump_${Date.now()}.json`;
         a.click();
         URL.revokeObjectURL(url);
-        showToast('JSON-дамп базы данных выгружен');
+        showToast('Резервная копия реестра сохранена');
       };
 
       // REST API Client
