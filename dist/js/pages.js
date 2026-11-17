@@ -442,16 +442,17 @@
     }
 
     let filter = 'all';
-    const posts = () => Store.get('posts', POSTS);
+    const posts = () => (window.LentyainDB ? window.LentyainDB.posts.all() : Store.get('posts', POSTS));
 
     const commentHtml = (c) => `
-      <li class="rounded-xl bg-brand-50 px-3.5 py-2 text-xs sm:text-sm dark:bg-slate-800/80 border border-brand-100/50 dark:border-slate-700/60">
-        <span class="font-bold text-brand-900 dark:text-white">${esc(c.n)}:</span>
-        <span class="text-ink dark:text-slate-200">${esc(c.t)}</span>
+      <li class="rounded-xl bg-slate-50 px-3.5 py-2 text-xs sm:text-sm dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60">
+        <span class="font-bold text-ink dark:text-white">${esc(c.n)}:</span>
+        <span class="text-ink-soft dark:text-slate-200">${esc(c.t)}</span>
       </li>`;
 
     const postHtml = (p, liked) => {
       const authorImg = p.img || 'img/avatars/user-alexey.jpg';
+      const commentsList = p.comments || [];
       const heartIcon = window.Icons
         ? Icons.heart('h-4 w-4', liked)
         : '<svg class="h-4 w-4 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
@@ -459,12 +460,12 @@
       return `
         <article class="card space-y-3 sm:space-y-4 shadow-sm" data-id="${p.id}">
           <header class="flex items-center gap-3">
-            <div class="h-10 w-10 rounded-full overflow-hidden shadow-sm shrink-0 border border-brand-200 dark:border-slate-700">
+            <div class="h-10 w-10 rounded-full overflow-hidden shadow-sm shrink-0 border border-slate-200 dark:border-slate-700">
               <img src="${authorImg}" alt="${esc(p.a)}" class="h-full w-full object-cover">
             </div>
             <div class="min-w-0 flex-1">
               <p class="truncate text-xs sm:text-sm font-bold">${esc(p.a)}</p>
-              <p class="muted truncate text-[11px]">${esc(p.role)} / <span class="text-brand-500 dark:text-gold font-semibold">${TYPES[p.type] || 'Запись'}</span></p>
+              <p class="muted truncate text-[11px]">${esc(p.role)} / <span class="text-gold-dark dark:text-gold font-semibold">${TYPES[p.type] || 'Запись'}</span></p>
             </div>
           </header>
           
@@ -472,15 +473,15 @@
           
           <div class="flex items-center gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
             <button type="button" data-like aria-pressed="${liked}" class="btn-like">
-              ${heartIcon} <span data-lcount class="font-mono">${p.likes}</span>
+              ${heartIcon} <span data-lcount class="font-mono">${p.likes || 0}</span>
             </button>
           </div>
 
-          <details class="group border-t border-brand-100 pt-2.5 dark:border-slate-700/80">
+          <details class="group border-t border-slate-100 pt-2.5 dark:border-slate-800">
             <summary class="btn btn-ghost btn-sm inline-flex items-center gap-1.5 cursor-pointer list-none [&::-webkit-details-marker]:hidden text-xs">
-              ${commentIcon} <span>Комментарии (<span data-ccount class="font-mono">${p.comments.length}</span>)</span>
+              ${commentIcon} <span>Комментарии (<span data-ccount class="font-mono">${commentsList.length}</span>)</span>
             </summary>
-            <ul data-comments class="mt-3 space-y-2">${p.comments.map(commentHtml).join('')}</ul>
+            <ul data-comments class="mt-3 space-y-2">${commentsList.map(commentHtml).join('')}</ul>
             <form data-comment-form class="mt-3 flex gap-2">
               <label class="sr-only" for="c-${p.id}">Комментарий</label>
               <input id="c-${p.id}" class="input py-1.5 px-3 text-xs sm:text-sm" placeholder="Напишите комментарий…" required autocomplete="off">
@@ -520,6 +521,16 @@
         t: text,
         comments: []
       };
+      if (window.LentyainDB) {
+        window.LentyainDB.posts.create({
+          text,
+          type: $('#post-type').value,
+          authorName: me.name,
+          authorRole: currentRank,
+          authorAvatar: me.avatar,
+          userId: me.id
+        });
+      }
       Store.set('posts', [post, ...posts()]);
       ta.value = '';
       pub.disabled = true;
@@ -731,13 +742,13 @@
     const renderList = () => {
       list.innerHTML = D.map((d, i) => `
         <li>
-          <button type="button" data-i="${i}" aria-current="${i === cur}" class="flex w-full items-center gap-3 px-3 py-2.5 sm:px-4 sm:py-3 text-left transition-colors duration-200 hover:bg-brand-50 aria-[current=true]:bg-brand-100/70 dark:hover:bg-slate-800/60 dark:aria-[current=true]:bg-slate-800">
-            <div class="h-10 w-10 rounded-full overflow-hidden shadow-sm shrink-0 border border-brand-200 dark:border-slate-700">
+          <button type="button" data-i="${i}" aria-current="${i === cur}" class="flex w-full items-center gap-3 px-3 py-2.5 sm:px-4 sm:py-3 text-left transition-colors duration-200 hover:bg-slate-50 aria-[current=true]:bg-slate-100/80 dark:hover:bg-slate-800/60 dark:aria-[current=true]:bg-slate-800">
+            <div class="h-10 w-10 rounded-full overflow-hidden shadow-sm shrink-0 border border-slate-200 dark:border-slate-700">
               <img src="${d.img || 'img/avatars/user-alexey.jpg'}" alt="${esc(d.n)}" class="h-full w-full object-cover">
             </div>
             <span class="min-w-0 flex-1">
               <span class="block truncate text-xs sm:text-sm font-bold">${esc(d.n)}</span>
-              <span class="muted block truncate text-[11px] sm:text-xs">${esc(d.m.at(-1)[1])}</span>
+              <span class="muted block truncate text-[11px] sm:text-xs">${esc(d.m && d.m.length > 0 ? d.m.at(-1)[1] : '')}</span>
             </span>
             ${d.u ? `<span class="badge badge-gold px-1.5 py-0 text-[10px] font-mono" aria-label="Непрочитано: ${d.u}">${d.u}</span>` : ''}
           </button>
@@ -745,9 +756,10 @@
     };
 
     const renderChat = () => {
+      if (!D || !D[cur]) return;
       chatTitle.textContent = D[cur].n;
       if (chatImg) chatImg.src = D[cur].img || 'img/avatars/user-alexey.jpg';
-      box.innerHTML = D[cur].m.map((m) => bubble(m, false)).join('');
+      box.innerHTML = (D[cur].m || []).map((m) => bubble(m, false)).join('');
       scrollToBottom(false);
     };
 
@@ -807,24 +819,24 @@
       $('#board').innerHTML = COLS.map(([k, name], n) => {
         const tasks = T.filter((x) => x.col === k);
         return `
-          <section aria-labelledby="col-${k}" class="w-[85vw] max-w-[340px] min-w-[280px] shrink-0 snap-center rounded-2xl bg-brand-100/60 p-3 sm:p-4 lg:w-auto lg:max-w-none lg:min-w-0 dark:bg-slate-800/60 border border-brand-200/50 dark:border-slate-700">
+          <section aria-labelledby="col-${k}" class="w-[85vw] max-w-[340px] min-w-[280px] shrink-0 snap-center rounded-2xl bg-slate-100/70 p-3 sm:p-4 lg:w-auto lg:max-w-none lg:min-w-0 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-800">
             <h2 id="col-${k}" class="mb-3 flex items-center justify-between px-1 font-display text-xs sm:text-sm font-bold">
               <span>${name}</span>
               <span class="badge badge-brand font-mono" aria-label="Задач: ${tasks.length}">${tasks.length}</span>
             </h2>
             <ul data-col="${k}" class="space-y-3 min-h-[180px] rounded-xl p-1 transition-all duration-200">
               ${tasks.length ? tasks.map((x) => `
-                <li draggable="true" data-task-id="${x.id}" class="group cursor-grab active:cursor-grabbing rounded-xl border border-brand-100 bg-white p-3.5 sm:p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 select-none">
+                <li draggable="true" data-task-id="${x.id}" class="group cursor-grab active:cursor-grabbing rounded-xl border border-slate-200/80 bg-white p-3.5 sm:p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 select-none">
                   <div class="flex items-start gap-2">
                     <span class="cursor-grab active:cursor-grabbing select-none opacity-40 transition-opacity group-hover:opacity-100" aria-hidden="true" title="Потяните для переноса">${window.Icons ? Icons.grip('h-4 w-4') : '⋮⋮'}</span>
                     <h3 class="flex-1 text-xs sm:text-sm font-bold leading-snug">${esc(x.t)}</h3>
-                    <span class="badge ${PR[x.p][0]} shrink-0 text-[10px]">${PR[x.p][1]}</span>
+                    <span class="badge ${PR[x.p] ? PR[x.p][0] : 'badge-brand'} shrink-0 text-[10px]">${PR[x.p] ? PR[x.p][1] : 'Средний'}</span>
                   </div>
                   <p class="muted mt-2 line-clamp-2 text-xs leading-relaxed">${esc(x.d)}</p>
                   <div class="mt-3 flex flex-wrap gap-1.5">
-                    ${x.tags.map((t) => `<span class="badge badge-brand text-[10px]">#${esc(t)}</span>`).join('')}
+                    ${(x.tags || []).map((t) => `<span class="badge badge-brand text-[10px]">#${esc(t)}</span>`).join('')}
                   </div>
-                  <div class="mt-3 flex items-center justify-between border-t border-brand-50 pt-2.5 dark:border-slate-700/60">
+                  <div class="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5 dark:border-slate-700/60">
                     <div class="flex items-center gap-1.5">
                       <div class="h-6 w-6 rounded-full overflow-hidden border border-brand-200 dark:border-slate-600 shrink-0">
                         <img src="${x.whoImg || 'img/avatars/user-alexey.jpg'}" alt="${esc(x.who)}" class="h-full w-full object-cover">

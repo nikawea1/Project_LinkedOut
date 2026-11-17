@@ -1,0 +1,2 @@
+# Cloudflare Pages Redirects
+/login /register.html?tab=login 302

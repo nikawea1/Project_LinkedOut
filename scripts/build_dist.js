@@ -32,7 +32,18 @@ function copyDir(src, dest) {
   }
 }
 
+// Копируем дополнительные файлы в dist (.xlsx, .toml, .json)
+const extraFiles = ['tabel_prokrastinacii_demo.xlsx', '_redirects', '_routes.json'];
+extraFiles.forEach(file => {
+  const src = path.join(rootDir, file);
+  const dest = path.join(distDir, file);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, dest);
+  }
+});
+
 copyDir(path.join(rootDir, 'js'), path.join(distDir, 'js'));
 copyDir(path.join(rootDir, 'img'), path.join(distDir, 'img'));
+copyDir(path.join(rootDir, 'components'), path.join(distDir, 'components'));
 
 console.log(`[build:dist] Successfully prepared dist folder with ${htmlFiles.length} HTML pages, js/, and img/.`);

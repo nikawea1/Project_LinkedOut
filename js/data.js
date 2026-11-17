@@ -357,13 +357,13 @@ const TASKS = [
 const getProductTagHtml = (tag) => {
   if (!tag) return '';
   const t = String(tag).toLowerCase().trim();
-  let colorCls = 'bg-gold text-brand-950 border border-amber-600/40';
+  let colorCls = 'bg-brand-950/85 text-gold border border-gold/30';
   if (t === 'новинка') {
-    colorCls = 'bg-emerald-500 text-white border border-emerald-600/40';
+    colorCls = 'bg-brand-900/90 text-white border border-white/15';
   } else if (t === 'скидка') {
-    colorCls = 'bg-danger text-white border border-rose-600/40';
+    colorCls = 'bg-brand-950/90 text-slate-200 border border-slate-700';
   }
-  return `<span class="badge absolute left-2.5 top-2.5 ${colorCls} px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wider shadow-md select-none z-10">${esc(tag)}</span>`;
+  return `<span class="badge absolute left-2.5 top-2.5 ${colorCls} px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md select-none z-10">${esc(tag)}</span>`;
 };
 
 const productCard = (p) => {

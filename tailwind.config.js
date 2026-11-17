@@ -22,10 +22,11 @@ module.exports = {
           950: '#070A12',
         },
         gold: {
-          DEFAULT: '#E5A91B',
-          dark: '#B48216',
+          DEFAULT: '#D99B0D',
+          hover: '#C58B0A',
+          dark: '#A67305',
           pale: '#FEF3C7',
-          glow: 'rgba(229, 169, 27, 0.15)',
+          subtle: 'rgba(217, 155, 13, 0.08)',
         },
         ink: {
           DEFAULT: '#0F172A',

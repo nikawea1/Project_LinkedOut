@@ -17,6 +17,10 @@ const Store = {
 
   /* --- пользователь --- */
   user() {
+    if (window.LentyainDB) {
+      const cur = window.LentyainDB.auth.current();
+      if (cur) return cur;
+    }
     return this.get('user', null);
   },
 
@@ -24,11 +28,21 @@ const Store = {
     const userObj = {
       name: name || 'Лентяй',
       email: email || '',
-      plan: PLANS[plan] ? plan : 'basic',
+      plan: (typeof PLANS !== 'undefined' && PLANS[plan]) ? plan : 'basic',
       avatar: avatar || 'img/avatars/user-me.jpg',
       registeredAt: Date.now()
     };
     this.set('user', userObj);
+    if (window.LentyainDB) {
+      try {
+        const existing = window.LentyainDB.users.findByEmail(email);
+        if (!existing) {
+          window.LentyainDB.users.register({ email, name, plan, avatar });
+        } else {
+          window.LentyainDB.auth.setCurrent({ ...existing, ...userObj });
+        }
+      } catch {}
+    }
     if (!this.get('log', null)) this.seed();
     this.reward(10, 'Регистрация в ЛЕНТЯIN');
     return userObj;
@@ -61,9 +75,9 @@ const Store = {
 
   logout() {
     try {
-      Object.keys(localStorage)
-        .filter((k) => k.startsWith('ln:'))
-        .forEach((k) => localStorage.removeItem(k));
+      localStorage.removeItem('ln:user');
+      localStorage.removeItem('ln_db_current_user');
+      if (window.LentyainDB) window.LentyainDB.auth.logout();
     } catch {}
     location.href = 'index.html';
   },
