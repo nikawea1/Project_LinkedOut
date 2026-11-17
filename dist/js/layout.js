@@ -52,7 +52,7 @@
       '<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-gold focus:px-4 focus:py-2 focus:font-bold focus:text-brand-900 shadow-xl">К содержимому</a>');
   }
 
-  /* ---------- Публичная шапка (Задание 1.2) ---------- */
+  /* ---------- Публичная шапка ---------- */
   const NAV = [
     ['home', 'index.html', 'Главная'],
     ['about', 'index.html#features', 'О платформе'],
@@ -128,7 +128,7 @@
       <p class="muted border-t border-slate-200/80 py-4 text-center text-xs dark:border-slate-800">© 2026 ЛЕНТЯIN. Официальная профессиональная сеть и клуб ценителей спокойствия. Все права отложены.</p>`;
   }
 
-  /* ---------- Сайдбар и топбар кабинета (Задание 2.3) ---------- */
+  /* ---------- Сайдбар и топбар кабинета ---------- */
   const APP_NAV = [
     ['feed', 'feed.html', 'newspaper', 'Лента'],
     ['dashboard', 'dashboard.html', 'chart', 'Мой рейтинг'],

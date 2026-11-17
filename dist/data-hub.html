@@ -248,7 +248,7 @@
             </div>
 
             <div class="flex items-center gap-3">
-              <!-- КНОПКА ЛЕНИВОЙ ПОДГРУЗКИ (Требование ТЗ) -->
+              <!-- КНОПКА ЛЕНИВОЙ ПОДГРУЗКИ  -->
               <button
                 v-if="filteredTasks.length > paginatedTasks.length"
                 type="button"
@@ -350,7 +350,7 @@
         </div>
       </section>
 
-      <!-- ================= ВКЛАДКА 3: ЖУРНАЛ LOG (ЗАДАНИЕ 2) ================= -->
+      <!-- ================= ВКЛАДКА 3: ЖУРНАЛ LOG ================= -->
       <section v-if="activeTab === 'log'" class="space-y-6" aria-labelledby="log-title">
         <div class="flex items-center justify-between border-b border-slate-200/80 pb-4 dark:border-slate-800">
           <div>
@@ -405,7 +405,7 @@
         </div>
       </section>
 
-      <!-- ================= ВКЛАДКА 4: VOYAGER ADMIN (ЗАДАНИЕ 4) ================= -->
+      <!-- ================= ВКЛАДКА 4: VOYAGER ADMIN ================= -->
       <section v-if="activeTab === 'voyager'" class="space-y-6" aria-labelledby="voyager-title">
         <!-- Top Voyager Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-brand-900 text-white shadow-lg">
@@ -551,7 +551,7 @@
         </div>
       </section>
 
-      <!-- ================= ВКЛАДКА 5: REST API V1/V2 (ЗАДАНИЕ 3) ================= -->
+      <!-- ================= ВКЛАДКА 5: REST API V1/V2 ================= -->
       <section v-if="activeTab === 'api'" class="space-y-6" aria-labelledby="api-title">
         <div class="border-b border-slate-200/80 pb-4 dark:border-slate-800">
           <h2 id="api-title" class="h2 text-ink dark:text-white">Интерактивная консоль REST API</h2>
@@ -643,7 +643,7 @@
         </div>
       </section>
 
-      <!-- ================= ПЕРЕИСПОЛЬЗУЕМЫЙ МОДАЛЬНЫЙ КОМПОНЕНТ (ДЕНЬ 5-6-7) ================= -->
+      <!-- ================= ПЕРЕИСПОЛЬЗУЕМЫЙ МОДАЛЬНЫЙ КОМПОНЕНТ  ================= -->
       <div
         v-if="dataModal.isOpen"
         v-cloak

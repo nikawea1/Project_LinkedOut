@@ -11,7 +11,7 @@
   <script src="js/theme.js"></script>
 </head>
 <body data-page="shop">
-  <!-- Публичная шапка (Задание 1.2) -->
+  <!-- Публичная шапка -->
   <header id="site-header" class="site-header" data-active="shop"></header>
 
   <main id="main" class="wrap py-8 sm:py-10">
@@ -20,13 +20,13 @@
       <p id="plan-note" class="muted text-xs sm:text-sm">Авторизуйтесь, чтобы копить лень-баллы и применять персональную скидку по тарифу.</p>
     </div>
 
-    <!-- E-COMMERCE КАТАЛОГ (Задание 4.3): фильтры + сетка + container queries -->
+    <!-- E-COMMERCE КАТАЛОГ: фильтры + сетка + container queries -->
     <div class="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-8 items-start">
       <!-- Мобильный drawer фильтров снизу через peer-checked и translate-y-full -->
       <input id="filters-toggle" type="checkbox" class="peer sr-only" aria-label="Показать фильтры">
       <label for="filters-toggle" class="pointer-events-none fixed inset-0 z-40 bg-black/50 opacity-0 backdrop-blur-sm transition-opacity duration-300 peer-checked:pointer-events-auto peer-checked:opacity-100 lg:hidden" aria-hidden="true"></label>
 
-      <!-- БОКОВАЯ ПАНЕЛЬ ФИЛЬТРОВ (Задание 4.3) -->
+      <!-- БОКОВАЯ ПАНЕЛЬ ФИЛЬТРОВ -->
       <aside id="filters" aria-label="Фильтры товаров"
              class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] translate-y-full overflow-y-auto rounded-t-3xl bg-white p-6 shadow-2xl transition-transform duration-300 ease-out scrollbar-thin peer-checked:translate-y-0 lg:static lg:z-auto lg:max-h-none lg:translate-y-0 lg:rounded-2xl lg:border lg:border-brand-100 lg:shadow-sm dark:bg-slate-800 lg:dark:border-slate-700">
         <div class="flex items-center justify-between pb-3 border-b border-brand-100 dark:border-slate-700 lg:hidden mb-4">
@@ -78,7 +78,7 @@
           </div>
         </form>
 
-        <!-- РЕКЛАМНЫЙ БЛОК: AdSlot (Задание 1) -->
+        <!-- РЕКЛАМНЫЙ БЛОК: AdSlot -->
         <div class="mt-6 pt-4 border-t border-brand-100 dark:border-slate-700">
           <div data-ad-slot="sidebar" data-label="Спецпредложение" data-sublabel="Скидка 20% на все подушки и пледы при заказе от 50 BYN"></div>
         </div>
@@ -125,7 +125,7 @@
         <!-- Пагинация -->
         <nav id="pager" class="mt-8 flex flex-wrap justify-center gap-2" aria-label="Страницы каталога"></nav>
 
-        <!-- ГОРИЗОНТАЛЬНЫЙ РЕКЛАМНЫЙ БАННЕР: AdSlot (Задание 1) -->
+        <!-- ГОРИЗОНТАЛЬНЫЙ РЕКЛАМНЫЙ БАННЕР: AdSlot -->
         <div data-ad-slot="banner" data-label="Партнёрская сеть комфорта" data-sublabel="Товары для ленивых вечеров и здорового сна с быстрой доставкой"></div>
       </section>
     </div>

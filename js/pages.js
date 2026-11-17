@@ -47,15 +47,15 @@
     }
   });
 
-  /* ---------- index (Задания 3.3, 1.1, 1.3, 2.1, 2.2) ---------- */
+  /* ---------- index ---------- */
   pages.home = () => {
-    // Сетка хитов (Задание 1.3)
+    // Сетка хитов
     const featuredEl = $('#featured');
     if (featuredEl) {
       featuredEl.innerHTML = PRODUCTS.slice(0, 8).map(productCard).join('');
     }
 
-    // Карточки профилей (Задание 1.1)
+    // Карточки профилей
     const profilesEl = $('#profiles');
     if (profilesEl) {
       const fl = Store.get('following', []);
@@ -180,7 +180,7 @@
     }
   };
 
-  /* ---------- register & login (Задание 2.4 + Полноценная авторизация) ---------- */
+  /* ---------- register & login ---------- */
   pages.register = () => {
     const q = new URLSearchParams(location.search);
     const planKey = PLANS[q.get('plan')] ? q.get('plan') : 'basic';
@@ -328,7 +328,7 @@
       }, 700);
     });
 
-    // --- Обработка формы Регистрации (Задание 2.4) ---
+    // --- Обработка формы Регистрации ---
     const planBadge = $('#plan-badge');
     if (planBadge && PLANS[planKey]) {
       planBadge.textContent = 'Тариф: ' + PLANS[planKey].name;
@@ -410,7 +410,7 @@
     validateReg();
   };
 
-  /* ---------- feed (Задания 1.1, 2.3) ---------- */
+  /* ---------- feed ---------- */
   pages.feed = () => {
     me = getMe();
     const pts = Store.points();
@@ -434,7 +434,7 @@
         <a href="dashboard.html" class="btn btn-outline btn-sm w-full">Мой рейтинг и аналитика →</a>`;
     }
 
-    // Рекомендации "Кого читать" (Задание 1.1)
+    // Рекомендации "Кого читать"
     const peopleEl = $('#people');
     if (peopleEl) {
       const fl = Store.get('following', []);
@@ -583,7 +583,7 @@
     renderFeed();
   };
 
-  /* ---------- dashboard (Задание 4.1) ---------- */
+  /* ---------- dashboard ---------- */
   pages.dashboard = () => {
     me = getMe();
     const now = Date.now(), log = Store.get('log', []);
@@ -597,7 +597,7 @@
     const orders = Store.orders();
     const myPosts = Store.get('posts', POSTS).filter((p) => p.a === me.name);
 
-    // 4 Stat-карточки (Задание 4.1)
+    // 4 Stat-карточки
     const S = [
       ['Баллы за 7 дней', inWin(log, 0, 7).reduce((s, x) => s + x.pts, 0), inWin(log, 7, 14).reduce((s, x) => s + x.pts, 0), ''],
       ['Событий за 7 дней', inWin(log, 0, 7).length, inWin(log, 7, 14).length, ''],
@@ -615,7 +615,7 @@
         </article>`;
     }).join('');
 
-    // Интерактивный график: 12 дней × 6 уровней (Задание 4.1)
+    // Интерактивный график: 12 дней × 6 уровней
     const days = Array.from({ length: 12 }, (_, i) => inWin(log, 11 - i, 12 - i).reduce((s, x) => s + x.pts, 0));
     const max = Math.max(...days, 1);
     $('#chart').innerHTML = Array.from({ length: 6 }, (_, r) => days.map((d, colIdx) => {
@@ -653,7 +653,7 @@
         </li>`).join('')}
       </ul>`;
 
-    // Таблица заказов (Задание 4.1)
+    // Таблица заказов
     const status = (o) => (o.st === 'wait' && now - o.t > 20000 ? 'paid' : o.st);
     const badge = { paid: ['badge-success', 'Оплачено'], wait: ['badge-warning', 'Ожидает'], fail: ['badge-danger', 'Отказ'] };
     const per = $('#period'), st = $('#tx-status'), q = $('#tx-search');
@@ -683,7 +683,7 @@
     drawTable();
   };
 
-  /* ---------- messenger (Задание 3.1) ---------- */
+  /* ---------- messenger ---------- */
   pages.messenger = () => {
     const D = Store.get('dialogs', DIALOGS);
     const to = new URLSearchParams(location.search).get('to');
@@ -807,7 +807,7 @@
     openChat(cur);
   };
 
-  /* ---------- board (Задание 3.2 + Модальное окно 4.4) ---------- */
+  /* ---------- board ---------- */
   pages.board = () => {
     me = getMe();
     const COLS = [['todo', 'To Do (Отложено)'], ['doing', 'In Progress (Имитируем)'], ['done', 'Done (Забыто)']];
@@ -960,7 +960,7 @@
     renderBoard();
   };
 
-  /* ---------- shop (Задание 4.3: E-commerce с фильтрами, сортировкой, скелетонами) ---------- */
+  /* ---------- shop ---------- */
   pages.shop = () => {
     me = getMe();
     const grid = $('#grid'), empty = $('#empty'), pager = $('#pager'), form = $('#filters-form'), qIn = $('#q');
@@ -1056,7 +1056,7 @@
     updateShop(false);
   };
 
-  /* ---------- checkout (Задание 4.2: Многошаговая форма) ---------- */
+  /* ---------- checkout ---------- */
   pages.checkout = () => {
     me = getMe();
     const plan = PLANS[me.plan] || PLANS.basic;
@@ -1219,7 +1219,7 @@
     showStep();
   };
 
-  /* ---------- design system (Задание 4.4) ---------- */
+  /* ---------- design system ---------- */
   pages.ds = () => {
     // Палитра токенов
     const sw = [
@@ -1248,7 +1248,7 @@
         <button type="button" class="btn btn-${v} btn-md" disabled>disabled</button>
       </div>`).join('');
 
-    // Реальные компоненты сайта (Задание 1.1 и 1.3)
+    // Реальные компоненты сайта
     $('#sample-cards').innerHTML = profileCard(PEOPLE[0]) + `<div class="w-full max-w-[16rem]">${productCard(PRODUCTS[0])}</div>`;
 
     // Storybook-подобный блок «Код»

@@ -350,9 +350,9 @@ const TASKS = [
   },
 ];
 
-/* ---------- Общие шаблоны карточек (Задание 1.1 и 1.3) ---------- */
+/* ---------- Общие шаблоны карточек ---------- */
 
-// Задание 1.3: Сетка карточек товаров
+// Сетка карточек товаров
 // aspect-square, реальное фото, название, цена, кнопка "В корзину", hover эффекты
 const getProductTagHtml = (tag) => {
   if (!tag) return '';
@@ -392,7 +392,7 @@ const productCard = (p) => {
   </article>`;
 };
 
-// Задание 1.1: Карточка профиля
+// Карточка профиля
 const profileCard = (p, on = false) => {
   const followContent = on
     ? `${window.Icons ? Icons.check('h-3.5 w-3.5 inline mr-1') : ''}Подписан`

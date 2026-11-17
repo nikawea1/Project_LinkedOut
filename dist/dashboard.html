@@ -11,7 +11,7 @@
   <script src="js/theme.js"></script>
 </head>
 <body data-page="dashboard" data-guard="1">
-  <!-- Сайдбар кабинета (Задание 2.3) -->
+  <!-- Сайдбар кабинета -->
   <input id="sb-toggle" type="checkbox" class="peer sr-only" aria-label="Открыть меню кабинета">
   <aside id="app-sidebar" class="app-sidebar" data-active="dashboard" aria-label="Боковая панель"></aside>
   <label for="sb-toggle" class="app-overlay" aria-hidden="true"></label>
@@ -21,10 +21,10 @@
 
     <main id="main" class="wrap-wide py-6">
       <div class="grid grid-cols-12 gap-4 sm:gap-6">
-        <!-- 4 СТАТ-КАРТОЧКИ С ТРЕНДАМИ (Задание 4.1) -->
+        <!-- 4 СТАТ-КАРТОЧКИ С ТРЕНДАМИ -->
         <div id="stats" class="col-span-12 grid min-w-0 grid-cols-12 gap-4 sm:gap-6"></div>
 
-        <!-- ИНТЕРАКТИВНЫЙ ГРАФИК ЗА 12 ДНЕЙ (Задание 4.1) -->
+        <!-- ИНТЕРАКТИВНЫЙ ГРАФИК ЗА 12 ДНЕЙ -->
         <section class="card col-span-12 min-w-0 xl:col-span-8 space-y-3" aria-labelledby="chart-title">
           <div class="flex items-center justify-between">
             <h2 id="chart-title" class="h3 text-base sm:text-lg">Динамика лень-баллов за 12 дней</h2>
@@ -34,10 +34,10 @@
           <div id="chart-days" class="muted mt-2 grid grid-cols-12 text-center text-[10px] sm:text-xs font-mono" aria-hidden="true"></div>
         </section>
 
-        <!-- РАНГ И ПРОГРЕСС (Задание 4.1) -->
+        <!-- РАНГ И ПРОГРЕСС -->
         <section id="rank" class="card col-span-12 min-w-0 space-y-3.5 xl:col-span-4" aria-label="Ранг"></section>
 
-        <!-- ТАБЛИЦА ЗАКАЗОВ С ФИЛЬТРАМИ И ПОИСКОМ (Задание 4.1) -->
+        <!-- ТАБЛИЦА ЗАКАЗОВ С ФИЛЬТРАМИ И ПОИСКОМ -->
         <section class="card col-span-12 min-w-0 p-0 overflow-hidden" aria-labelledby="tx-title">
           <div class="flex flex-wrap items-end justify-between gap-3 p-4 sm:p-5 pb-3 border-b border-brand-100 dark:border-slate-800">
             <div>

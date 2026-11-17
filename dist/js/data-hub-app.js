@@ -1,6 +1,6 @@
 /**
  * ЛЕНТЯIN — Data Hub & Voyager Admin Application (Vue 3 + SheetJS)
- * Complies with Day 5-6-7 (Vue.js, Excel Import, Reusable Modal, Log Diff, Voyager, REST API v1/v2)
+ * Core Data Management & Voyager Admin Module
  */
 (() => {
   const { createApp, ref, reactive, computed, onMounted, watch } = Vue;
@@ -57,7 +57,7 @@
         { id: 1, title: 'Уйти в глубокую медитацию на утреннем дейли', category: 'Совещание', status: 'Сделано', hours: 1.5, points: 25, assignee: 'Алексей М.', notes: 'Камера выключена под предлогом слабого Wi-Fi', date: '2026-11-10' },
         { id: 2, title: 'Выбрать идеальный плейлист для «написания кода»', category: 'Кодинг', status: 'Сделано', hours: 3.0, points: 40, assignee: 'Ирина К.', notes: 'Ни одной строчки кода написано не было, но музыка топ', date: '2026-11-11' },
         { id: 3, title: 'Тестирование ортопедического дивана на выгорание', category: 'Сон', status: 'В процессе', hours: 4.5, points: 50, assignee: 'Дмитрий В.', notes: 'Пульс 54 bpm, максимальная продуктивность покоя', date: '2026-11-12' },
-        { id: 4, title: 'Делегировать согласование ТЗ коту', category: 'Другое', status: 'Отложено', hours: 2.0, points: 20, assignee: 'Максим С.', notes: 'Кот лёг на клавиатуру и нажал "ОК"', date: '2026-11-12' },
+        { id: 4, title: 'Делегировать согласование требований коту', category: 'Другое', status: 'Отложено', hours: 2.0, points: 20, assignee: 'Максим С.', notes: 'Кот лёг на клавиатуру и нажал "ОК"', date: '2026-11-12' },
         { id: 5, title: 'Изучение 4-го сезона сериала вместо багфикса', category: 'Сериал', status: 'Сделано', hours: 6.0, points: 80, assignee: 'Светлана Р.', notes: 'Закрыла сезон за ночь, баг подождёт до релиза', date: '2026-11-13' },
         { id: 6, title: 'Обед продолжительностью в рабочий спринт', category: 'Обед', status: 'Сделано', hours: 2.5, points: 30, assignee: 'Алексей М.', notes: 'Суп, пицца и философские дебаты о вреде работы', date: '2026-11-13' },
         { id: 7, title: 'Имитация бурной деятельности через автокликер', category: 'Кодинг', status: 'В процессе', hours: 5.0, points: 65, assignee: 'Ирина К.', notes: 'Курсор бегает по экрану, статус в Teams "В сети"', date: '2026-11-14' },
@@ -204,7 +204,7 @@
               rows: importedTasks.length,
             });
 
-            // Add Log Entry (Задание 2)
+            // Add Log Entry
             logs.value.unshift({
               id: Date.now(),
               action: 'EXCEL_IMPORT',
@@ -306,7 +306,7 @@
           };
           tasks.value.unshift(newTask);
 
-          // Log creation (Задание 2)
+          // Log creation
           logs.value.unshift({
             id: Date.now(),
             action: 'CREATE',
@@ -324,7 +324,7 @@
             const beforeTask = { ...tasks.value[idx] };
             tasks.value[idx] = { ...taskData };
 
-            // Log update (Задание 2: Diff before/after)
+            // Log update
             logs.value.unshift({
               id: Date.now(),
               action: 'UPDATE',
@@ -367,7 +367,7 @@
         diffModal.isOpen = true;
       };
 
-      // Voyager Admin Actions (Задание 4)
+      // Voyager Admin Actions
       const updateRole = ({ email, role }) => {
         const u = users.value.find((x) => x.email === email);
         if (u) {
@@ -440,7 +440,7 @@
         showToast('JSON-дамп базы данных выгружен');
       };
 
-      // REST API Client (Задание 3)
+      // REST API Client
       const testApi = async (method, endpoint) => {
         apiConsole.method = method;
         apiConsole.endpoint = endpoint;
