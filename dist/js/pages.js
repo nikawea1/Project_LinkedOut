@@ -187,8 +187,8 @@
     const next = /^[\w-]+\.html$/.test(q.get('next') || '') ? q.get('next') : 'feed.html';
     const defaultTab = q.get('tab') === 'login' ? 'login' : 'register';
 
-    // Если пользователь уже авторизован и нет специального флага
-    if (Store.user() && !q.get('force')) {
+    // Если пользователь уже авторизован и не пришёл специально на вход
+    if (Store.user() && !q.get('force') && !q.get('tab')) {
       location.replace(next);
       return;
     }
@@ -245,14 +245,18 @@
       });
     }
 
-    // Быстрый демо-вход для преподавателя / проверки в 1 клик
-    $$('[data-demo]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.demo;
-        const logged = Store.loginAsDemo(key);
-        authAlert.textContent = `Добро пожаловать, ${logged.name}! Переходим в кабинет…`;
-        authAlert.classList.remove('hidden');
-        setTimeout(() => { location.href = next; }, 600);
+    // Подстановка тестовых данных в поля формы (ТОЛЬКО заполнение, без авто-входа)
+    $$('.demo-fill-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const em = btn.dataset.email || '';
+        const pw = btn.dataset.pass || '';
+        const emInput = $('#login-email');
+        const pwInput = $('#login-password');
+        if (emInput) emInput.value = em;
+        if (pwInput) pwInput.value = pw;
+        window.toast?.('Данные аккаунта подставлены. Нажмите «Войти в кабинет»');
       });
     });
 
